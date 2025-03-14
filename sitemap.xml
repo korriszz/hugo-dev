@@ -3,15 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://korriszz.github.io/hugo-dev/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
+    <lastmod>2025-03-14T22:25:03+08:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/p/newnew/</loc>
+    <lastmod>2025-03-14T22:25:03+08:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/post/</loc>
+    <lastmod>2025-03-14T22:25:03+08:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/categories/</loc>
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/p/test-chinese/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://korriszz.github.io/hugo-dev/post/</loc>
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/categories/test/</loc>
@@ -44,10 +47,10 @@
     <loc>https://korriszz.github.io/hugo-dev/tags/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://korriszz.github.io/hugo-dev/tags/themes/</loc>
+    <loc>https://korriszz.github.io/hugo-dev/categories/themes/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://korriszz.github.io/hugo-dev/categories/themes/</loc>
+    <loc>https://korriszz.github.io/hugo-dev/tags/themes/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/p/placeholder-text/</loc>
