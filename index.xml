@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Sat, 15 Mar 2025 00:41:18 +0800</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 15 Mar 2025 00:47:01 +0800</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Hugo</title>
+        <link>https://korriszz.github.io/hugo-dev/p/hugo/</link>
+        <pubDate>Sat, 15 Mar 2025 00:47:01 +0800</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/hugo/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>CloudComputingClatform</title>
         <link>https://korriszz.github.io/hugo-dev/p/cloudcomputingclatform/</link>
         <pubDate>Sat, 15 Mar 2025 00:41:18 +0800</pubDate>
@@ -23,7 +31,7 @@
         <guid>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid>
         <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/florian-klauer-nptLmg6jqDo-unsplash.jpg" alt="Featured image of post WEB渗透低安全文件上传" /&gt;&lt;ol&gt;
 &lt;li&gt;木马文件创建
-创建一个包含恶意代码 &lt;strong&gt;&lt;?php eval($_POST[&#34;tpp123&#34;]);?&gt;&lt;/strong&gt; 的 PHP 文件作为一句话木马。此代码允许攻击者通过 POST 方式传递指令，在服务器端执行任意 PHP 代码，为后续入侵提供入口。&lt;/li&gt;
+创建一个包含恶意代码的 PHP 文件作为一句话木马。此代码允许攻击者通过 POST 方式传递指令，在服务器端执行任意 PHP 代码，为后续入侵提供入口。&lt;/li&gt;
 &lt;li&gt;网站上传过程
 在 DVWA 网站的低安全设置下，直接上传该木马文件。由于低安全级别对上传文件的验证机制宽松，未严格检查文件类型和内容，木马文件得以成功上传至服务器指定目录。&lt;/li&gt;
 &lt;li&gt;提权与后门建立
