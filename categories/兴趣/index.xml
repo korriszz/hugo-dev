@@ -13,30 +13,44 @@
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
         <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/</guid>
-        <description>&lt;img src="https://korriszz.github.io/hugo-dev/florian-klauer-nptLmg6jqDo-unsplash.jpg" alt="Featured image of post HUGO上传git" /&gt;&lt;ol&gt;
-&lt;li&gt;新建网页
-hugo new content post/&lt;strong&gt;网页名称&lt;/strong&gt;/index.zh-cn.md&lt;/li&gt;
-&lt;li&gt;本地查看网页
-hugo server -D&lt;/li&gt;
-&lt;li&gt;把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
-git add .&lt;/li&gt;
-&lt;li&gt;把暂存区里的内容提交到本地仓库
-git commit -m &amp;ldquo;update&amp;rdquo;&lt;/li&gt;
-&lt;li&gt;将本地仓库中的提交推送到远程仓库
-git push&lt;/li&gt;
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/a.JPG" alt="Featured image of post HUGO上传git" /&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;新建网页
+hugo new content post/&lt;strong&gt;网页名称&lt;/strong&gt;/index.zh-cn.md&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;本地查看网页
+hugo server -D&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
+git add .&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;把暂存区里的内容提交到本地仓库
+git commit -m &amp;ldquo;update&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将本地仓库中的提交推送到远程仓库
+git push&lt;/p&gt;
+&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&#34;引用&#34;&gt;引用
-&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://gohugo.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;参考链接&lt;/a&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://stack.jimmycai.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;参考链接&lt;/a&gt;
-&lt;a class=&#34;link&#34; href=&#34;https://markdown.com.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;/h2&gt;&lt;p&gt;Hugo 是一款热门的开源静态网站生成框架，官网突出其速度快、功能丰富等优势
+&lt;code&gt;网页样式引用hugo&lt;/code&gt;&lt;a class=&#34;link&#34; href=&#34;https://gohugo.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;站轻量级和快速。所有样式都是用 SCSS 编写的，脚本是用普通 JavaScript 编写的。
+&lt;code&gt;博客主题stack&lt;/code&gt;&lt;a class=&#34;link&#34; href=&#34;https://stack.jimmycai.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Markdown 是一种轻量级标记语言，它允许你使用易读易写的纯文本格式编写文档，然后转换成有效的 HTML 文档。
+&lt;code&gt;网页源码使用markdown语言&lt;/code&gt;&lt;a class=&#34;link&#34; href=&#34;https://markdown.com.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;参考链接&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;发牢骚&#34;&gt;发牢骚
 &lt;/h2&gt;&lt;blockquote&gt;
 &lt;p&gt;Wildest dreams, ah-aah, haa
-最狂野不羁的梦境之中
-I said, &amp;ldquo;No one has to know what we do&amp;rdquo;
+最狂野不羁的梦境之中&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I said, &amp;ldquo;No one has to know what we do&amp;rdquo;
 我说&amp;quot;没人会发觉我们的所作所为&amp;quot;&lt;/p&gt;&lt;/blockquote&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.spotify.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
