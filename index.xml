@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 15 Mar 2025 00:41:18 +0800</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>CloudComputingClatform</title>
+        <link>https://korriszz.github.io/hugo-dev/p/cloudcomputingclatform/</link>
+        <pubDate>Sat, 15 Mar 2025 00:41:18 +0800</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/cloudcomputingclatform/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>WEB渗透低安全文件上传</title>
         <link>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
