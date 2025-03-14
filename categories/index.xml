@@ -7,7 +7,31 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Wed, 09 Sep 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>SXVTC</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/sxvtc/</link>
+        <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/categories/sxvtc/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>课程</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E8%AF%BE%E7%A8%8B/</link>
+        <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E8%AF%BE%E7%A8%8B/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>学习</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Test</title>
         <link>https://korriszz.github.io/hugo-dev/categories/test/</link>
         <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>

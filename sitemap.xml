@@ -3,16 +3,34 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://korriszz.github.io/hugo-dev/</loc>
-    <lastmod>2025-03-14T22:25:03+08:00</lastmod>
-  </url><url>
-    <loc>https://korriszz.github.io/hugo-dev/p/newnew/</loc>
-    <lastmod>2025-03-14T22:25:03+08:00</lastmod>
-  </url><url>
-    <loc>https://korriszz.github.io/hugo-dev/post/</loc>
-    <lastmod>2025-03-14T22:25:03+08:00</lastmod>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/categories/</loc>
-    <lastmod>2020-09-09T00:00:00+00:00</lastmod>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/post/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/categories/sxvtc/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/tags/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/tags/web%E6%B8%97%E9%80%8F/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/tags/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/categories/%E8%AF%BE%E7%A8%8B/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://korriszz.github.io/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2025-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/p/test-chinese/</loc>
     <lastmod>2020-09-09T00:00:00+00:00</lastmod>
@@ -42,9 +60,6 @@
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/categories/syntax/</loc>
-    <lastmod>2019-03-11T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://korriszz.github.io/hugo-dev/tags/</loc>
     <lastmod>2019-03-11T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://korriszz.github.io/hugo-dev/categories/themes/</loc>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>WEB渗透 on 蔡蔡-korriszz</title>
+        <link>https://korriszz.github.io/hugo-dev/tags/web%E6%B8%97%E9%80%8F/</link>
+        <description>Recent content in WEB渗透 on 蔡蔡-korriszz</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>示例版权所有者</copyright>
+        <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/tags/web%E6%B8%97%E9%80%8F/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>WEB渗透低安全文件上传</title>
+        <link>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</link>
+        <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/florian-klauer-nptLmg6jqDo-unsplash.jpg" alt="Featured image of post WEB渗透低安全文件上传" /&gt;&lt;ol&gt;
+&lt;li&gt;木马文件创建
+创建一个包含恶意代码 &lt;strong&gt;&lt;?php eval($_POST[&#34;tpp123&#34;]);?&gt;&lt;/strong&gt; 的 PHP 文件作为一句话木马。此代码允许攻击者通过 POST 方式传递指令，在服务器端执行任意 PHP 代码，为后续入侵提供入口。&lt;/li&gt;
+&lt;li&gt;网站上传过程
+在 DVWA 网站的低安全设置下，直接上传该木马文件。由于低安全级别对上传文件的验证机制宽松，未严格检查文件类型和内容，木马文件得以成功上传至服务器指定目录。&lt;/li&gt;
+&lt;li&gt;提权与后门建立
+利用中国蚁剑工具，通过上传的木马文件获取服务器更高权限。提权成功后，在网站内部创建一个新的后门文件，并按照 “学号 + 姓名.txt” 的格式命名，如 “26 童盼盼.txt”，方便攻击者后续持续访问和控制服务器，窃取敏感信息或进行其他恶意操作。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;操作过程&#34;&gt;操作过程
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;第一步：木马文件创建
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/a.JPG&#34;
+	width=&#34;209&#34;
+	height=&#34;65&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/a_hu_2ca98a9c35bd88a2.JPG 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/a_hu_ca3b334d80c67720.JPG 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;第一步：木马文件创建&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;321&#34;
+		data-flex-basis=&#34;771px&#34;
+	
+&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/B.JPG&#34;
+	width=&#34;519&#34;
+	height=&#34;254&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/B_hu_5cd32236e2917c87.JPG 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/B_hu_cdcb8fdcd0ef73bf.JPG 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;第二步：网站上传过程&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;204&#34;
+		data-flex-basis=&#34;490px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/helena-hertz-wWZzXlDpMog-unsplash.jpg&#34;
+	width=&#34;1000&#34;
+	height=&#34;750&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;第三步：提权与后门建立&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;133&#34;
+		data-flex-basis=&#34;320px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;引用&#34;&gt;引用
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://baidu.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;思念是最暖的忧伤像一双翅膀&lt;br&gt;
+让我停不了飞不远在过往游荡&lt;br&gt;
+不告而别的你 就算为了我着想&lt;br&gt;
+这么沉痛的呵护 我怎么能翱翔&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=3aypp_YlBzI&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;最暖的憂傷 - 田馥甄&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
+
+</description>
+        </item>
+        
+    </channel>
+</rss>
