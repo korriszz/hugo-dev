@@ -7,21 +7,50 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Sat, 15 Mar 2025 00:47:01 +0800</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>Hugo</title>
-        <link>https://korriszz.github.io/hugo-dev/p/hugo/</link>
-        <pubDate>Sat, 15 Mar 2025 00:47:01 +0800</pubDate>
-        
-        <guid>https://korriszz.github.io/hugo-dev/p/hugo/</guid>
-        <description></description>
-        </item>
-        <item>
+        <lastBuildDate>Sat, 15 Mar 2025 00:41:18 +0800</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>CloudComputingClatform</title>
         <link>https://korriszz.github.io/hugo-dev/p/cloudcomputingclatform/</link>
         <pubDate>Sat, 15 Mar 2025 00:41:18 +0800</pubDate>
         
         <guid>https://korriszz.github.io/hugo-dev/p/cloudcomputingclatform/</guid>
         <description></description>
+        </item>
+        <item>
+        <title>HUGO上传git</title>
+        <link>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/</link>
+        <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/florian-klauer-nptLmg6jqDo-unsplash.jpg" alt="Featured image of post HUGO上传git" /&gt;&lt;ol&gt;
+&lt;li&gt;新建网页
+hugo new content post/&lt;strong&gt;网页名称&lt;/strong&gt;/index.zh-cn.md&lt;/li&gt;
+&lt;li&gt;本地查看网页
+hugo server -D&lt;/li&gt;
+&lt;li&gt;把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
+git add .&lt;/li&gt;
+&lt;li&gt;把暂存区里的内容提交到本地仓库
+git commit -m &amp;ldquo;update&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;将本地仓库中的提交推送到远程仓库
+git push&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;引用&#34;&gt;引用
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://gohugo.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;参考链接&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://stack.jimmycai.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;参考链接&lt;/a&gt;
+&lt;a class=&#34;link&#34; href=&#34;https://markdown.com.cn/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;发牢骚&#34;&gt;发牢骚
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;Wildest dreams, ah-aah, haa
+最狂野不羁的梦境之中
+I said, &amp;ldquo;No one has to know what we do&amp;rdquo;
+我说&amp;quot;没人会发觉我们的所作所为&amp;quot;&lt;/p&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://www.spotify.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Wildest Dreams - Taylor Swift&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;&lt;/blockquote&gt;
+
+</description>
         </item>
         <item>
         <title>WEB渗透低安全文件上传</title>
