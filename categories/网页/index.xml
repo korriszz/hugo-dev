@@ -14,27 +14,48 @@
         
         <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/</guid>
         <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.JPG" alt="Featured image of post Hugo上传GitHub" /&gt;&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;新建网页
-hugo new content post/&lt;strong&gt;网页名称&lt;/strong&gt;/index.zh-cn.md&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;本地查看网页
-hugo server -D&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
-git add .&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;把暂存区里的内容提交到本地仓库
-git commit -m &amp;ldquo;update&amp;rdquo;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;将本地仓库中的提交推送到远程仓库
-git push&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;新建网页&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   hugo new content post/**网页名称**/index.zh-cn.md
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;本地查看网页&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   hugo server -D
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+3. 把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   git add .
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;把暂存区里的内容提交到本地仓库&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   git commit -m &#34;update&#34;
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;将本地仓库中的提交推送到远程仓库&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   git push
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
 &lt;h2 id=&#34;引用&#34;&gt;引用
 &lt;/h2&gt;&lt;p&gt;Hugo 是一款热门的开源静态网站生成框架，官网突出其速度快、功能丰富等优势
 &lt;code&gt;网页样式引用hugo&lt;/code&gt;&lt;a class=&#34;link&#34; href=&#34;https://gohugo.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

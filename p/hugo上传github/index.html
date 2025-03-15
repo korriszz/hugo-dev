@@ -15,7 +15,12 @@
 <meta name="twitter:description" content="上传网页内容"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.JPG' />
     <link rel="shortcut icon" href="/favicon.ico" />
-
+<link rel="stylesheet" href="/hugo-dev/css/prism/prism.css">
+<script src="/hugo-dev/js/prism/prism.js"></script>
+<script src="/hugo-dev/js/prism/prism-copy-to-clipboard.js"></script>
+<link rel="stylesheet" href="/hugo-dev/css/custom-prism.css">
+        
+        <link rel="stylesheet" href="/hugo-dev/css/styles.css">
     </head>
     <body class="
     article-page
@@ -388,27 +393,48 @@
     
     
     <ol>
-<li>
-<p>新建网页
-hugo new content post/<strong>网页名称</strong>/index.zh-cn.md</p>
-</li>
-<li>
-<p>本地查看网页
-hugo server -D</p>
-</li>
-<li>
-<p>把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
-git add .</p>
-</li>
-<li>
-<p>把暂存区里的内容提交到本地仓库
-git commit -m &ldquo;update&rdquo;</p>
-</li>
-<li>
-<p>将本地仓库中的提交推送到远程仓库
-git push</p>
-</li>
+<li>新建网页</li>
 </ol>
+<div class="code-container">
+  <pre id="code-to-copy"> 
+   hugo new content post/**网页名称**/index.zh-cn.md
+  </pre>
+  <button onclick="copyCode()" class="copy-button">复制代码</button>
+</div>
+<ol start="2">
+<li>本地查看网页</li>
+</ol>
+<div class="code-container">
+  <pre id="code-to-copy"> 
+   hugo server -D
+  </pre>
+  <button onclick="copyCode()" class="copy-button">复制代码</button>
+</div>
+3. 把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
+<div class="code-container">
+  <pre id="code-to-copy"> 
+   git add .
+  </pre>
+  <button onclick="copyCode()" class="copy-button">复制代码</button>
+</div>
+<ol start="4">
+<li>把暂存区里的内容提交到本地仓库</li>
+</ol>
+<div class="code-container">
+  <pre id="code-to-copy"> 
+   git commit -m "update"
+  </pre>
+  <button onclick="copyCode()" class="copy-button">复制代码</button>
+</div>
+<ol start="5">
+<li>将本地仓库中的提交推送到远程仓库</li>
+</ol>
+<div class="code-container">
+  <pre id="code-to-copy"> 
+   git push
+  </pre>
+  <button onclick="copyCode()" class="copy-button">复制代码</button>
+</div>
 <h2 id="引用">引用
 </h2><p>Hugo 是一款热门的开源静态网站生成框架，官网突出其速度快、功能丰富等优势
 <code>网页样式引用hugo</code><a class="link" href="https://gohugo.io/"  target="_blank" rel="noopener"
@@ -458,17 +484,41 @@ git push</p>
             
                 
 <article class="has-image">
+    <a href="/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/a.f20cf1e025c0ee99cff87d38cad809d7_hu_6f4a2d6ca6bf30d5.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络故障检测排除实践笔记"
+                        
+                        data-hash="md5-8gzx4CXA7pnP&#43;H04ytgJ1w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络故障检测排除实践笔记</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
     <a href="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">
         
         
             <div class="article-image">
-                <img src="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/florian-klauer-nptLmg6jqDo-unsplash.650ec4f7f914de21dea02b7fd922b20e_hu_338812f97b4847b0.jpg" 
+                <img src="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/head.6014074f4269d1182aa5081a36c27bb0_hu_374ac235534cf3a3.jpg" 
                         width="250" 
                         height="150" 
                         loading="lazy"
                         alt="Featured image of post WEB渗透低安全文件上传"
                         
-                        data-hash="md5-ZQ7E9/kU3iHeoCt/2SKyDg==">
+                        data-hash="md5-YBQHT0Jp0RgqpQgaNsJ7sA==">
                 
             </div>
         
@@ -600,5 +650,7 @@ git push</p>
     }());
 </script>
 
+        
+        <script src="/hugo-dev/js/script.js"></script>
     </body>
-</html>
+</html> 

@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 15 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络故障检测</title>
+        <link>https://korriszz.github.io/hugo-dev/tags/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/</link>
+        <pubDate>Sat, 15 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/tags/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>WEB渗透</title>
         <link>https://korriszz.github.io/hugo-dev/tags/web%E6%B8%97%E9%80%8F/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>

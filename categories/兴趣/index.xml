@@ -7,34 +7,214 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/%E5%85%B4%E8%B6%A3/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 15 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/%E5%85%B4%E8%B6%A3/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络故障检测排除实践笔记</title>
+        <link>https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Sat, 15 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/a.jpg" alt="Featured image of post 网络故障检测排除实践笔记" /&gt;&lt;h2 id=&#34;排查思路&#34;&gt;排查思路
+&lt;/h2&gt;&lt;p&gt;网络故障排查主要从硬件、网络连接状态、DNS解析、网络服务状态、防火墙配置以及日志这六个关键维度着手。&lt;/p&gt;
+&lt;h2 id=&#34;知识储备&#34;&gt;知识储备
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;常用命令工具&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;网络配置查看&lt;/strong&gt;：&lt;code&gt;ifconfig&lt;/code&gt;可查看网卡配置详情；&lt;code&gt;ip addr&lt;/code&gt;能查看网络接口信息，还能指定网卡查询，如&lt;code&gt;ip addr show ens33&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;服务管理&lt;/strong&gt;：&lt;code&gt;systemctl&lt;/code&gt;用于服务管理，&lt;code&gt;systemctl start [服务名]&lt;/code&gt;启动服务，&lt;code&gt;systemctl stop [服务名]&lt;/code&gt;停止服务，&lt;code&gt;systemctl restart [服务名]&lt;/code&gt;重启服务，&lt;code&gt;systemctl status [服务名]&lt;/code&gt;查看服务状态，&lt;code&gt;systemctl enable [服务名]&lt;/code&gt;设置开机自启，&lt;code&gt;systemctl disable [服务名]&lt;/code&gt;禁用开机自启。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络测试&lt;/strong&gt;：&lt;code&gt;ping [目标地址]&lt;/code&gt;测试网络连通性，&lt;code&gt;ping 127.0.0.1&lt;/code&gt;检测本地网络协议栈；&lt;code&gt;traceroute [目标地址]&lt;/code&gt;跟踪UDP数据报传输路径，定位故障节点。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS解析&lt;/strong&gt;：&lt;code&gt;nslookup [域名]&lt;/code&gt;测试DNS解析功能，判断域名能否正确解析为IP地址，如&lt;code&gt;nslookup www.baidu.com&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络管理&lt;/strong&gt;：&lt;code&gt;nmcli&lt;/code&gt;可进行网络连接的添加、修改、激活等操作，如&lt;code&gt;nmcli con add con-name myconn type ethernet ifname ens33 ip4 192.168.8.110/24 gw4 192.168.8.1&lt;/code&gt;添加网络连接。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;关键配置文件&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;主机名相关&lt;/strong&gt;：&lt;code&gt;/etc/hostname&lt;/code&gt;设置静态主机名，&lt;code&gt;/etc/machine-info&lt;/code&gt;存放灵活主机名。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络接口配置&lt;/strong&gt;：&lt;code&gt;/etc/sysconfig/network-scripts/&lt;/code&gt;目录下存放网卡配置文件，如&lt;code&gt;ifcfg-ens33&lt;/code&gt;，可通过&lt;code&gt;vim /etc/sysconfig/network-scripts/ifcfg-ens33&lt;/code&gt;编辑。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS配置&lt;/strong&gt;：&lt;code&gt;/etc/resolv.conf&lt;/code&gt;配置DNS服务器IP地址，用&lt;code&gt;cat /etc/resolv.conf&lt;/code&gt;查看。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;其他&lt;/strong&gt;：&lt;code&gt;/etc/hosts&lt;/code&gt;实现主机名与IP地址映射；&lt;code&gt;/etc/nsswitch.conf&lt;/code&gt;规定域名解析顺序；&lt;code&gt;/etc/services&lt;/code&gt;定义端口对应的网络服务；&lt;code&gt;/etc/sysctl.conf&lt;/code&gt;控制路由转发功能；&lt;code&gt;/etc/sysconfig/network-scripts/route-ensXX&lt;/code&gt;设置静态路由信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络接口命名规则&lt;/strong&gt;：从RHEL7起，网络接口命名有特定规则。“en”开头代表以太网，“wl”代表无线局域网，“ww”代表无线广域网。后续字符“o&lt;index&gt;”表示主板集成设备，“s&lt;slot&gt;”表示热插拔插槽设备，“x&lt;MAC&gt;”基于MAC地址命名，“p&lt;bus&gt;”表示PCI插槽物理位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;排查步骤&#34;&gt;排查步骤
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;网络连接状态排查&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;连通性测试&lt;/strong&gt;：用&lt;code&gt;ping www.baidu.com&lt;/code&gt;测试域名连通性，&lt;code&gt;ping 180.101.49.44&lt;/code&gt;测试IP地址连通性。若域名不通但IP通，可能是DNS故障；若IP也不通则继续排查。&lt;code&gt;ping 127.0.0.1&lt;/code&gt;测试本地网络协议栈，失败则可能网络配置、内核模块或系统服务有问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;配置查看与修改&lt;/strong&gt;：通过&lt;code&gt;ifconfig&lt;/code&gt;或&lt;code&gt;ip addr&lt;/code&gt;查看网络接口配置。临时配置用&lt;code&gt;ip addr add 192.168.1.1/24 dev ens33&lt;/code&gt;（按需修改），系统重启或网卡激活后失效。持久配置可通过&lt;code&gt;vim /etc/sysconfig/network-scripts/ifcfg-ens33&lt;/code&gt;编辑，或用&lt;code&gt;nmcli&lt;/code&gt;命令，配置后需重新载入或激活网卡使配置生效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS解析排查&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;解析测试&lt;/strong&gt;：用&lt;code&gt;nslookup www.baidu.com&lt;/code&gt;测试域名解析，解析失败可能是DNS服务器配置错误或网络问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;配置检查&lt;/strong&gt;：用&lt;code&gt;cat /etc/resolv.conf&lt;/code&gt;查看DNS服务器配置，确保&lt;code&gt;nameserver&lt;/code&gt;指向有效DNS服务器，如114.114.114.114或本地路由器IP。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络服务状态排查&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;服务状态查看&lt;/strong&gt;：用&lt;code&gt;systemctl status network&lt;/code&gt;和&lt;code&gt;systemctl status NetworkManager&lt;/code&gt;查看&lt;code&gt;network&lt;/code&gt;和&lt;code&gt;NetworkManager&lt;/code&gt;服务运行状态。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;服务操作&lt;/strong&gt;：根据情况用&lt;code&gt;systemctl&lt;/code&gt;命令对服务进行启动、停止、重启等操作，确保服务正常运行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;故障定位&lt;/strong&gt;：用&lt;code&gt;traceroute www.baidu.com&lt;/code&gt;追踪UDP数据报传输路径，根据每一跳信息定位网络故障位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;处理网络故障时，要依据排查思路，系统运用各类命令和工具，对网络连接各环节细致检查和测试，精准定位问题并有效修复，保障网络正常运行，确保公司业务顺利开展。&lt;/p&gt;
+&lt;h2 id=&#34;任务&#34;&gt;任务
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;测试百度网站域名（www.baidu.com）的连通性：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    ping www.baidu.com 
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;测试环回地址查看网络协议是否正常：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    ping 127.0.0.1
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;检查网络接口的 IP 地址、子网掩码等配置是否正确：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    ifconfig
+    ip addr show ens33
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;添加临时生效的网卡配置：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    ip addr add 192.168.8.110/24 dev ens33
+    ip addr show ens33
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;添加持久生效的网卡配置：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    vim /etc/sysconfig/network-scripts/ifcfg-ens33
+    nmcli con reload
+    nmcli con up ens33
+    nmcli con add con-name myconn type ethernet ifname ens33 ip4 192.168.8.110/24 gw4 192.168.8.1 dns4 114.114.114.114
+    nmcli con reload
+    nmcli con up ens33
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;DNS 解析百度网站域名（www.baidu.com）：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    nslookup www.baidu.com
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;7&#34;&gt;
+&lt;li&gt;查看 DNS 服务器的配置：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    cat /etc/resolv.conf
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;8&#34;&gt;
+&lt;li&gt;关闭 NetworkManager 服务：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    systemctl stop NetworkManager
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;9&#34;&gt;
+&lt;li&gt;查看 NetworkManager 服务状态：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    systemctl status NetworkManager
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;10&#34;&gt;
+&lt;li&gt;开启 NetworkManager 服务：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    systemctl start NetworkManager
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;p&gt;11 traceroute 追踪百度网站域名（www.baidu.com）：&lt;/p&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    traceroute www.baidu.com
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
         <title>Hugo上传GitHub</title>
         <link>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
         <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/</guid>
         <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.JPG" alt="Featured image of post Hugo上传GitHub" /&gt;&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;新建网页
-hugo new content post/&lt;strong&gt;网页名称&lt;/strong&gt;/index.zh-cn.md&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;本地查看网页
-hugo server -D&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
-git add .&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;把暂存区里的内容提交到本地仓库
-git commit -m &amp;ldquo;update&amp;rdquo;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;将本地仓库中的提交推送到远程仓库
-git push&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;新建网页&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   hugo new content post/**网页名称**/index.zh-cn.md
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;本地查看网页&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   hugo server -D
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+3. 把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   git add .
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;把暂存区里的内容提交到本地仓库&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   git commit -m &#34;update&#34;
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;将本地仓库中的提交推送到远程仓库&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+   git push
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
 &lt;h2 id=&#34;引用&#34;&gt;引用
 &lt;/h2&gt;&lt;p&gt;Hugo 是一款热门的开源静态网站生成框架，官网突出其速度快、功能丰富等优势
 &lt;code&gt;网页样式引用hugo&lt;/code&gt;&lt;a class=&#34;link&#34; href=&#34;https://gohugo.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;

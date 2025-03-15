@@ -1,0 +1,24 @@
+/* 为包含代码和按钮的容器设置相对定位 */
+.code-container {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+/* 为按钮设置绝对定位，使其位于容器的右上方 */
+.copy-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #007BFF;
+  color: white;
+}
+
+/* 鼠标悬停时改变按钮背景颜色 */
+.copy-button:hover {
+  background-color: #0056b3;
+}
