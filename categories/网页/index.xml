@@ -8,12 +8,12 @@
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
         <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/%E7%BD%91%E9%A1%B5/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>HUGO上传git</title>
-        <link>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/</link>
+        <title>Hugo上传GitHub</title>
+        <link>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/</guid>
-        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/a.JPG" alt="Featured image of post HUGO上传git" /&gt;&lt;ol&gt;
+        <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.JPG" alt="Featured image of post Hugo上传GitHub" /&gt;&lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;新建网页
 hugo new content post/&lt;strong&gt;网页名称&lt;/strong&gt;/index.zh-cn.md&lt;/p&gt;

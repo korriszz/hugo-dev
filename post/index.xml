@@ -7,7 +7,15 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Sat, 15 Mar 2025 00:41:18 +0800</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 15 Mar 2025 12:34:21 +0800</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络故障检测排除实践笔记</title>
+        <link>https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Sat, 15 Mar 2025 12:34:21 +0800</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>CloudComputingClatform</title>
         <link>https://korriszz.github.io/hugo-dev/p/cloudcomputingclatform/</link>
         <pubDate>Sat, 15 Mar 2025 00:41:18 +0800</pubDate>
@@ -16,12 +24,12 @@
         <description></description>
         </item>
         <item>
-        <title>HUGO上传git</title>
-        <link>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/</link>
+        <title>Hugo上传GitHub</title>
+        <link>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/</guid>
-        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0git/a.JPG" alt="Featured image of post HUGO上传git" /&gt;&lt;ol&gt;
+        <guid>https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.JPG" alt="Featured image of post Hugo上传GitHub" /&gt;&lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;新建网页
 hugo new content post/&lt;strong&gt;网页名称&lt;/strong&gt;/index.zh-cn.md&lt;/p&gt;
