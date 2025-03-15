@@ -24,7 +24,7 @@
 &lt;h3 id=&#34;2-应用场景&#34;&gt;2. 应用场景
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;==‌&lt;strong&gt;企业数据隔离&lt;/strong&gt;‌==：保护敏感数据（如财务、研发资料）仅限授权人员访问。&lt;/li&gt;
-&lt;li&gt;==‌&lt;strong&gt;系统文件防护&lt;/strong&gt;‌==：限制关键系统文件（如 &lt;code&gt;/etc/passwd&lt;/code&gt;）的修改权限，避免误操作或攻击。&lt;/li&gt;
+&lt;li&gt;==&amp;amp;zwnxj;&lt;strong&gt;系统文件防护&lt;/strong&gt;‌==：限制关键系统文件（如 &lt;code&gt;/etc/passwd&lt;/code&gt;）的修改权限，避免误操作或攻击。&lt;/li&gt;
 &lt;li&gt;==‌&lt;strong&gt;共享协作管理&lt;/strong&gt;‌==：通过群组权限实现团队文件共享与协同编辑。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
