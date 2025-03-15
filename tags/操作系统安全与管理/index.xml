@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>操作系统安全与管理 on 蔡蔡-korriszz</title>
+        <link>https://korriszz.github.io/hugo-dev/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E4%B8%8E%E7%AE%A1%E7%90%86/</link>
+        <description>Recent content in 操作系统安全与管理 on 蔡蔡-korriszz</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>示例版权所有者</copyright>
+        <lastBuildDate>Sat, 15 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E4%B8%8E%E7%AE%A1%E7%90%86/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>网络故障检测排除实践笔记</title>
+        <link>https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</link>
+        <pubDate>Sat, 15 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/a.jpg" alt="Featured image of post 网络故障检测排除实践笔记" /&gt;&lt;h2 id=&#34;排查思路&#34;&gt;排查思路
+&lt;/h2&gt;&lt;p&gt;网络故障排查主要从硬件、网络连接状态、DNS解析、网络服务状态、防火墙配置以及日志这六个关键维度着手。&lt;/p&gt;
+&lt;h2 id=&#34;知识储备&#34;&gt;知识储备
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;常用命令工具&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;网络配置查看&lt;/strong&gt;：&lt;code&gt;ifconfig&lt;/code&gt;可查看网卡配置详情；&lt;code&gt;ip addr&lt;/code&gt;能查看网络接口信息，还能指定网卡查询，如&lt;code&gt;ip addr show ens33&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;服务管理&lt;/strong&gt;：&lt;code&gt;systemctl&lt;/code&gt;用于服务管理，&lt;code&gt;systemctl start [服务名]&lt;/code&gt;启动服务，&lt;code&gt;systemctl stop [服务名]&lt;/code&gt;停止服务，&lt;code&gt;systemctl restart [服务名]&lt;/code&gt;重启服务，&lt;code&gt;systemctl status [服务名]&lt;/code&gt;查看服务状态，&lt;code&gt;systemctl enable [服务名]&lt;/code&gt;设置开机自启，&lt;code&gt;systemctl disable [服务名]&lt;/code&gt;禁用开机自启。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络测试&lt;/strong&gt;：&lt;code&gt;ping [目标地址]&lt;/code&gt;测试网络连通性，&lt;code&gt;ping 127.0.0.1&lt;/code&gt;检测本地网络协议栈；&lt;code&gt;traceroute [目标地址]&lt;/code&gt;跟踪UDP数据报传输路径，定位故障节点。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS解析&lt;/strong&gt;：&lt;code&gt;nslookup [域名]&lt;/code&gt;测试DNS解析功能，判断域名能否正确解析为IP地址，如&lt;code&gt;nslookup www.baidu.com&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络管理&lt;/strong&gt;：&lt;code&gt;nmcli&lt;/code&gt;可进行网络连接的添加、修改、激活等操作，如&lt;code&gt;nmcli con add con-name myconn type ethernet ifname ens33 ip4 192.168.8.110/24 gw4 192.168.8.1&lt;/code&gt;添加网络连接。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;关键配置文件&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;主机名相关&lt;/strong&gt;：&lt;code&gt;/etc/hostname&lt;/code&gt;设置静态主机名，&lt;code&gt;/etc/machine-info&lt;/code&gt;存放灵活主机名。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络接口配置&lt;/strong&gt;：&lt;code&gt;/etc/sysconfig/network-scripts/&lt;/code&gt;目录下存放网卡配置文件，如&lt;code&gt;ifcfg-ens33&lt;/code&gt;，可通过&lt;code&gt;vim /etc/sysconfig/network-scripts/ifcfg-ens33&lt;/code&gt;编辑。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS配置&lt;/strong&gt;：&lt;code&gt;/etc/resolv.conf&lt;/code&gt;配置DNS服务器IP地址，用&lt;code&gt;cat /etc/resolv.conf&lt;/code&gt;查看。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;其他&lt;/strong&gt;：&lt;code&gt;/etc/hosts&lt;/code&gt;实现主机名与IP地址映射；&lt;code&gt;/etc/nsswitch.conf&lt;/code&gt;规定域名解析顺序；&lt;code&gt;/etc/services&lt;/code&gt;定义端口对应的网络服务；&lt;code&gt;/etc/sysctl.conf&lt;/code&gt;控制路由转发功能；&lt;code&gt;/etc/sysconfig/network-scripts/route-ensXX&lt;/code&gt;设置静态路由信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络接口命名规则&lt;/strong&gt;：从RHEL7起，网络接口命名有特定规则。“en”开头代表以太网，“wl”代表无线局域网，“ww”代表无线广域网。后续字符“o&lt;index&gt;”表示主板集成设备，“s&lt;slot&gt;”表示热插拔插槽设备，“x&lt;MAC&gt;”基于MAC地址命名，“p&lt;bus&gt;”表示PCI插槽物理位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;排查步骤&#34;&gt;排查步骤
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;网络连接状态排查&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;连通性测试&lt;/strong&gt;：用&lt;code&gt;ping www.baidu.com&lt;/code&gt;测试域名连通性，&lt;code&gt;ping 180.101.49.44&lt;/code&gt;测试IP地址连通性。若域名不通但IP通，可能是DNS故障；若IP也不通则继续排查。&lt;code&gt;ping 127.0.0.1&lt;/code&gt;测试本地网络协议栈，失败则可能网络配置、内核模块或系统服务有问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;配置查看与修改&lt;/strong&gt;：通过&lt;code&gt;ifconfig&lt;/code&gt;或&lt;code&gt;ip addr&lt;/code&gt;查看网络接口配置。临时配置用&lt;code&gt;ip addr add 192.168.1.1/24 dev ens33&lt;/code&gt;（按需修改），系统重启或网卡激活后失效。持久配置可通过&lt;code&gt;vim /etc/sysconfig/network-scripts/ifcfg-ens33&lt;/code&gt;编辑，或用&lt;code&gt;nmcli&lt;/code&gt;命令，配置后需重新载入或激活网卡使配置生效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS解析排查&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;解析测试&lt;/strong&gt;：用&lt;code&gt;nslookup www.baidu.com&lt;/code&gt;测试域名解析，解析失败可能是DNS服务器配置错误或网络问题。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;配置检查&lt;/strong&gt;：用&lt;code&gt;cat /etc/resolv.conf&lt;/code&gt;查看DNS服务器配置，确保&lt;code&gt;nameserver&lt;/code&gt;指向有效DNS服务器，如114.114.114.114或本地路由器IP。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络服务状态排查&lt;/strong&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;服务状态查看&lt;/strong&gt;：用&lt;code&gt;systemctl status network&lt;/code&gt;和&lt;code&gt;systemctl status NetworkManager&lt;/code&gt;查看&lt;code&gt;network&lt;/code&gt;和&lt;code&gt;NetworkManager&lt;/code&gt;服务运行状态。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;服务操作&lt;/strong&gt;：根据情况用&lt;code&gt;systemctl&lt;/code&gt;命令对服务进行启动、停止、重启等操作，确保服务正常运行。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;故障定位&lt;/strong&gt;：用&lt;code&gt;traceroute www.baidu.com&lt;/code&gt;追踪UDP数据报传输路径，根据每一跳信息定位网络故障位置。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结
+&lt;/h2&gt;&lt;p&gt;处理网络故障时，要依据排查思路，系统运用各类命令和工具，对网络连接各环节细致检查和测试，精准定位问题并有效修复，保障网络正常运行，确保公司业务顺利开展。&lt;/p&gt;
+&lt;h2 id=&#34;任务&#34;&gt;任务
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;测试百度网站域名（www.baidu.com）的连通性：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;    ping www.baidu.com 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;测试环回地址查看网络协议是否正常：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    ping 127.0.0.1
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;检查网络接口的 IP 地址、子网掩码等配置是否正确：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    ifconfig
+    ip addr show ens33
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;添加临时生效的网卡配置：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    ip addr add 192.168.8.110/24 dev ens33
+    ip addr show ens33
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;5&#34;&gt;
+&lt;li&gt;添加持久生效的网卡配置：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    vim /etc/sysconfig/network-scripts/ifcfg-ens33
+    nmcli con reload
+    nmcli con up ens33
+    nmcli con add con-name myconn type ethernet ifname ens33 ip4 192.168.8.110/24 gw4 192.168.8.1 dns4 114.114.114.114
+    nmcli con reload
+    nmcli con up ens33
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;6&#34;&gt;
+&lt;li&gt;DNS 解析百度网站域名（www.baidu.com）：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    nslookup www.baidu.com
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;7&#34;&gt;
+&lt;li&gt;查看 DNS 服务器的配置：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    cat /etc/resolv.conf
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;8&#34;&gt;
+&lt;li&gt;关闭 NetworkManager 服务：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    systemctl stop NetworkManager
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;9&#34;&gt;
+&lt;li&gt;查看 NetworkManager 服务状态：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    systemctl status NetworkManager
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;ol start=&#34;10&#34;&gt;
+&lt;li&gt;开启 NetworkManager 服务：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    systemctl start NetworkManager
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;
+&lt;p&gt;11 traceroute 追踪百度网站域名（www.baidu.com）：&lt;/p&gt;
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;pre id=&#34;code-to-copy&#34;&gt; 
+    traceroute www.baidu.com
+  &lt;/pre&gt;
+  &lt;button onclick=&#34;copyCode()&#34; class=&#34;copy-button&#34;&gt;复制代码&lt;/button&gt;
+&lt;/div&gt;</description>
+        </item>
+        <item>
+        <title>文件系统安全配置与管理</title>
+        <link>https://korriszz.github.io/hugo-dev/p/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/</link>
+        <pubDate>Sat, 15 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/a.jpg" alt="Featured image of post 文件系统安全配置与管理" /&gt;&lt;h1 id=&#34;文件系统安全配置与管理操作手册&#34;&gt;文件系统安全配置与管理操作手册
+&lt;/h1&gt;&lt;h2 id=&#34;-任务背景&#34;&gt;🖥️ 任务背景
+&lt;/h2&gt;&lt;p&gt;某教育科技公司因业务数据激增，需新增==‌&lt;strong&gt;4TB机械硬盘&lt;/strong&gt;‌==存储教学资源。作为系统管理员，需完成以下核心工作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;磁盘物理安装与识别&lt;/li&gt;
+&lt;li&gt;分区方案设计（需兼容未来扩展）&lt;/li&gt;
+&lt;li&gt;文件系统创建与安全配置&lt;/li&gt;
+&lt;li&gt;持久化挂载与权限控制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-环境准备&#34;&gt;🛠️ 环境准备
+&lt;/h2&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;项目&lt;/th&gt;
+          &lt;th&gt;说明&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;操作系统&lt;/td&gt;
+          &lt;td&gt;Linux Kernel 5.4+&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;磁盘类型&lt;/td&gt;
+          &lt;td&gt;4TB 机械硬盘（SATA接口）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;分区要求&lt;/td&gt;
+          &lt;td&gt;支持超过2TB的GPT分区&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;安全等级&lt;/td&gt;
+          &lt;td&gt;满足ISO 27001存储安全标准&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;文件系统安全配置与管理总结&#34;&gt;文件系统安全配置与管理总结
+&lt;/h1&gt;&lt;h1 id=&#34;一任务背景与目标&#34;&gt;一、任务背景与目标
+&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;==‌&lt;strong&gt;背景&lt;/strong&gt;‌==：公司专注于教材开发及教学资源建设，随着业务增长，现有存储设备容量不足。&lt;/li&gt;
+&lt;li&gt;==‌&lt;strong&gt;目标&lt;/strong&gt;‌==：为新采购的4T磁盘进行安全配置与管理，确保数据安全。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;二任务流程与关键点&#34;&gt;二、任务流程与关键点
+&lt;/h1&gt;&lt;h2 id=&#34;1-检查磁盘情况&#34;&gt;1. 检查磁盘情况
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 查看磁盘拓扑结构&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 查看设备UUID信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;blkid /dev/sdb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 查看分区表类型&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo parted -l &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep &lt;span class=&#34;s2&#34;&gt;&amp;#34;Partition Table&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;2-磁盘分区操作gpt方案&#34;&gt;2. 磁盘分区操作（GPT方案）
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo gdisk /dev/sdb
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;操作序列：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n→&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Enter&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;→&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Enter&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;→+1G→8300
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;n→&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Enter&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;→&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;Enter&lt;span class=&#34;o&#34;&gt;]&lt;/span&gt;→+2G→8300
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;p→w→y
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;3-创建文件系统&#34;&gt;3. 创建文件系统
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;c1&#34;&gt;#XFS文件系统（1GB分区）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo mkfs.xfs -f /dev/sdb1
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; &lt;span class=&#34;c1&#34;&gt;#ext4文件系统（2GB分区）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo mkfs.ext4 -m &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; /dev/sdb2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;4-挂载配置&#34;&gt;4. 挂载配置
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 创建挂载点目录&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo mkdir -p /data/&lt;span class=&#34;o&#34;&gt;{&lt;/span&gt;xfs,ext4&lt;span class=&#34;o&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 临时挂载测试&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo mount /dev/sdb1 /data/xfs
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo mount /dev/sdb2 /data/ext4
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 永久挂载配置（/etc/fstab示例）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;xxxxxx /data/xfs  xfs  defaults,nosuid,noexec &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nv&#34;&gt;UUID&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;yyyyyy /data/ext4 ext4 defaults,usrquota      &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h1 id=&#34;三磁盘配额管理&#34;&gt;三、磁盘配额管理
+&lt;/h1&gt;&lt;h2 id=&#34;1-ext4配额配置&#34;&gt;1. ext4配额配置
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 初始化配额数据库&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo quotacheck -cug /data/ext4
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 启用配额&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo quotaon /data/ext4
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 设置用户配额（限制500MB）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo setquota -u user1 500M 550M &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt; /data/ext4
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id=&#34;2-xfs配额配置&#34;&gt;2. XFS配额配置
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 启用配额支持&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo xfs_quota -x -c &lt;span class=&#34;s2&#34;&gt;&amp;#34;enable&amp;#34;&lt;/span&gt; /data/xfs
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 设置项目配额（限制1TB）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;PRJ_001 1000000&amp;#34;&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; sudo xfs_quota -x -c &lt;span class=&#34;s2&#34;&gt;&amp;#34;limit -p bhard=1T&amp;#34;&lt;/span&gt; /data/xfs
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h1 id=&#34;四工具对比与选择策略&#34;&gt;四、工具对比与选择策略
+&lt;/h1&gt;&lt;h3 id=&#34;fdisk-vs-gdisk-核心差异&#34;&gt;fdisk vs gdisk 核心差异
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;特性&lt;/th&gt;
+          &lt;th&gt;fdisk (MBR)&lt;/th&gt;
+          &lt;th&gt;gdisk (GPT)&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;最大磁盘容量&lt;/td&gt;
+          &lt;td&gt;2TB&lt;/td&gt;
+          &lt;td&gt;18EB&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;分区数量&lt;/td&gt;
+          &lt;td&gt;4主分区&lt;/td&gt;
+          &lt;td&gt;128主分区&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;分区表备份&lt;/td&gt;
+          &lt;td&gt;无&lt;/td&gt;
+          &lt;td&gt;主副本+备份&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;UEFI启动支持&lt;/td&gt;
+          &lt;td&gt;不支持&lt;/td&gt;
+          &lt;td&gt;必需&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;企业级数据存储&lt;/td&gt;
+          &lt;td&gt;不推荐&lt;/td&gt;
+          &lt;td&gt;推荐&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;五最佳实践与建议&#34;&gt;五、最佳实践与建议
+&lt;/h1&gt;&lt;p&gt;1‌. 分区保留空间‌&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# 保留5%空间（ext4）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;sudo tune2fs -m &lt;span class=&#34;m&#34;&gt;5&lt;/span&gt; /dev/sdb2
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;2‌. 安全挂载选项‌&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nodev&lt;/code&gt;: 禁用设备文件&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;nosuid&lt;/code&gt;: 禁止特权程序&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;noexec&lt;/code&gt;: 阻止二进制执行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;自动化监控脚本‌&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;#!/bin/bash
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;cp&#34;&gt;&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;DF_OUTPUT&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;df -h &lt;span class=&#34;p&#34;&gt;|&lt;/span&gt; grep &lt;span class=&#34;s2&#34;&gt;&amp;#34;/data&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;nb&#34;&gt;echo&lt;/span&gt; &lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;$(&lt;/span&gt;date&lt;span class=&#34;k&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt; - Disk Usage:\n&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$DF_OUTPUT&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;&lt;/span&gt; &amp;gt;&amp;gt; /var/log/disk_monitor.log
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h1 id=&#34;课后作业&#34;&gt;课后作业
+&lt;/h1&gt;&lt;h2 id=&#34;检查磁盘情况&#34;&gt;检查磁盘情况
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;code&gt;lsblk&lt;/code&gt; 命令查看磁盘分割状态，这将列出所有块设备及其挂载点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;code&gt;blkid&lt;/code&gt; 命令列出设备的 UUID 等参数，这有助于识别磁盘及其分区。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;code&gt;parted /dev/sda print&lt;/code&gt; 命令列出磁盘 &lt;code&gt;/dev/sda&lt;/code&gt; 的分割表类型与分割信息，注意这里假设 &lt;code&gt;/dev/sda&lt;/code&gt; 是要检查的磁盘，根据实际情况可能需要替换为其他磁盘标识符。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;装入硬盘&#34;&gt;装入硬盘
+&lt;/h2&gt;&lt;p&gt;此步骤通常涉及将新硬盘连接到系统并识别它，但具体命令未给出，因为这通常是通过硬件连接完成的，并且系统会在启动时自动识别新硬件。&lt;/p&gt;
+&lt;h2 id=&#34;对装入的硬盘进行分区在-gdisk-操作界面下操作&#34;&gt;对装入的硬盘进行分区（在 gdisk 操作界面下操作）
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;code&gt;gdisk /dev/sdb&lt;/code&gt; 命令打开新装入硬盘 &lt;code&gt;/dev/sdb&lt;/code&gt; 的分割操作界面。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入 &lt;code&gt;?&lt;/code&gt; 查询 gdisk 所有命令，了解可用的操作。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入 &lt;code&gt;p&lt;/code&gt; 打印该设备的当前分割情况，以确认分区前的状态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入以下命令创建一个 1GB 左右的分区：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;n&lt;/code&gt;：新建分区&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p&lt;/code&gt;：选择主分区&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1&lt;/code&gt;：分区号为 1&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;+1G&lt;/code&gt;：分区大小为 1GB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入以下命令再创建一个 2GB 左右的分区：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;n&lt;/code&gt;：新建分区&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;p&lt;/code&gt;：选择主分区&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;2&lt;/code&gt;：分区号为 2&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;+2G&lt;/code&gt;：分区大小为 2GB&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入 &lt;code&gt;p&lt;/code&gt; 再次打印该设备的分割情况，以确认分区后的状态。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;输入 &lt;code&gt;w&lt;/code&gt; 保存退出，这将写入分区表并退出 gdisk。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;建立文件系统&#34;&gt;建立文件系统
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;code&gt;mkfs.xfs /dev/sdb1&lt;/code&gt; 命令将创建好的 1GB 左右分区建立为 xfs 文件系统。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 &lt;code&gt;mkfs.ext4 /dev/sdb2&lt;/code&gt; 命令将创建好的 2GB 左右分区建立为 ext4 文件系统。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
