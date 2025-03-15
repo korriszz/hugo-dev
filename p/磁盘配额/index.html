@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="上传网页内容">
-<title>Hugo上传GitHub</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="本文聚焦于 CentOS 7 系统下的文件系统安全配置与管理，提供网络故障排查方法及相关实践任务。">
+<title>磁盘配额</title>
 
-<link rel='canonical' href='https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/'>
+<link rel='canonical' href='https://korriszz.github.io/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/'>
 
-<link rel="stylesheet" href="/hugo-dev/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="Hugo上传GitHub">
-<meta property='og:description' content="上传网页内容">
-<meta property='og:url' content='https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/'>
+<link rel="stylesheet" href="/hugo-dev/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="磁盘配额">
+<meta property='og:description' content="本文聚焦于 CentOS 7 系统下的文件系统安全配置与管理，提供网络故障排查方法及相关实践任务。">
+<meta property='og:url' content='https://korriszz.github.io/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/'>
 <meta property='og:site_name' content='蔡蔡-korriszz'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2025-03-11T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-11T00:00:00&#43;00:00'/><meta property='og:image' content='https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.JPG' />
-<meta name="twitter:title" content="Hugo上传GitHub">
-<meta name="twitter:description" content="上传网页内容"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.JPG' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='文件系统安全' /><meta property='article:tag' content='操作系统安全与管理' /><meta property='article:published_time' content='2025-03-15T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-15T00:00:00&#43;00:00'/><meta property='og:image' content='https://korriszz.github.io/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/a.jpg' />
+<meta name="twitter:title" content="磁盘配额">
+<meta name="twitter:description" content="本文聚焦于 CentOS 7 系统下的文件系统安全配置与管理，提供网络故障排查方法及相关实践任务。"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/a.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 <link rel="stylesheet" href="/hugo-dev/css/prism/prism.css">
 <script src="/hugo-dev/js/prism/prism.js"></script>
@@ -287,8 +287,16 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#引用">引用</a></li>
-    <li><a href="#发牢骚">发牢骚</a></li>
+    <li><a href="#一内容概览">一、内容概览</a></li>
+    <li><a href="#二任务概述">二、任务概述</a></li>
+    <li><a href="#三相关知识">三、相关知识</a></li>
+    <li><a href="#四任务实施">四、任务实施</a></li>
+    <li><a href="#五任务总结">五、任务总结</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#任务一磁盘配额配置与管理">任务一：磁盘配额配置与管理</a></li>
+    <li><a href="#任务二加密文件系统的配置">任务二：加密文件系统的配置</a></li>
   </ol>
 </nav>
         </div>
@@ -303,13 +311,13 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/">
-                <img src="/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a_hu_773f80b515469733.JPG"
-                        srcset="/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a_hu_773f80b515469733.JPG 800w, /hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a_hu_c3f0d7ecd3c5ac72.JPG 1600w"
+            <a href="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/">
+                <img src="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/a_hu_4dcc26d5b26c2b54.jpg"
+                        srcset="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/a_hu_4dcc26d5b26c2b54.jpg 800w, /hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/a_hu_9da2e15bc9d4b391.jpg 1600w"
                         width="800" 
-                        height="457" 
+                        height="800" 
                         loading="lazy"
-                        alt="Featured image of post Hugo上传GitHub" />
+                        alt="Featured image of post 磁盘配额" />
                 
             </a>
         </div>
@@ -327,8 +335,12 @@
                 兴趣
             </a>
         
-            <a href="/hugo-dev/categories/%E7%BD%91%E9%A1%B5/" >
-                网页
+            <a href="/hugo-dev/categories/centos7/" >
+                CentOS7
+            </a>
+        
+            <a href="/hugo-dev/categories/liunx/" >
+                LIUNX
             </a>
         
     </header>
@@ -336,12 +348,12 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/">Hugo上传GitHub</a>
+            <a href="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/">磁盘配额</a>
         </h2>
     
         
         <h3 class="article-subtitle">
-            上传网页内容
+            本文聚焦于 CentOS 7 系统下的文件系统安全配置与管理，提供网络故障排查方法及相关实践任务。
         </h3>
         
     </div>
@@ -362,7 +374,7 @@
   <path d="M3 11h16" />
   <path d="M18 16.496v1.504l1 1" />
 </svg>
-                <time class="article-time--published">2025-03-117</time>
+                <time class="article-time--published">2025-03-157</time>
             </div>
         
 
@@ -377,7 +389,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 1 分钟
+                    阅读时长: 4 分钟
                 </time>
             </div>
         
@@ -392,77 +404,264 @@
     <section class="article-content">
     
     
-    <ol>
-<li>新建网页</li>
+    <h1 id="磁盘配额">磁盘配额
+</h1><h2 id="一内容概览">一、内容概览
+</h2><p>该网页为《操作系统安全与管理》课程中的一部分，主要围绕“磁盘配额”这一主题展开。内容涵盖了任务概述、相关知识、任务实施以及任务总结四个部分。</p>
+<h2 id="二任务概述">二、任务概述
+</h2><ul>
+<li>‌<strong>背景</strong>‌：某公司专注于教材开发及教学资源建设，随着公司发展，员工增多，出现员工利用公司数据存放空间存放与公司业务无关的数据，以及黑客恶意投放大容量数据的问题，造成公司数据传输拥堵。</li>
+<li>‌<strong>目标</strong>‌：作为公司管理员，利用磁盘限额功能减少相关事件发生率。</li>
+<li>‌<strong>任务环境</strong>‌：未具体给出服务器操作系统版本及网络配置信息。</li>
+</ul>
+<h2 id="三相关知识">三、相关知识
+</h2><ul>
+<li>‌<strong>Quota的用途</strong>‌：
+<ul>
+<li>针对WWW server：限制每个人的网页空间容量。</li>
+<li>针对mail server：限制每个人的邮件空间。</li>
+<li>针对file server：限制每个人最大的可用网络硬盘空间，以及限制某一群组所能使用的最大磁盘配额。</li>
+</ul>
+</li>
+<li>‌<strong>Quota的使用限制</strong>‌：
+<ul>
+<li>仅能针对整个filesystem在EXT档案系统家族中进行设计。</li>
+<li>核心必须支持quota功能。</li>
+<li>只对一般身份使用者有效，root不能设定quota。</li>
+<li>若启用SELinux，预设情况下quota仅能针对/home进行设定。</li>
+</ul>
+</li>
+<li>‌<strong>软限制/硬限制</strong>‌：未具体展开，但提到了这两个概念。</li>
+</ul>
+<h2 id="四任务实施">四、任务实施
+</h2><ol>
+<li>‌<strong>前置环境准备</strong>‌：插入新硬盘，分区，初始化为ext4文件系统，并挂载到/data/ext4目录下。</li>
+<li>‌<strong>检查磁盘配额命令是否存在</strong>‌：使用<code>quota -h</code>命令，若不存在则安装quota软件包。</li>
+<li>‌<strong>启用系统磁盘配额功能</strong>‌：编辑/etc/fstab文件，添加usrquota和grpquota选项，并重启系统。</li>
+<li>‌<strong>创建配额文件</strong>‌：使用<code>quotacheck -cvug /data/ext4</code>命令。</li>
+<li>‌<strong>设置用户和组的磁盘配额</strong>‌：使用<code>edquota -u [username]</code>命令为用户设置配额。</li>
+<li>‌<strong>启动和关闭磁盘配额</strong>‌：使用<code>quotaon -avug</code>和<code>quotaoff -avug</code>命令。</li>
+<li>‌<strong>生成磁盘空间使用情况报告</strong>‌：使用<code>repquota /dev/sdb1</code>命令。</li>
+<li>‌<strong>ext4与XFS文件系统在磁盘配额命令上的区别</strong>‌：未具体展开，但提到了这两个文件系统。</li>
 </ol>
-<div class="code-container">
-  <pre id="code-to-copy"> 
-   hugo new content post/**网页名称**/index.zh-cn.md
-  </pre>
-  <button onclick="copyCode()" class="copy-button">复制代码</button>
-</div>
-<ol start="2">
-<li>本地查看网页</li>
+<h2 id="五任务总结">五、任务总结
+</h2><p>磁盘配额能够有效控制个人、群组数据空间使用情况，保证公司数据存储合理，同时能够有效杜绝特定的网络安全攻击。</p>
+<h1 id="任务实施">任务实施
+</h1><h2 id="任务一磁盘配额配置与管理">任务一：磁盘配额配置与管理
+</h2><ol>
+<li>‌<strong>启用系统磁盘配额功能</strong>‌：通过编辑<code>/etc/fstab</code>文件，为相应文件系统添加<code>usrquota</code>和<code>grpquota</code>选项，并重启系统。
+重新挂载该分区使配置生效
+找到类似下面这行，添加 usrquota,grpquota</li>
 </ol>
-<div class="code-container">
-  <pre id="code-to-copy"> 
-   hugo server -D
-  </pre>
-  <button onclick="copyCode()" class="copy-button">复制代码</button>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vim /etc/fstab
+</span></span><span class="line"><span class="cl">/dev/sda3 /data ext4 defaults,usrquota,grpquota <span class="m">0</span> <span class="m">0</span>
+</span></span><span class="line"><span class="cl">mount -o remount /data
+</span></span></code></pre></td></tr></table>
 </div>
-3. 把当前工作目录下所有修改过的文件、新创建的文件以及被删除的文件添加到暂存区
-<div class="code-container">
-  <pre id="code-to-copy"> 
-   git add .
-  </pre>
-  <button onclick="copyCode()" class="copy-button">复制代码</button>
+</div><p>在挂载选项中添加 usrquota （用户配额）和 grpquota （组配额）。例如</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">：/dev/sda2 /home ext4 defaults,usrquota,grpquota <span class="m">0</span> <span class="m">0</span>
+</span></span></code></pre></td></tr></table>
 </div>
-<ol start="4">
-<li>把暂存区里的内容提交到本地仓库</li>
+</div><ol start="2">
+<li>‌<strong>创建配额文件</strong>‌：使用<code>quotacheck</code>命令扫描文件系统并创建配额文件。-c 表示创建新文件，-u 表示检查用户配额，-g 表示检查组配额 ，-m 表示以读写方式挂载文件系统</li>
 </ol>
-<div class="code-container">
-  <pre id="code-to-copy"> 
-   git commit -m "update"
-  </pre>
-  <button onclick="copyCode()" class="copy-button">复制代码</button>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">quotacheck -cugm /data
+</span></span></code></pre></td></tr></table>
 </div>
-<ol start="5">
-<li>将本地仓库中的提交推送到远程仓库</li>
+</div><ol start="3">
+<li>‌<strong>设置用户和组的磁盘配额</strong>‌：利用<code>edquota</code>命令为指定用户和组设置磁盘使用限制。</li>
 </ol>
-<div class="code-container">
-  <pre id="code-to-copy"> 
-   git push
-  </pre>
-  <button onclick="copyCode()" class="copy-button">复制代码</button>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">edquota -u testuser
+</span></span><span class="line"><span class="cl">edquota -g testgroup
+</span></span></code></pre></td></tr></table>
 </div>
-<h2 id="引用">引用
-</h2><p>Hugo 是一款热门的开源静态网站生成框架，官网突出其速度快、功能丰富等优势
-<code>网页样式引用hugo</code><a class="link" href="https://gohugo.io/"  target="_blank" rel="noopener"
-    >参考链接</a></p>
-<p>站轻量级和快速。所有样式都是用 SCSS 编写的，脚本是用普通 JavaScript 编写的。
-<code>博客主题stack</code><a class="link" href="https://stack.jimmycai.com/"  target="_blank" rel="noopener"
-    >参考链接</a></p>
-<p>Markdown 是一种轻量级标记语言，它允许你使用易读易写的纯文本格式编写文档，然后转换成有效的 HTML 文档。
-<code>网页源码使用markdown语言</code><a class="link" href="https://markdown.com.cn/"  target="_blank" rel="noopener"
-    >参考链接</a></p>
-<h2 id="发牢骚">发牢骚
-</h2><blockquote>
-<p>Wildest dreams, ah-aah, haa
-最狂野不羁的梦境之中</p></blockquote>
-<blockquote>
-<p>I said, &ldquo;No one has to know what we do&rdquo;
-我说&quot;没人会发觉我们的所作所为&quot;</p></blockquote>
-<blockquote>
-<p><em><a class="link" href="https://www.spotify.com"  target="_blank" rel="noopener"
-    >Wildest Dreams - Taylor Swift</a></em></p></blockquote>
-
-
+</div><ol start="4">
+<li>‌<strong>启用磁盘配额</strong>‌：通过<code>quotaon</code>命令启用配额功能。，-a 表示启用所有在 /etc/fstab 中配置了配额选项的分区，-u 启用用户配额，-g 启用组配额</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">quotaon -avug
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>‌<strong>查看磁盘配额使用情况</strong>‌：使用<code>repquota</code>或<code>quota</code>命令查看配额使用情况。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">quota testuser
+</span></span><span class="line"><span class="cl">repquota -a
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="任务二加密文件系统的配置">任务二：加密文件系统的配置
+</h2><ol>
+<li>‌<strong>创建加密盘</strong>‌：使用加密工具（如LUKS）创建加密分区。这里创建一个 1GB 的文件示例</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/home/encrypted_disk <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span><span class="m">1024</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>‌<strong>映射加密盘</strong>‌：解锁加密分区，生成映射设备。
+解锁并映射加密盘，例如将其映射为 my_encrypted_disk：</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cryptsetup luksOpen /home/encrypted_disk my_encrypted_disk
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="3">
+<li>‌<strong>查看映射信息</strong>‌：确认加密盘已成功映射。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ls /dev/mapper/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li>‌<strong>格式化加密盘</strong>‌：将映射后的设备格式化为所需文件系统。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkfs.ext4 /dev/mapper/my_encrypted_disk
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="5">
+<li>‌<strong>创建挂载点并手动挂载加密盘</strong>‌：在文件系统中创建挂载点，并使用<code>mount</code>命令挂载加密盘。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir /mnt/disk
+</span></span><span class="line"><span class="cl">mount /dev/mapper/my_encrypted_disk /mnt/disk
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="6">
+<li>‌<strong>查看加密文件系统</strong>‌：确认加密盘已成功挂载并可使用。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">df -h
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="7">
+<li>‌<strong>设置开机自动挂载加密盘</strong>‌：编辑<code>/etc/fstab</code>文件，添加加密盘的自动挂载配置。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vim /etc/crypttab
+</span></span><span class="line"><span class="cl">my_encrypted_disk /home/encrypted_disk none luks
+</span></span><span class="line"><span class="cl">vim /etc/fstab
+</span></span><span class="line"><span class="cl">/dev/mapper/my_encrypted_disk /mnt/disk ext4 defaults <span class="m">0</span> <span class="m">0</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="8">
+<li>‌<strong>配置开机密码验证</strong>‌：确保在开机挂载加密盘时进行密码验证，以增强安全性。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="o">[</span>Unit<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Description</span><span class="o">=</span>Mount encrypted device %i
+</span></span><span class="line"><span class="cl"><span class="nv">Requires</span><span class="o">=</span>dev-mapper-%i.device
+</span></span><span class="line"><span class="cl"><span class="nv">After</span><span class="o">=</span>dev-mapper-%i.device
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Service<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Type</span><span class="o">=</span>oneshot
+</span></span><span class="line"><span class="cl"><span class="nv">RemainAfterExit</span><span class="o">=</span>yes
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStart</span><span class="o">=</span>/usr/bin/cryptsetup luksOpen /dev/disk/by - uuid/%i %i
+</span></span><span class="line"><span class="cl"><span class="nv">ExecStop</span><span class="o">=</span>/usr/bin/cryptsetup luksClose %i
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="o">[</span>Install<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">WantedBy</span><span class="o">=</span>multi - user.target
+</span></span><span class="line"><span class="cl"><span class="c1">#重新加载 systemd 配置：</span>
+</span></span><span class="line"><span class="cl">systemctl daemon - reload
+</span></span><span class="line"><span class="cl"><span class="c1">#启用服务：</span>
+</span></span><span class="line"><span class="cl">systemctl <span class="nb">enable</span> cryptmount@my_encrypted_disk.service
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
 </section>
 
 
     <footer class="article-footer">
     
     <section class="article-tags">
+        
+            <a href="/hugo-dev/tags/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/">文件系统安全</a>
+        
+            <a href="/hugo-dev/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E4%B8%8E%E7%AE%A1%E7%90%86/">操作系统安全与管理</a>
         
     </section>
 
@@ -508,30 +707,6 @@
             
                 
 <article class="has-image">
-    <a href="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/">
-        
-        
-            <div class="article-image">
-                <img src="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/a.bd44aef6d39a7b88f6f0196045e1be83_hu_bfe7b55c157a829b.jpg" 
-                        width="250" 
-                        height="150" 
-                        loading="lazy"
-                        alt="Featured image of post 磁盘配额"
-                        
-                        data-hash="md5-vUSu9tOae4j28BlgReG&#43;gw==">
-                
-            </div>
-        
-
-        <div class="article-details">
-            <h2 class="article-title">磁盘配额</h2>
-        </div>
-    </a>
-</article>
-
-            
-                
-<article class="has-image">
     <a href="/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/">
         
         
@@ -549,6 +724,30 @@
 
         <div class="article-details">
             <h2 class="article-title">网络故障检测排除实践笔记</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/hugo%E4%B8%8A%E4%BC%A0github/a.f603d2b32e89698c9e26898fc6e656b0_hu_31a99886a26decbb.JPG" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Hugo上传GitHub"
+                        
+                        data-hash="md5-9gPSsy6JaYyeJomPxuZWsA==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Hugo上传GitHub</h2>
         </div>
     </a>
 </article>
