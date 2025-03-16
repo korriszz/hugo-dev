@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="文件ACL与文件系统安全配置 一、ACL（访问控制列表） \u200c概念\u200c： ACL用于设定单一用户针对文件的权限，提供了比传统属主、属组和其他人三种身份更精细的权限管理。 \u200c查看ACL支持情况\u200c： 提前增加两个用户，用于测试ACL 1 2 3 useradd：增加账户 id：查看账户信息 passwd：修改账户密码 在Linux系统中，通过dmesg | grep -i acl命令可以查看内核挂载时是否支持ACL。\n">
+<title>文件ACL与文件系统安全配置</title>
+
+<link rel='canonical' href='https://korriszz.github.io/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/'>
+
+<link rel="stylesheet" href="/hugo-dev/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="文件ACL与文件系统安全配置">
+<meta property='og:description' content="文件ACL与文件系统安全配置 一、ACL（访问控制列表） \u200c概念\u200c： ACL用于设定单一用户针对文件的权限，提供了比传统属主、属组和其他人三种身份更精细的权限管理。 \u200c查看ACL支持情况\u200c： 提前增加两个用户，用于测试ACL 1 2 3 useradd：增加账户 id：查看账户信息 passwd：修改账户密码 在Linux系统中，通过dmesg | grep -i acl命令可以查看内核挂载时是否支持ACL。\n">
+<meta property='og:url' content='https://korriszz.github.io/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/'>
+<meta property='og:site_name' content='蔡蔡-korriszz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='文件安全' /><meta property='article:tag' content='操作系统安全与管理' /><meta property='article:published_time' content='2025-03-16T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-16T00:00:00&#43;00:00'/><meta property='og:image' content='https://korriszz.github.io/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/a.jpg' />
+<meta name="twitter:title" content="文件ACL与文件系统安全配置">
+<meta name="twitter:description" content="文件ACL与文件系统安全配置 一、ACL（访问控制列表） \u200c概念\u200c： ACL用于设定单一用户针对文件的权限，提供了比传统属主、属组和其他人三种身份更精细的权限管理。 \u200c查看ACL支持情况\u200c： 提前增加两个用户，用于测试ACL 1 2 3 useradd：增加账户 id：查看账户信息 passwd：修改账户密码 在Linux系统中，通过dmesg | grep -i acl命令可以查看内核挂载时是否支持ACL。\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/a.jpg' />
+    <link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" href="/hugo-dev/css/prism/prism.css">
+<script src="/hugo-dev/js/prism/prism.js"></script>
+<script src="/hugo-dev/js/prism/prism-copy-to-clipboard.js"></script>
+<link rel="stylesheet" href="/hugo-dev/css/custom-prism.css">
+        
+        <link rel="stylesheet" href="/hugo-dev/css/styles.css">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/hugo-dev/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/hugo-dev/img/muzimi%20%281%29_hu_b430791ee60b1807.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/hugo-dev">蔡蔡-korriszz</a></h1>
+            <h2 class="site-description">欢迎来到我的网站，此博客由【Hugo &#43; Stack】来进行搭建，主要分享个人生活和学习笔记</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://bilibili.com'
+                        target="_blank"
+                        title="BiliBili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/hugo-dev/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一acl访问控制列表">一、ACL（访问控制列表）</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#二aide高级入侵检测环境">二、AIDE（高级入侵检测环境）</a></li>
+    <li><a href="#三总结">三、总结</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#任务一acl配置与管理">任务一：ACL配置与管理</a>
+      <ol>
+        <li><a href="#在根目录下创建名为data的目录">‌在根目录/下创建名为data的目录。‌</a></li>
+        <li><a href="#在data目录下创建名为acl_test的文件">‌在/data目录下创建名为acl_test的文件。‌</a></li>
+        <li><a href="#增加两个账户分别名为testuser1testuser2">‌增加两个账户，分别名为testuser1、testuser2。‌</a></li>
+        <li><a href="#查看testuser1testuser2的id属性">‌查看testuser1、testuser2的id属性。‌</a></li>
+        <li><a href="#对testuser1testuser2分别设置密码">‌对testuser1、testuser2分别设置密码。‌</a></li>
+        <li><a href="#利用dmesg查看linux内核下acl相关内容具体命令可见本机ppt">‌利用dmesg查看linux内核下ACL相关内容（具体命令可见本机ppt）。‌</a></li>
+        <li><a href="#将acl_test文件中其他人权限设置为0">‌将acl_test文件中其他人权限设置为0。‌</a></li>
+        <li><a href="#设置acl将testuser1权限设置为7">‌设置ACL，将testuser1权限设置为7。‌</a></li>
+        <li><a href="#分别切换到testuser1testuser2账户下去读取acl_test文件">‌分别切换到testuser1、testuser2账户下去读取acl_test文件。‌</a></li>
+      </ol>
+    </li>
+    <li><a href="#任务二文件系统安全">任务二：文件系统安全</a>
+      <ol>
+        <li><a href="#在data目录下创建名为aide_test的文件">‌在/data目录下创建名为aide_test的文件。‌</a></li>
+        <li><a href="#配置aide主配置文件将dataaide_test文件放入">‌配置AIDE主配置文件，将/data/aide_test文件放入。‌</a></li>
+        <li><a href="#生成并定义aide基准数据库">‌生成并定义AIDE基准数据库‌</a></li>
+        <li><a href="#在dataaide_test文件中写入内容">‌在/data/aide_test文件中写入内容。‌</a></li>
+        <li><a href="#利用aide检查文件修改情况">‌利用AIDE检查文件修改情况。‌</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/">
+                <img src="/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/a_hu_535d383c78af1be1.jpg"
+                        srcset="/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/a_hu_535d383c78af1be1.jpg 800w, /hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/a_hu_bac3f4ec6a52d32a.jpg 1600w"
+                        width="800" 
+                        height="800" 
+                        loading="lazy"
+                        alt="Featured image of post 文件ACL与文件系统安全配置" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/" >
+                学习
+            </a>
+        
+            <a href="/hugo-dev/categories/%E5%85%B4%E8%B6%A3/" >
+                兴趣
+            </a>
+        
+            <a href="/hugo-dev/categories/centos7/" >
+                CentOS7
+            </a>
+        
+            <a href="/hugo-dev/categories/liunx/" >
+                LIUNX
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/hugo-dev/p/%E6%96%87%E4%BB%B6acl%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE/">文件ACL与文件系统安全配置</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-03-167</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 4 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="文件acl与文件系统安全配置">文件ACL与文件系统安全配置
+</h1><h2 id="一acl访问控制列表">一、ACL（访问控制列表）
+</h2><ol>
+<li>‌概念‌：
+ACL用于设定单一用户针对文件的权限，提供了比传统属主、属组和其他人三种身份更精细的权限管理。</li>
+<li>‌查看ACL支持情况‌：
+提前增加两个用户，用于测试ACL</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">useradd：增加账户
+</span></span><span class="line"><span class="cl">id：查看账户信息
+</span></span><span class="line"><span class="cl">passwd：修改账户密码
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>在Linux系统中，通过<code>dmesg | grep -i acl</code>命令可以查看内核挂载时是否支持ACL。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dmesg <span class="p">|</span> grep -i acl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>o	目前ACL几乎已经预设加入在所有常见的Linux文件系统的挂载参数中（如ext2/ext3/ext4/xfs等）。
+3.	‌创建测试文件并对之前创建的用户设置ACL‌：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir /data
+</span></span><span class="line"><span class="cl">touch /data/acl_test1
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> /data
+</span></span><span class="line"><span class="cl">ll
+</span></span><span class="line"><span class="cl"><span class="c1">#-rw-r--r--. 1 root root     0 3月   8 00:05 acl_test1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#drwxr-xr-x. 3 root root  4096 2月  26 00:24 ext4</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#drwxrw-r--. 2 bin  users   18 3月   2 07:18 testfile</span>
+</span></span><span class="line"><span class="cl">setfacl -m u:testuser:w acl_test1	
+</span></span><span class="line"><span class="cl"><span class="c1"># 这里注意对于testuser账户仅设置w权限</span>
+</span></span><span class="line"><span class="cl">ll
+</span></span><span class="line"><span class="cl"><span class="c1">#-rw-rw-r--+ 1 root root     0 3月   8 00:05 acl_test1</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#drwxr-xr-x. 3 root root  4096 2月  26 00:24 ext4</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#drwxrw-r--. 2 bin  users   18 3月   2 07:18 testfile</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>o	使用setfacl命令可以为文件或目录设置特定用户或群组的权限。
+o	例如：<code>setfacl -m u:testuser:w acl_test1</code>表示为用户testuser设置对文件acl_test1的写权限。
+4.	‌查看ACL设置‌：
+o	使用<code>getfac</code>l命令可以查看文件或目录的ACL设置情况。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">getfacl acl_test1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="file-acl_test1-文件名">file: acl_test1	&lt;=== 文件名
+</h1><h1 id="owner-root-拥有者">owner: root	&lt;=== 拥有者
+</h1><h1 id="group-root-所属群组">group: root	&lt;=== 所属群组
+</h1><p>user::rw-		&lt;=== 拥有者的权限
+user:testuser:rw-	&lt;=== testuser的权限
+group::r&ndash;		&lt;=== 群组的权限
+mask::rw-		&lt;=== 预设的权限
+other::r&ndash;		&lt;=== 其他人的权限</p>
+<ol start="5">
+<li>‌测试ACL效果‌：
+o	通过不同账户尝试访问设置了ACL的文件或目录，可以验证ACL权限设置的效果。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">su testuser
+</span></span><span class="line"><span class="cl">cat /data/acl_test1
+</span></span><span class="line"><span class="cl"><span class="c1">#cat: /data/acl_test1: 权限不够</span>
+</span></span><span class="line"><span class="cl">su testu
+</span></span><span class="line"><span class="cl"><span class="c1">#cat /data/acl_test1</span>
+</span></span><span class="line"><span class="cl">这是一个测试文件
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="二aide高级入侵检测环境">二、AIDE（高级入侵检测环境）
+</h2><ol>
+<li>‌概念‌：
+o	AIDE是一个入侵检测工具，主要用于检查文档的完整性。
+o	通过比较文件的校验码（如MD5或SHA256）与系统基准数据库中的校验码，可以快速识别出被篡改的文件。</li>
+<li>‌安装与配置‌：
+o	AIDE可以通过包管理器（如yum）进行安装。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum install aide -y
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>o	安装后需要配置aide.conf文件，指定要监控的文件和目录。
+3.	‌生成基准数据库‌：
+o	使用aide -c /etc/aide.conf &ndash;init命令可以生成系统基准数据库。
+o	在生成数据库时，可以根据需要注释掉一些路径以缩短生成时间，但在真实环境下不建议全部注释。
+4.	‌检验效果‌：
+o	修改受监控的文件后，使用aide &ndash;check命令可以检验出文件系统的变化。
+o	AIDE会报告哪些文件被添加、删除或更改，并提供详细的校验码信息以便进一步分析。</p>
+<h2 id="三总结">三、总结
+</h2><p>•	ACL能够实现更为精细的权限管理，通过为特定用户或群组设置权限，提高了文件系统的安全性。
+•	AIDE是一个有效的入侵检测工具，通过检查文件的完整性可以快速识别出潜在的入侵行为。
+•	结合使用ACL和AIDE，可以进一步增强文件系统的安全性和稳定性。</p>
+<h1 id="任务实施">任务实施
+</h1><h2 id="任务一acl配置与管理">任务一：ACL配置与管理
+</h2><h3 id="在根目录下创建名为data的目录">‌在根目录/下创建名为data的目录。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo mkdir /data
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="在data目录下创建名为acl_test的文件">‌在/data目录下创建名为acl_test的文件。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo touch /data/acl_test
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="增加两个账户分别名为testuser1testuser2">‌增加两个账户，分别名为testuser1、testuser2。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo useradd testuser1
+</span></span><span class="line"><span class="cl">sudo useradd testuser2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="查看testuser1testuser2的id属性">‌查看testuser1、testuser2的id属性。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">id testuser1
+</span></span><span class="line"><span class="cl">id testuser2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="对testuser1testuser2分别设置密码">‌对testuser1、testuser2分别设置密码。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo passwd testuser1
+</span></span><span class="line"><span class="cl">sudo passwd testuser2
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="利用dmesg查看linux内核下acl相关内容具体命令可见本机ppt">‌利用dmesg查看linux内核下ACL相关内容（具体命令可见本机ppt）。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">dmesg <span class="p">|</span> grep acl
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="将acl_test文件中其他人权限设置为0">‌将acl_test文件中其他人权限设置为0。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo setfacl -m d:u::rwx,d:g::rx,d:o:: /data/acl_test
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="设置acl将testuser1权限设置为7">‌设置ACL，将testuser1权限设置为7。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sudo setfacl -m u:testuser1:rwx /data/acl_test
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="分别切换到testuser1testuser2账户下去读取acl_test文件">‌分别切换到testuser1、testuser2账户下去读取acl_test文件。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">su - testuser1
+</span></span><span class="line"><span class="cl">cat /data/acl_test
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">su - testuser2
+</span></span><span class="line"><span class="cl">cat /data/acl_test
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="任务二文件系统安全">任务二：文件系统安全
+</h2><p>‌安装AIDE。（若无法安装请更换国内镜像源）‌</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo apt-get update
+</span></span><span class="line"><span class="cl">sudo apt-get install aide
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="在data目录下创建名为aide_test的文件">‌在/data目录下创建名为aide_test的文件。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo touch /data/aide_test
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="配置aide主配置文件将dataaide_test文件放入">‌配置AIDE主配置文件，将/data/aide_test文件放入。‌
+</h3><p>编辑 /etc/aide.conf 文件，将 /data/aide_test 添加到配置中。</p>
+<h3 id="生成并定义aide基准数据库">‌生成并定义AIDE基准数据库‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudoaide --init
+</span></span><span class="line"><span class="cl">sudoaide --update
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="在dataaide_test文件中写入内容">‌在/data/aide_test文件中写入内容。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;Test content&#34;</span> &gt; /data/
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="利用aide检查文件修改情况">‌利用AIDE检查文件修改情况。‌
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudoaide --check
+</span></span></code></pre></td></tr></table>
+</div>
+</div>
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/hugo-dev/tags/%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/">文件安全</a>
+        
+            <a href="/hugo-dev/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E4%B8%8E%E7%AE%A1%E7%90%86/">操作系统安全与管理</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/hugo-dev/p/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E5%AE%89%E5%85%A8%E7%AE%A1%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/a.3cbd770523fda2798ccaca40a76ed162_hu_9e5d451220a76b8a.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 文件权限安全管理与配置"
+                        
+                        data-hash="md5-PL13BSP9onmMyspAp27RYg==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">文件权限安全管理与配置</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/hugo-dev/p/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E9%85%8D%E7%BD%AE%E4%B8%8E%E7%AE%A1%E7%90%86/a.35372805174acfbd3a921ed0fa0b8a49_hu_ff2f0fddba841449.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 文件系统安全配置与管理"
+                        
+                        data-hash="md5-NTcoBRdKz706kh7Q&#43;guKSQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">文件系统安全配置与管理</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/hugo-dev/p/%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90%E7%9A%84%E7%AE%A1%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/%E7%89%B9%E6%AE%8A%E6%9D%83%E9%99%90%E7%9A%84%E7%AE%A1%E7%90%86%E4%B8%8E%E9%85%8D%E7%BD%AE/a.a0eb2d6bce3160be63be04cbd37ab277_hu_b48d12471a1b4739.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 特殊权限的管理与配置"
+                        
+                        data-hash="md5-oOsta84xYL5jvgTL03qydw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">特殊权限的管理与配置</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/%E7%A3%81%E7%9B%98%E9%85%8D%E9%A2%9D/a.bd44aef6d39a7b88f6f0196045e1be83_hu_bfe7b55c157a829b.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 磁盘配额"
+                        
+                        data-hash="md5-vUSu9tOae4j28BlgReG&#43;gw==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">磁盘配额</h2>
+        </div>
+    </a>
+</article>
+
+            
+                
+<article class="has-image">
+    <a href="/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B%E6%8E%92%E9%99%A4%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/a.f20cf1e025c0ee99cff87d38cad809d7_hu_6f4a2d6ca6bf30d5.jpg" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post 网络故障检测排除实践笔记"
+                        
+                        data-hash="md5-8gzx4CXA7pnP&#43;H04ytgJ1w==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">网络故障检测排除实践笔记</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 示例版权所有者
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/hugo-dev/ts/main.87d72694fb97c84cb5cbf9b1a64d476a38e04a5706618a6ffe5b89c7db00488f.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+        
+        <script src="/hugo-dev/js/script.js"></script>
+    </body>
+</html> 
