@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在操作系统中，特殊权限是指系统为特定用户或用户组提供的额外权限，允许他们执行一些特定的操作。这些权限通常用于提高系统的安全性和灵活性。">
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在虚拟机环境下进行的一系列系统配置、服务搭建及容器操作的学习过程，涵盖网络配置、系统安装、数据库搭建、容器云操作等多个方面">
 <title>云计算</title>
 
 <link rel='canonical' href='https://korriszz.github.io/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/'>
 
 <link rel="stylesheet" href="/hugo-dev/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="云计算">
-<meta property='og:description' content="在操作系统中，特殊权限是指系统为特定用户或用户组提供的额外权限，允许他们执行一些特定的操作。这些权限通常用于提高系统的安全性和灵活性。">
+<meta property='og:description' content="在虚拟机环境下进行的一系列系统配置、服务搭建及容器操作的学习过程，涵盖网络配置、系统安装、数据库搭建、容器云操作等多个方面">
 <meta property='og:url' content='https://korriszz.github.io/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/'>
 <meta property='og:site_name' content='蔡蔡-korriszz'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='云计算管理' /><meta property='article:published_time' content='2025-03-18T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-18T00:00:00&#43;00:00'/><meta property='og:image' content='https://korriszz.github.io/hugo-dev/a.jpg' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='云计算管理' /><meta property='article:published_time' content='2025-03-18T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-18T00:00:00&#43;00:00'/><meta property='og:image' content='https://korriszz.github.io/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/a.jpg' />
 <meta name="twitter:title" content="云计算">
-<meta name="twitter:description" content="在操作系统中，特殊权限是指系统为特定用户或用户组提供的额外权限，允许他们执行一些特定的操作。这些权限通常用于提高系统的安全性和灵活性。"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/a.jpg' />
+<meta name="twitter:description" content="在虚拟机环境下进行的一系列系统配置、服务搭建及容器操作的学习过程，涵盖网络配置、系统安装、数据库搭建、容器云操作等多个方面"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/a.jpg' />
     <link rel="shortcut icon" href="/favicon.ico" />
 <link rel="stylesheet" href="/hugo-dev/css/prism/prism.css">
 <script src="/hugo-dev/js/prism/prism.js"></script>
@@ -287,16 +287,128 @@
         <div class="widget--toc">
             <nav id="TableOfContents">
   <ol>
-    <li><a href="#一网络配置">一、网络配置</a></li>
-    <li><a href="#二安装一台系统">二、安装一台系统</a></li>
-  </ol>
-
-  <ol>
-    <li><a href="#一配置网卡">一、配置网卡</a></li>
-    <li><a href="#二克隆操作克隆2台虚拟机">二、克隆操作（克隆2台虚拟机）</a></li>
-    <li><a href="#三分别设置3台虚拟机的免密登录及计算机名称">三、分别设置3台虚拟机的免密登录及计算机名称</a></li>
-    <li><a href="#四配置3台虚拟机的yum源">四、配置3台虚拟机的yum源</a></li>
-    <li><a href="#五3台虚拟机分别关机做快照">五、3台虚拟机分别关机做快照</a></li>
+    <li><a href="#一基础配置">一、基础配置</a>
+      <ol>
+        <li><a href="#a网络配置">A.网络配置</a>
+          <ol>
+            <li><a href="#开启两块虚拟网卡">开启两块虚拟网卡</a></li>
+          </ol>
+        </li>
+        <li><a href="#b安装一台系统">B.安装一台系统</a></li>
+        <li><a href="#c关闭防火墙">C.关闭防火墙</a>
+          <ol>
+            <li><a href="#一修改-selinux-配置文件">（一）修改 SELinux 配置文件</a></li>
+            <li><a href="#二停止-firewalld-服务">（二）停止 firewalld 服务</a></li>
+            <li><a href="#三禁用-firewalld-服务开机自启">（三）禁用 firewalld 服务开机自启</a></li>
+            <li><a href="#四临时禁用-selinux">（四）临时禁用 SELinux</a></li>
+            <li><a href="#五检测防火墙">（五）检测防火墙</a></li>
+          </ol>
+        </li>
+        <li><a href="#d配置网卡">D.配置网卡</a>
+          <ol>
+            <li><a href="#一进入网卡配置">（一）进入网卡配置</a></li>
+            <li><a href="#二配置nat模式网卡">（二）配置NAT模式网卡</a></li>
+            <li><a href="#三配置仅主机模式网卡">（三）配置仅主机模式网卡</a></li>
+          </ol>
+        </li>
+        <li><a href="#e克隆操作克隆2台虚拟机">E.克隆操作（克隆2台虚拟机）</a></li>
+        <li><a href="#f分别设置3台虚拟机的免密登录及计算机名称">F.分别设置3台虚拟机的免密登录及计算机名称</a>
+          <ol>
+            <li><a href="#一设置3台虚拟机的计算机名称">（一）设置3台虚拟机的计算机名称</a></li>
+            <li><a href="#二设置3台虚拟机免密登录">（二）设置3台虚拟机免密登录</a></li>
+            <li><a href="#三设置3台虚拟机的etchosts文件">（三）设置3台虚拟机的/etc/hosts文件</a></li>
+          </ol>
+        </li>
+        <li><a href="#g配置3台虚拟机的yum源">G.配置3台虚拟机的yum源</a>
+          <ol>
+            <li><a href="#一准备操作">（一）准备操作</a></li>
+            <li><a href="#二配置db00_1的yum源">（二）配置db00_1的yum源</a></li>
+            <li><a href="#三配置db00_2和db00_3的yum源">（三）配置db00_2和db00_3的yum源</a></li>
+          </ol>
+        </li>
+        <li><a href="#h3台虚拟机分别关机做快照">H.3台虚拟机分别关机做快照</a>
+          <ol>
+            <li><a href="#一创建raid5磁盘">（一）创建Raid5磁盘</a></li>
+          </ol>
+        </li>
+        <li><a href="#l格式化md5磁盘并加载">L.格式化md5磁盘，并加载</a></li>
+        <li><a href="#m测试">M.测试</a>
+          <ol>
+            <li><a href="#一">（一）</a></li>
+            <li><a href="#二项目要求在上述创建的data目录中添加nfs服务允许db2虚拟机对该目录可读可写允许db3虚拟机对该目录只有只读权限">（二）项目要求：在上述创建的/data目录中添加NFS服务，允许db2虚拟机对该目录可读可写，允许db3虚拟机对该目录只有只读权限。</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#二数据库云安全配置">二、数据库云安全配置</a>
+      <ol>
+        <li><a href="#安装并设置开机自启-mariadb-服务">安装并设置开机自启 MariaDB 服务</a>
+          <ol>
+            <li><a href="#1rootdb00_1--yum--install--mariadb--mariadb-server---y">（1）[root@db00_1 ~]# <code>yum  install  mariadb  mariadb-server  -y</code></a></li>
+            <li><a href="#2rootdb00_2--yum--install--mariadb--mariadb-server---y">（2）[root@db00_2 ~]# <code>yum  install  mariadb  mariadb-server  -y</code></a></li>
+            <li><a href="#3rootdb00_1--systemctl--restart--mariadb----systemctl--enable--mariadb">（3）[root@db00_1 ~]# <code>systemctl  restart  mariadb  &amp;&amp;  systemctl  enable  mariadb</code></a></li>
+            <li><a href="#4rootdb00_2--systemctl--restart--mariadb----systemctl--enable--mariadb">（4）[root@db00_2 ~]# <code>systemctl  restart  mariadb  &amp;&amp;  systemctl  enable  mariadb</code></a></li>
+          </ol>
+        </li>
+        <li><a href="#分别设置db1和db2数据库系统">分别设置db1和db2数据库系统</a>
+          <ol>
+            <li><a href="#1rootdb00_1--mysql_secure_installation">（1）[root@db00_1 ~]# <code>mysql_secure_installation</code></a></li>
+            <li><a href="#2rootdb00_2--mysql_secure_installation">（2）[root@db00_2 ~]# <code>mysql_secure_installation</code></a></li>
+          </ol>
+        </li>
+        <li><a href="#修改db1中的mycnf文件">修改db1中的my.cnf文件</a>
+          <ol>
+            <li><a href="#1rootdb00_1--vim--etcmycnf">（1）[root@db00_1 ~]# ``vim  /etc/my.cnf`</a></li>
+            <li><a href="#2rootdb00_1--systemctl--restart--mariadb">（2）[root@db00_1 ~]# <code>systemctl  restart  mariadb</code></a></li>
+          </ol>
+        </li>
+        <li><a href="#设置db1数据库">设置db1数据库</a>
+          <ol>
+            <li><a href="#1rootdb00_1--mysql---uroot---p123456">（1）[root@db00_1 ~]# <code>mysql  -uroot  -p123456</code></a></li>
+            <li><a href="#2mariadb-none-grant--all--privileges--on----to--root--identified--by--123456">（2）MariaDB [(none)]&gt; <code>grant  all  privileges  on  *.*  to  root@'%'  identified  by  '123456';</code></a></li>
+            <li><a href="#3使用navicat工具远程连接数据库">（3）使用navicat工具远程连接数据库</a></li>
+            <li><a href="#4mariadb-none-grant--replication--slave--on----to--userdb00_2--identified--by--123456">（4）MariaDB [(none)]&gt; <code>grant  replication  slave  on  *.*  to  'user'@'db00_2'  identified  by  '123456';</code></a></li>
+            <li><a href="#5rootdb00_2--mysql---uroot---p123456">（5）[root@db00_2 ~]# <code>mysql  -uroot  -p123456</code></a></li>
+            <li><a href="#6mariadb-none-change--master--to--master_hostdb00_1master_userusermaster_password123456">（6）MariaDB [(none)]&gt; <code>change  master  to  master_host='db00_1',master_user='user',master_password='123456';</code></a></li>
+            <li><a href="#7mariadb-none-start--slave">（7）MariaDB [(none)]&gt; <code>start  slave;</code></a></li>
+            <li><a href="#8mariadb-none-show--slave--statusg">（8）MariaDB [(none)]&gt; <code>show  slave  status\G</code></a></li>
+          </ol>
+        </li>
+        <li><a href="#在db1中创建数据库和表">在db1中创建数据库和表</a>
+          <ol>
+            <li><a href="#1创建数据库">（1）创建数据库</a></li>
+            <li><a href="#2创建表">（2）创建表</a></li>
+            <li><a href="#3插入一条数据">（3）插入一条数据</a></li>
+          </ol>
+        </li>
+        <li><a href="#构建读写分离数据库系统">构建读写分离数据库系统</a>
+          <ol>
+            <li><a href="#进入-db3-虚拟机并安装必要软件">进入 db3 虚拟机并安装必要软件</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
+    <li><a href="#三容器云操作">三、容器云操作</a>
+      <ol>
+        <li><a href="#配置三台虚拟机的yum源">配置三台虚拟机的yum源</a></li>
+        <li><a href="#分别升级yum源-yum--update---y">分别升级yum源：# yum  update  -y</a></li>
+        <li><a href="#分别开启3台虚拟机的路由转发功能">分别开启3台虚拟机的路由转发功能</a></li>
+        <li><a href="#分别在3台虚拟机中安装docker容器">分别在3台虚拟机中安装docker容器</a></li>
+        <li><a href="#docker的使用方法">docker的使用方法</a>
+          <ol>
+            <li><a href="#一镜像的常用命令">（一）镜像的常用命令</a></li>
+            <li><a href="#二容器常用命令">（二）容器常用命令</a></li>
+          </ol>
+        </li>
+        <li><a href="#利用docker容器部署nginx服务">利用docker容器部署nginx服务</a></li>
+        <li><a href="#利用dockerfile文件构建企业级镜像">利用Dockerfile文件构建企业级镜像</a>
+          <ol>
+            <li><a href="#一项目一利用上述容器生成一个镜像再生成一个dockerfile文件重新制作一个镜像v1最后利用该镜像生成一个容器显示另外一个网站">（一）项目一：利用上述容器生成一个镜像，再生成一个Dockerfile文件，重新制作一个镜像v1，最后利用该镜像生成一个容器，显示另外一个网站。</a></li>
+            <li><a href="#二课堂作业利用centos00v1镜像制作自定义镜像名称为centos00v3用来部署一个后台网站">（二）课堂作业：利用centos00:v1镜像制作自定义镜像，名称为centos00:v3，用来部署一个后台网站。</a></li>
+          </ol>
+        </li>
+      </ol>
+    </li>
   </ol>
 </nav>
         </div>
@@ -312,8 +424,12 @@
     <header class="article-header">
         <div class="article-image">
             <a href="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/">
-                
-                    <img src="/hugo-dev/a.jpg" loading="lazy" alt="Featured image of post 云计算" />
+                <img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/a_hu_b3d10243f021c5ff.jpg"
+                        srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/a_hu_b3d10243f021c5ff.jpg 800w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/a_hu_ea2a14c376d04344.jpg 1600w"
+                        width="800" 
+                        height="800" 
+                        loading="lazy"
+                        alt="Featured image of post 云计算" />
                 
             </a>
         </div>
@@ -349,7 +465,7 @@
     
         
         <h3 class="article-subtitle">
-            在操作系统中，特殊权限是指系统为特定用户或用户组提供的额外权限，允许他们执行一些特定的操作。这些权限通常用于提高系统的安全性和灵活性。
+            在虚拟机环境下进行的一系列系统配置、服务搭建及容器操作的学习过程，涵盖网络配置、系统安装、数据库搭建、容器云操作等多个方面
         </h3>
         
     </div>
@@ -385,7 +501,7 @@
 
 
                 <time class="article-time--reading">
-                    阅读时长: 8 分钟
+                    阅读时长: 9 分钟
                 </time>
             </div>
         
@@ -400,25 +516,55 @@
     <section class="article-content">
     
     
-    <h2 id="一网络配置">一、网络配置
-</h2><ol>
-<li>开启两块虚拟网卡</li>
-<li>虚拟机网络编辑器设置</li>
-</ol>
-<h2 id="二安装一台系统">二、安装一台系统
-</h2><ol>
-<li>
-<p>硬件配置</p>
-</li>
-<li>
-<p>分区操作</p>
-</li>
-</ol>
-<h1 id="三关闭防火墙">三、关闭防火墙
-</h1><ol>
-<li></li>
-</ol>
-<div class="highlight"><div class="chroma">
+    <h2 id="一基础配置">一、基础配置
+</h2><h3 id="a网络配置">A.网络配置
+</h3><h4 id="开启两块虚拟网卡">开启两块虚拟网卡
+</h4><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.1.JPG"
+	width="521"
+	height="453"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.1_hu_30bfeed5765e65b5.JPG 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.1_hu_dfd05788bd541525.JPG 1024w"
+	loading="lazy"
+	
+		alt="虚拟机网络编辑器设置"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="115"
+		data-flex-basis="276px"
+	
+></p>
+<h3 id="b安装一台系统">B.安装一台系统
+</h3><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.2.1.jpg"
+	width="532"
+	height="290"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.2.1_hu_3ff9b5ae86077a1c.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.2.1_hu_b899e1c11904e826.jpg 1024w"
+	loading="lazy"
+	
+		alt="硬件配置"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="183"
+		data-flex-basis="440px"
+	
+></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.2.2.jpg"
+	width="384"
+	height="288"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.2.2_hu_d0c5db0a6298050a.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.2.2_hu_17c9ae89fe97f85c.jpg 1024w"
+	loading="lazy"
+	
+		alt="分区操作"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="133"
+		data-flex-basis="320px"
+	
+></p>
+<h3 id="c关闭防火墙">C.关闭防火墙
+</h3><h4 id="一修改-selinux-配置文件">（一）修改 SELinux 配置文件
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -427,32 +573,26 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>修改<code>SELINUX=disabled</code></p>
-<ol start="2">
-<li></li>
-</ol>
-<div class="highlight"><div class="chroma">
+<h4 id="二停止-firewalld-服务">（二）停止 firewalld 服务
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">bashsystemctl  stop  firewalld
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl  stop  firewalld
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="3">
-<li></li>
-</ol>
-<div class="highlight"><div class="chroma">
+</div><h4 id="三禁用-firewalld-服务开机自启">（三）禁用 firewalld 服务开机自启
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl  disable  firewalld
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl  disable  firewalld<span class="sb">`</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="4">
-<li></li>
-</ol>
-<div class="highlight"><div class="chroma">
+</div><h4 id="四临时禁用-selinux">（四）临时禁用 SELinux
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -460,12 +600,18 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">setenforce  <span class="m">0</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ol start="5">
-<li>检测防火墙：<code>getenforce</code></li>
-</ol>
-<h1 id="设置远程连接ssh">设置远程连接SSH
-</h1><h2 id="一配置网卡">一、配置网卡
-</h2><div class="highlight"><div class="chroma">
+</div><h4 id="五检测防火墙">（五）检测防火墙
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">getenforce
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="d配置网卡">D.配置网卡
+</h3><h4 id="一进入网卡配置">（一）进入网卡配置
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -473,55 +619,70 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span>  /etc/sysconfig/network-scripts
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>（一）配置NAT模式网卡</p>
+</div><h4 id="二配置nat模式网卡">（二）配置NAT模式网卡
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#进入NAT模式网卡</span>
+</span></span><span class="line"><span class="cl">vi  ifcfg-ens33
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>修改<code>ONBOOT=yes</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">1、vi  ifcfg-ens33
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="c1">#重启网络服务的命令</span>
+</span></span><span class="line"><span class="cl">service  network  restart
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>修改<code>ONBOOT=yes</code>
-2、service  network  restart</p>
-<ul>
-<li>（二）配置仅主机模式网卡
-<ul>
-<li>1、
+</div><h4 id="三配置仅主机模式网卡">（三）配置仅主机模式网卡
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="c1">#进入仅主机模式网卡</span>
+</span></span><span class="line"><span class="cl">vi  ifcfg-ens34
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.3.2.2.1.jpg"
+	width="257"
+	height="218"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.3.2.2.1_hu_a604812fd29ea155.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/1.3.2.2.1_hu_6b0f31766a80b100.jpg 1024w"
+	loading="lazy"
+	
+		alt="删除UUID"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="117"
+		data-flex-basis="282px"
+	
+></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vi  ifcfg-ens34
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="c1">#重启网络服务的命令</span>
+</span></span><span class="line"><span class="cl">service  network  restart
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-<li>2、
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">service  network  restart
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-</ul>
-</li>
-</ul>
-<h2 id="二克隆操作克隆2台虚拟机">二、克隆操作（克隆2台虚拟机）
-</h2><ol>
-<li>创建完整克隆</li>
-<li>修改2台克隆机的仅主机模式的IP地址，分别修改为
-<code>192.168.100.20</code>和<code>192.168.100.30</code></li>
-</ol>
-<h2 id="三分别设置3台虚拟机的免密登录及计算机名称">三、分别设置3台虚拟机的免密登录及计算机名称
-</h2><ul>
-<li>（一）设置3台虚拟机的计算机名称
-<ul>
-<li>[root@localhost ~]# <code>hostnamectl  set-hostname  db00_1  &amp;&amp;  bash</code>
-<div class="highlight"><div class="chroma">
+</div><h3 id="e克隆操作克隆2台虚拟机">E.克隆操作（克隆2台虚拟机）
+</h3><p>1、创建完整克隆</p>
+<p>2、修改2台克隆机的仅主机模式的IP地址，分别修改为
+<code>192.168.100.20</code>和<code>192.168.100.30</code></p>
+<h3 id="f分别设置3台虚拟机的免密登录及计算机名称">F.分别设置3台虚拟机的免密登录及计算机名称
+</h3><h4 id="一设置3台虚拟机的计算机名称">（一）设置3台虚拟机的计算机名称
+</h4><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -529,9 +690,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hostnamectl  set-hostname  db00_1  <span class="o">&amp;&amp;</span>  bash
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-<li>[root@localhost ~]# <code>hostnamectl  set-hostname  db00_2  &amp;&amp;  bash</code>
-<div class="highlight"><div class="chroma">
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -539,9 +698,7 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hostnamectl  set-hostname  db00_2  <span class="o">&amp;&amp;</span>  bash
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-<li>[root@localhost ~]# <code>hostnamectl  set-hostname  db00_3  &amp;&amp;  bash</code>
-<div class="highlight"><div class="chroma">
+</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
@@ -549,64 +706,49 @@
 <pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">hostnamectl  set-hostname  db00_3  <span class="o">&amp;&amp;</span>  bash
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-</li>
-<li>（二）设置3台虚拟机免密登录
-<ul>
-<li>[root@db00_1 ~]# <code>ssh-keygen  -t  rsa</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#（一直按回车）</span>
-</span></span><span class="line"><span class="cl">ssh-keygen  -t  rsa
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>[root@db00_1 ~]# ssh-copy-id  192.168.100.20
+</div><h4 id="二设置3台虚拟机免密登录">（二）设置3台虚拟机免密登录
+</h4><p>1、 <code>ssh-keygen  -t  rsa</code>
+（一直按回车）</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh-copy-id  192.168.100.20
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">ssh-keygen  -t  rsa
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-<li>[root@db00_1 ~]# ssh-copy-id  192.168.100.30
+</div><p>2、[root@db00_1 ~]# <code>ssh-copy-id  192.168.100.20</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">ssh-copy-id  192.168.100.30
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">ssh-copy-id  192.168.100.20
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-</li>
-<li>（三）设置3台虚拟机的/etc/hosts文件
-<ul>
-<li>[root@db00_1 ~]# <code>vi  /etc/hosts</code>
+</div><p>3、[root@db00_1 ~]# <code>ssh-copy-id  192.168.100.30</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#添加如下代码</span>
-</span></span><span class="line"><span class="cl">192.168.100.10  db00_1
-</span></span><span class="line"><span class="cl">192.168.100.20  db00_2
-</span></span><span class="line"><span class="cl">192.168.100.30  db00_3
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">ssh-copy-id  192.168.100.30
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
+</div><h4 id="三设置3台虚拟机的etchosts文件">（三）设置3台虚拟机的/etc/hosts文件
+</h4><p>1、[root@db00_1 ~]# <code>vi  /etc/hosts</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">vi  /etc/hosts
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>添加如下代码
+<code>192.168.100.10  db00_1</code>
+<code>192.168.100.20  db00_2</code>
+<code>192.168.100.30  db00_3</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -614,118 +756,42 @@
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">* [root@db00_1 ~]# `scp  /etc/hosts  @192.168.100.20:/etc/`
-</span></span><span class="line"><span class="cl"> ```bash
-</span></span><span class="line"><span class="cl"> scp  /etc/hosts  @192.168.100.20:/etc/
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl"><span class="sb">`</span>192.168.100.10  db00_1<span class="sb">`</span>
+</span></span><span class="line"><span class="cl"><span class="sb">`</span>192.168.100.20  db00_2<span class="sb">`</span>
+</span></span><span class="line"><span class="cl"><span class="sb">`</span>192.168.100.30  db00_3<span class="sb">`</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>[root@db00_1 ~]# <code>scp  /etc/hosts  @192.168.100.30:/etc/</code>
+</div><p>2、[root@db00_1 ~]# <code>scp  /etc/hosts  @192.168.100.20:/etc/</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">scp  /etc/hosts  @192.168.100.30:/etc/
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">scp  /etc/hosts  @192.168.100.20:/etc/
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-</ul>
-</li>
-</ul>
-<h2 id="四配置3台虚拟机的yum源">四、配置3台虚拟机的yum源
-</h2><ul>
-<li>（一）准备操作
-<ul>
-<li>将<code>Docker.tar.gz</code>文件、<code>K8S.tar.gz</code>文件、<code>mdadm_yum</code>文件夹、<code>gpmall-repo</code>文件夹拷贝到<code>/opt</code>目录中</li>
-<li>[root@db00_1 ~]# <code>mkdir  /opt/centos</code>
+</div><p>3、[root@db00_1 ~]# <code>scp  /etc/hosts  @192.168.100.30:/etc/</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mkdir  /opt/centos
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">scp  /etc/hosts  @192.168.100.30:/etc/
 </span></span></code></pre></td></tr></table>
 </div>
-</div></li>
-<li>[root@db00_1 ~]# <code>vi  /etc/fstab</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vi  /etc/fstab
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#在最后添加一行：</span>
-</span></span><span class="line"><span class="cl">/dev/sr0        /opt/centos                     iso9660 defaults        <span class="m">0</span> <span class="m">0</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>[root@db00_1 ~]# <code>mount  -a</code></li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mount  -a
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>[root@db00_1 ~]# <code>tar  -zxvf  /opt/Docker.tar.gz  -C  /opt/</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar  -zxvf  /opt/Docker.tar.gz  -C  /opt/
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>[root@db00_1 ~]# <code>tar  -zxvf  /opt/K8S.tar.gz  -C  /opt/</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">tar  -zxvf  /opt/K8S.tar.gz  -C  /opt/
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-</ul>
-</li>
-<li>（二）配置db00_1的yum源
-<ul>
-<li>[root@db00_1 ~]# <code>mv  /etc/yum.repos.d/*  /tmp/</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mv  /etc/yum.repos.d/*  /tmp/
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>[root@db00_1 ~]# <code>vi  /etc/yum.repos.d/local.repo</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vi  /etc/yum.repos.d/local.repo
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-</ul>
-</li>
-</ul>
+</div><h3 id="g配置3台虚拟机的yum源">G.配置3台虚拟机的yum源
+</h3><h4 id="一准备操作">（一）准备操作
+</h4><p>1、将<code>Docker.tar.gz</code>文件、<code>K8S.tar.gz</code>文件、<code>mdadm_yum</code>文件夹、<code>gpmall-repo</code>文件夹拷贝到<code>/opt</code>目录中</p>
+<p>2、[root@db00_1 ~]# <code>mkdir  /opt/centos</code></p>
+<p>3、[root@db00_1 ~]# <code>vi  /etc/fstab</code>
+在最后添加一行：
+<code>/dev/sr0        /opt/centos                     iso9660 defaults        0 0</code></p>
+<p>4、[root@db00_1 ~]# <code>mount  -a</code></p>
+<p>5、[root@db00_1 ~]# <code>tar  -zxvf  /opt/Docker.tar.gz  -C  /opt/</code></p>
+<p>6、[root@db00_1 ~]# <code>tar  -zxvf  /opt/K8S.tar.gz  -C  /opt/</code></p>
+<h4 id="二配置db00_1的yum源">（二）配置db00_1的yum源
+</h4><p>1、[root@db00_1 ~]# <code>mv  /etc/yum.repos.d/*  /tmp/</code></p>
+<p>2、[root@db00_1 ~]# <code>vi  /etc/yum.repos.d/local.repo</code></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -782,97 +848,17 @@
 </span></span><span class="line"><span class="cl"><span class="nv">enabled</span><span class="o">=</span><span class="m">1</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><ul>
-<li>[root@db00_1 ~]# <code>yum  clean  all  &amp;&amp;  yum  repolist</code>
+</div><p>3、[root@db00_1 ~]# <code>yum  clean  all  &amp;&amp;  yum  repolist</code></p>
+<p>4、[root@db00_1 ~]# <code>yum  install  vsftpd  vim  -y</code></p>
+<p>5、[root@db00_1 ~]# <code>vim  /etc/vsftpd/vsftpd.conf</code></p>
+<p>在第13行添加：<code>anon_root=/opt</code></p>
+<p>6、[root@db00_1 ~]# <code>systemctl  restart  vsftpd  &amp;&amp;  systemctl  enable  vsftpd</code></p>
+<h4 id="三配置db00_2和db00_3的yum源">（三）配置db00_2和db00_3的yum源
+</h4><p>1、[root@db00_2 ~]# <code>mv  /etc/yum.repos.d/*  /tmp/</code></p>
+<p>2、[root@db00_3 ~]# <code>mv  /etc/yum.repos.d/*  /tmp/</code></p>
+<p>3、[root@db00_2 ~]# <code>scp  @192.168.100.10:/etc/yum.repos.d/local.repo  /etc/yum.repos.d/</code></p>
+<p>4、[root@db00_2 ~]# <code>vi  /etc/yum.repos.d/local.repo</code></p>
 <div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum  clean  all  <span class="o">&amp;&amp;</span>  yum  repolist
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>[root@db00_1 ~]# <code>yum  install  vsftpd  vim  -y</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum  install  vsftpd  vim  -y
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>[root@db00_1 ~]# <code>vim  /etc/vsftpd/vsftpd.conf</code>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vim  /etc/vsftpd/vsftpd.conf
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#在第13行添加：</span>
-</span></span><span class="line"><span class="cl"><span class="nv">anon_root</span><span class="o">=</span>/opt
-</span></span></code></pre></td></tr></table>
-</div>
-</div><ul>
-<li>[root@db00_1 ~]# <code>systemctl  restart  vsftpd  &amp;&amp;  systemctl  enable  vsftpd</code></li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">systemctl  restart  vsftpd  <span class="o">&amp;&amp;</span>  systemctl  <span class="nb">enable</span>  vsftpd
-</span></span></code></pre></td></tr></table>
-</div>
-</div></li>
-<li>（三）配置db00_2和db00_3的yum源
-1、[root@db00_2 ~]# <code>mv  /etc/yum.repos.d/*  /tmp/</code></li>
-</ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mv  /etc/yum.repos.d/*  /tmp/
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>2、[root@db00_3 ~]# <code>mv  /etc/yum.repos.d/*  /tmp/</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">mv  /etc/yum.repos.d/*  /tmp/
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>3、[root@db00_2 ~]# <code>scp  @192.168.100.10:/etc/yum.repos.d/local.repo  /etc/yum.repos.d/</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">scp  @192.168.100.10:/etc/yum.repos.d/local.repo  /etc/yum.repos.d/
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>4、[root@db00_2 ~]# <code>vi  /etc/yum.repos.d/local.repo</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">vi  /etc/yum.repos.d/local.repo
-</span></span></code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -929,242 +915,593 @@
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>5、[root@db00_2 ~]# <code>yum  clean  all  &amp;&amp;  yum  repolist</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum  clean  all  <span class="o">&amp;&amp;</span>  yum  repolist
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>6、[root@db00_2 ~]# <code>scp  /etc/yum.repos.d/local.repo  @192.168.100.30:/etc/yum.repos.d/</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">scp  /etc/yum.repos.d/local.repo  @192.168.100.30:/etc/yum.repos.d/
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>7、[root@db00_2 ~]# <code>yum  install  vim  -y</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum  install  vim  -y
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>8、[root@db00_3 ~]# <code>yum  clean  all  &amp;&amp;  yum  repolist</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum  clean  all  <span class="o">&amp;&amp;</span>  yum  repolist
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p>9、[root@db00_3 ~]# <code>yum  install  vim  -y</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">yum  install  vim  -y
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h2 id="五3台虚拟机分别关机做快照">五、3台虚拟机分别关机做快照
-</h2><p>（一）创建Raid5磁盘
-项目要求：在db1的虚拟机中添加4块大小为1GB的磁盘，将其中的3块创建Raid5模式的磁盘，还有一块作为热备盘，创建的磁盘名称为md5。
-1、	在db1中添加4块磁盘</p>
-<p>2、	查询磁盘：[root@db00_1 ~]# lsblk</p>
-<p>3、[root@db00_1 ~]# yum  install  mdadm  -y
-4、[root@db00_1 ~]# mdadm  -Cv  /dev/md5  -l  5  -n  3  /dev/sdb  /dev/sdc  /dev/sdd  &ndash;spare-devices=1  /dev/sde
-5、[root@db00_1 ~]# mdadm  -D  /dev/md5</p>
-<p>6、格式化md5磁盘，并加载
-（1）[root@db00_1 ~]# mkfs.xfs  /dev/md5
-（2）[root@db00_1 ~]# mkdir  /data
-（3）[root@db00_1 ~]# mount  /dev/md5  /data/
-（4）[root@db00_1 ~]# vim  /etc/fstab
+<p>6、[root@db00_2 ~]# <code>scp  /etc/yum.repos.d/local.repo  @192.168.100.30:/etc/yum.repos.d/</code></p>
+<p>7、[root@db00_2 ~]# <code>yum  install  vim  -y</code></p>
+<p>8、[root@db00_3 ~]# <code>yum  clean  all  &amp;&amp;  yum  repolist</code></p>
+<p>9、[root@db00_3 ~]# <code>yum  install  vim  -y</code></p>
+<h3 id="h3台虚拟机分别关机做快照">H.3台虚拟机分别关机做快照
+</h3><h4 id="一创建raid5磁盘">（一）创建Raid5磁盘
+</h4><p>项目要求：在db1的虚拟机中添加4块大小为1GB的磁盘，将其中的3块创建Raid5模式的磁盘，还有一块作为热备盘，创建的磁盘名称为md5。
+1、在db1中</p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.1.jpg"
+	width="361"
+	height="235"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.1_hu_6ed6873caf4f7ca4.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.1_hu_db1452b7ea794810.jpg 1024w"
+	loading="lazy"
+	
+		alt="添加4块磁盘"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="153"
+		data-flex-basis="368px"
+	
+></p>
+<p>2、查询磁盘：[root@db00_1 ~]# <code>lsblk</code></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.2.jpg"
+	width="387"
+	height="176"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.2_hu_78e0079d9934da38.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.2_hu_3104a1dd2e43ffa8.jpg 1024w"
+	loading="lazy"
+	
+		alt="查询磁盘"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="219"
+		data-flex-basis="527px"
+	
+></p>
+<p>3、[root@db00_1 ~]# <code>yum  install  mdadm  -y</code></p>
+<p>4、[root@db00_1 ~]# <code>mdadm  -Cv  /dev/md5  -l  5  -n  3  /dev/sdb  /dev/sdc  /dev/sdd  --spare-devices=1  /dev/sde</code></p>
+<p>5、[root@db00_1 ~]# <code>mdadm  -D  /dev/md5</code></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.3.jpg"
+	width="532"
+	height="110"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.3_hu_d4b5c013e9ba290b.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.3_hu_d44bbf5a5a1fb454.jpg 1024w"
+	loading="lazy"
+	
+		alt="查询磁盘"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="483"
+		data-flex-basis="1160px"
+	
+></p>
+<h3 id="l格式化md5磁盘并加载">L.格式化md5磁盘，并加载
+</h3><p>（1）[root@db00_1 ~]# <code>mkfs.xfs  /dev/md5</code>
+（2）[root@db00_1 ~]# <code>mkdir  /data</code>
+（3）[root@db00_1 ~]# <code>mount  /dev/md5  /data/</code>
+（4）[root@db00_1 ~]# <code>vim  /etc/fstab</code>
 在最后添加一行
-/dev/md5        /data                           xfs     defaults        0 0
-7、测试
-（1）[root@db00_1 ~]# touch  /data/test.txt
-（2）[root@db00_1 ~]# df  -Th
-（3）关机将其中一块磁盘移除
-（4）</p>
-<p>（二）项目要求：在上述创建的/data目录中添加NFS服务，允许db2虚拟机对该目录可读可写，允许db3虚拟机对该目录只有只读权限。
-1、[root@db00_1 ~]# yum  install  nfs-utils  -y
-2、[root@db00_1 ~]# vim  /etc/exports
-/data  192.168.100.20(rw,sync,root_squash)
-3、[root@db00_1 ~]# systemctl  restart  nfs-server  &amp;&amp;  systemctl  enable  nfs-server
-4、[root@db00_1 ~]# chmod  -R  777  /data/
-5、[root@db00_2 ~]# yum  install  nfs-utils  -y
-6、[root@db00_2 ~]# mkdir  /data_test
-7、[root@db00_2 ~]# mount  -t  nfs  192.168.100.10:/data /data_test/
-8、[root@db00_2 ~]# touch  /data_test/test1.txt
-9、[root@db00_1 ~]# vim  /etc/exports
-/data  192.168.100.30(ro,sync,root_squash)
-10、[root@db00_1 ~]# systemctl  restart  nfs-server
-11、[root@db00_3 ~]# mkdir  /data_test
-12、[root@db00_3 ~]# yum  install  nfs-utils  -y
-13、[root@db00_3 ~]# mount  -t  nfs  192.168.100.10:/data  /data_test/
-14、[root@db00_3 ~]# touch  /data_test/test2.txt</p>
-<p>15、[root@db00_3 ~]# df  -Th</p>
-<p>2.27.2025
-数据库云安全配置
-项目要求：
-1、	构建主从数据库同步：将db1设置为主数据库服务器，将db2设置为从数据库服务器；
-2、	构建读写分离数据库：将db1设置为只写数据库系统，将db2设置为只读数据库系统；
-一、	构建主从数据库同步系统
-1、	在db1和db2中安装数据库系统
-（1）[root@db00_1 ~]# yum  install  mariadb  mariadb-server  -y
-（2）[root@db00_2 ~]# yum  install  mariadb  mariadb-server  -y
-（3）[root@db00_1 ~]# systemctl  restart  mariadb  &amp;&amp;  systemctl  enable  mariadb
-（4）[root@db00_2 ~]# systemctl  restart  mariadb  &amp;&amp;  systemctl  enable  mariadb
-2、分别设置db1和db2数据库系统
-（1）[root@db00_1 ~]# mysql_secure_installation</p>
-<p>（2）[root@db00_2 ~]# mysql_secure_installation
-3、修改db1中的my.cnf文件
-（1）[root@db00_1 ~]# vim  /etc/my.cnf
-在最后添加：
-[mysqld]
-server_id=10
-log_bin=mysql-bin
-binlog_ignore_db=mysql
-（2）[root@db00_1 ~]# systemctl  restart  mariadb
-4、设置db1数据库
-（1）[root@db00_1 ~]# mysql  -uroot  -p123456
-（2）MariaDB [(none)]&gt; grant  all  privileges  on  <em>.</em>  to  root@&rsquo;%&rsquo;  identified  by  &lsquo;123456&rsquo;;
-（3）使用navicat工具远程连接数据库</p>
-<p>（4）MariaDB [(none)]&gt; grant  replication  slave  on  <em>.</em>  to  &lsquo;user&rsquo;@&lsquo;db00_2&rsquo;  identified  by  &lsquo;123456&rsquo;;
-进入db2虚拟机中
-（5）[root@db00_2 ~]# mysql  -uroot  -p123456
-（6）MariaDB [(none)]&gt; change  master  to  master_host=&lsquo;db00_1&rsquo;,master_user=&lsquo;user&rsquo;,master_password=&lsquo;123456&rsquo;;
-（7）MariaDB [(none)]&gt; start  slave;
-（8）MariaDB [(none)]&gt; show  slave  status\G</p>
-<p>5、在db1中创建数据库和表
-（1）创建数据库</p>
-<p>（2）创建表</p>
-<p>（3）插入一条数据</p>
-<p>二、	构建读写分离数据库系统
-虚拟机	任务分工	作用
-Db1	负责写入	写入、修改、删除功能
-Db2	负责读取	只有查询功能
-Db3	负责管理	只有代理功能
-1、进入db3虚拟机中
-[root@db00_3 ~]# yum  install  java-1.8.0-openjdk  java-1.8.0-openjdk-devel  net-tools  MariaDB-client  -y
-2、	将Mycat-server-1.6-RELEASE-20161028204710-linux.tar.gz拷贝到/opt目录中
-3、	[root@db00_3 ~]# tar  -zxvf  /opt/Mycat-server-1.6-RELEASE-20161028204710-linux.tar.gz  -C  /usr/local/
-4、	[root@db00_3 ~]# chown  -R  777  /usr/local/mycat/
-5、	[root@db00_3 ~]# echo  export  MYCAT_HOME=/usr/local/mycat/ &raquo; /etc/profile
-6、	[root@db00_3 ~]# source  /etc/profile
-7、	[root@db00_3 ~]# mv  /usr/local/mycat/conf/schema.xml  /usr/local/mycat/conf/schema.xml.bak
-8、	将schema.xml文件拷贝到/usr/local/mycat/conf/目录中
-9、	[root@db00_3 ~]# vim  /usr/local/mycat/conf/schema.xml</p>
-<p>10、[root@db00_3 ~]# chown  root:root  /usr/local/mycat/conf/server.xml
-11、[root@db00_3 ~]# vim  /usr/local/mycat/conf/server.xml
-（1）修改第82行：<property name="schemas">USERDB</property>
+<code>/dev/md5        /data                           xfs     defaults        0 0</code></p>
+<h3 id="m测试">M.测试
+</h3><h4 id="一">（一）
+</h4><p>（1）[root@db00_1 ~]# <code>touch  /data/test.txt</code></p>
+<p>（2）[root@db00_1 ~]# <code>df  -Th</code></p>
+<p>（3）关机将其中一块磁盘移除</p>
+<p>（4）<img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.4.jpg"
+	width="532"
+	height="81"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.4_hu_f33e3126f6b96c5e.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.4_hu_764d5baae0482b1.jpg 1024w"
+	loading="lazy"
+	
+		alt="结果"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="656"
+		data-flex-basis="1576px"
+	
+></p>
+<h4 id="二项目要求在上述创建的data目录中添加nfs服务允许db2虚拟机对该目录可读可写允许db3虚拟机对该目录只有只读权限">（二）项目要求：在上述创建的/data目录中添加NFS服务，允许db2虚拟机对该目录可读可写，允许db3虚拟机对该目录只有只读权限。
+</h4><p>1、[root@db00_1 ~]# <code>yum  install  nfs-utils  -y</code>
+2、[root@db00_1 ~]# <code>vim  /etc/exports</code></p>
+<p><code>/data  192.168.100.20(rw,sync,root_squash)</code></p>
+<p>3、[root@db00_1 ~]# <code>systemctl  restart  nfs-server  &amp;&amp;  systemctl  enable  nfs-server</code></p>
+<p>4、[root@db00_1 ~]# <code>chmod  -R  777  /data/</code></p>
+<p>5、[root@db00_2 ~]# <code>yum  install  nfs-utils  -y</code></p>
+<p>6、[root@db00_2 ~]# <code>mkdir  /data_test</code></p>
+<p>7、[root@db00_2 ~]# <code>mount  -t  nfs  192.168.100.10:/data /data_test/</code></p>
+<p>8、[root@db00_2 ~]# <code>touch  /data_test/test1.txt</code></p>
+<p>9、[root@db00_1 ~]# <code>vim  /etc/exports</code></p>
+<p><code>/data  192.168.100.30(ro,sync,root_squash)</code></p>
+<p>10、[root@db00_1 ~]# <code>systemctl  restart  nfs-server</code></p>
+<p>11、[root@db00_3 ~]# <code>mkdir  /data_test</code></p>
+<p>12、[root@db00_3 ~]# <code>yum  install  nfs-utils  -y</code></p>
+<p>13、[root@db00_3 ~]# <code>mount  -t  nfs  192.168.100.10:/data  /data_test/</code></p>
+<p>14、[root@db00_3 ~]# <code>touch  /data_test/test2.txt</code></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.5.jpg"
+	width="532"
+	height="48"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.5_hu_312482bea2116d6c.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.5_hu_db2905a8bf4b108b.jpg 1024w"
+	loading="lazy"
+	
+		alt="创建失败"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="1108"
+		data-flex-basis="2660px"
+	
+></p>
+<p>15、[root@db00_3 ~]# <code>df  -Th</code></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.6.jpg"
+	width="532"
+	height="149"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.6_hu_c8f59d679d97cb9a.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.6_hu_cab8c165eaf2a07c.jpg 1024w"
+	loading="lazy"
+	
+		alt="查看系统磁盘空间使用情况"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="357"
+		data-flex-basis="856px"
+	
+></p>
+<h2 id="二数据库云安全配置">二、数据库云安全配置
+</h2><p>项目要求：
+•构建主从数据库同步：将db1设置为主数据库服务器，将db2设置为从数据库服务器；
+•构建读写分离数据库：将db1设置为只写数据库系统，将db2设置为只读数据库系统；
+•构建主从数据库同步系统
+•在db1和db2中安装数据库系统</p>
+<h3 id="安装并设置开机自启-mariadb-服务">安装并设置开机自启 MariaDB 服务
+</h3><h4 id="1rootdb00_1--yum--install--mariadb--mariadb-server---y">（1）[root@db00_1 ~]# <code>yum  install  mariadb  mariadb-server  -y</code>
+</h4><h4 id="2rootdb00_2--yum--install--mariadb--mariadb-server---y">（2）[root@db00_2 ~]# <code>yum  install  mariadb  mariadb-server  -y</code>
+</h4><h4 id="3rootdb00_1--systemctl--restart--mariadb----systemctl--enable--mariadb">（3）[root@db00_1 ~]# <code>systemctl  restart  mariadb  &amp;&amp;  systemctl  enable  mariadb</code>
+</h4><h4 id="4rootdb00_2--systemctl--restart--mariadb----systemctl--enable--mariadb">（4）[root@db00_2 ~]# <code>systemctl  restart  mariadb  &amp;&amp;  systemctl  enable  mariadb</code>
+</h4><h3 id="分别设置db1和db2数据库系统">分别设置db1和db2数据库系统
+</h3><h4 id="1rootdb00_1--mysql_secure_installation">（1）[root@db00_1 ~]# <code>mysql_secure_installation</code>
+</h4><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.7.jpg"
+	width="447"
+	height="350"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.7_hu_de51b93c793869f0.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.7_hu_cdc87711a6441dce.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="127"
+		data-flex-basis="306px"
+	
+></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.8.jpg"
+	width="532"
+	height="436"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.8_hu_2cb60e9f6ee19c44.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.8_hu_903edf3a44209139.jpg 1024w"
+	loading="lazy"
+	
+		alt="增强数据库的安全性"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="122"
+		data-flex-basis="292px"
+	
+></p>
+<h4 id="2rootdb00_2--mysql_secure_installation">（2）[root@db00_2 ~]# <code>mysql_secure_installation</code>
+</h4><h3 id="修改db1中的mycnf文件">修改db1中的my.cnf文件
+</h3><h4 id="1rootdb00_1--vim--etcmycnf">（1）[root@db00_1 ~]# ``vim  /etc/my.cnf`
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1">#在最后添加：</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>mysqld<span class="o">]</span>
+</span></span><span class="line"><span class="cl"><span class="nv">server_id</span><span class="o">=</span><span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="nv">log_bin</span><span class="o">=</span>mysql-bin
+</span></span><span class="line"><span class="cl"><span class="nv">binlog_ignore_db</span><span class="o">=</span>mysql
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="2rootdb00_1--systemctl--restart--mariadb">（2）[root@db00_1 ~]# <code>systemctl  restart  mariadb</code>
+</h4><h3 id="设置db1数据库">设置db1数据库
+</h3><h4 id="1rootdb00_1--mysql---uroot---p123456">（1）[root@db00_1 ~]# <code>mysql  -uroot  -p123456</code>
+</h4><h4 id="2mariadb-none-grant--all--privileges--on----to--root--identified--by--123456">（2）MariaDB [(none)]&gt; <code>grant  all  privileges  on  *.*  to  root@'%'  identified  by  '123456';</code>
+</h4><h4 id="3使用navicat工具远程连接数据库">（3）使用navicat工具远程连接数据库
+</h4><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.9.jpg"
+	width="290"
+	height="304"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.9_hu_a825b22a9efeb678.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.9_hu_8b854fb6554f93fe.jpg 1024w"
+	loading="lazy"
+	
+		alt="远程连接数据库"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="95"
+		data-flex-basis="228px"
+	
+></p>
+<h4 id="4mariadb-none-grant--replication--slave--on----to--userdb00_2--identified--by--123456">（4）MariaDB [(none)]&gt; <code>grant  replication  slave  on  *.*  to  'user'@'db00_2'  identified  by  '123456';</code>
+</h4><p>进入db2虚拟机中</p>
+<h4 id="5rootdb00_2--mysql---uroot---p123456">（5）[root@db00_2 ~]# <code>mysql  -uroot  -p123456</code>
+</h4><h4 id="6mariadb-none-change--master--to--master_hostdb00_1master_userusermaster_password123456">（6）MariaDB [(none)]&gt; <code>change  master  to  master_host='db00_1',master_user='user',master_password='123456';</code>
+</h4><h4 id="7mariadb-none-start--slave">（7）MariaDB [(none)]&gt; <code>start  slave;</code>
+</h4><h4 id="8mariadb-none-show--slave--statusg">（8）MariaDB [(none)]&gt; <code>show  slave  status\G</code>
+</h4><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.10.jpg"
+	width="441"
+	height="196"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.10_hu_97c1920b9d8cd2bd.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.10_hu_e34a9b9511f39898.jpg 1024w"
+	loading="lazy"
+	
+		alt="查看从库（slave）状态的命令"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="225"
+		data-flex-basis="540px"
+	
+></p>
+<h3 id="在db1中创建数据库和表">在db1中创建数据库和表
+</h3><h4 id="1创建数据库">（1）创建数据库
+</h4><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.11.jpg"
+	width="281"
+	height="159"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.11_hu_7e58564e4b74f820.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.11_hu_336abf0ed180ce9a.jpg 1024w"
+	loading="lazy"
+	
+		alt="创建数据库"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="176"
+		data-flex-basis="424px"
+	
+></p>
+<h4 id="2创建表">（2）创建表
+</h4><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.12.jpg"
+	width="532"
+	height="370"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.12_hu_ac4b875d43dfed39.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.12_hu_738e44a2a3f82e7a.jpg 1024w"
+	loading="lazy"
+	
+		alt="创建表"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="143"
+		data-flex-basis="345px"
+	
+></p>
+<h4 id="3插入一条数据">（3）插入一条数据
+</h4><p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.14.jpg"
+	width="455"
+	height="122"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.14_hu_d883267f0bac2d71.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.14_hu_a6943727095cbe77.jpg 1024w"
+	loading="lazy"
+	
+		alt="插入一条数据"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="372"
+		data-flex-basis="895px"
+	
+></p>
+<h3 id="构建读写分离数据库系统">构建读写分离数据库系统
+</h3><div class="table-wrapper"><table>
+  <thead>
+      <tr>
+          <th>虚拟机</th>
+          <th>任务分工</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Db1</td>
+          <td>负责写入</td>
+          <td>写入、修改、删除功能</td>
+      </tr>
+      <tr>
+          <td>Db2</td>
+          <td>负责读取</td>
+          <td>只有查询功能</td>
+      </tr>
+      <tr>
+          <td>Db3</td>
+          <td>负责管理</td>
+          <td>只有代理功能</td>
+      </tr>
+  </tbody>
+</table></div>
+<h4 id="进入-db3-虚拟机并安装必要软件">进入 db3 虚拟机并安装必要软件
+</h4><p>1.[root@db00_3 ~]# <code>yum  install  java-1.8.0-openjdk  java-1.8.0-openjdk-devel  net-tools  MariaDB-client  -y</code></p>
+<ol start="2">
+<li>
+<p>将<code>Mycat-server-1.6-RELEASE-20161028204710-linux.tar.gz</code>拷贝到<code>/opt</code>目录中</p>
+</li>
+<li>
+<p>[root@db00_3 ~]# <code>tar  -zxvf  /opt/Mycat-server-1.6-RELEASE-20161028204710-linux.tar.gz  -C  /usr/local/</code></p>
+</li>
+<li>
+<p>[root@db00_3 ~]# <code>chown  -R  777  /usr/local/mycat/</code></p>
+</li>
+<li>
+<p>[root@db00_3 ~]# <code>echo  export  MYCAT_HOME=/usr/local/mycat/ &gt;&gt; /etc/profile</code></p>
+</li>
+<li>
+<p>[root@db00_3 ~]# <code>source  /etc/profile</code></p>
+</li>
+<li>
+<p>[root@db00_3 ~]# <code>mv  /usr/local/mycat/conf/schema.xml  /usr/local/mycat/conf/schema.xml.bak</code></p>
+</li>
+<li>
+<p>将<code>schema.xml</code>文件拷贝到<code>/usr/local/mycat/conf/</code>目录中</p>
+</li>
+<li>
+<p>[root@db00_3 ~]# <code>vim  /usr/local/mycat/conf/schema.xml</code></p>
+</li>
+</ol>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.15.jpg"
+	width="532"
+	height="171"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.15_hu_2e750fc49a6b0792.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.15_hu_999b1ef3fa171321.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="311"
+		data-flex-basis="746px"
+	
+></p>
+<ol start="10">
+<li>
+<p>[root@db00_3 ~]# <code>chown  root:root  /usr/local/mycat/conf/server.xml</code></p>
+</li>
+<li>
+<p>[root@db00_3 ~]# <code>vim  /usr/local/mycat/conf/server.xml</code></p>
+</li>
+</ol>
+<p>（1）修改第82行：<code>&lt;property name=&quot;schemas&quot;&gt;USERDB&lt;/property&gt;</code>
 （2）删除如下5行代码</p>
-<p>12、[root@db00_3 ~]# /bin/bash  /usr/local/mycat/bin/mycat  start
-13、[root@db00_3 ~]# netstat  -ntpl</p>
-<p>14、[root@db00_3 ~]# mysql  -h127.0.0.1  -P8066  -uroot  -p123456</p>
-<p>15、[root@db00_3 ~]# mysql  -h127.0.0.1  -P9066  -uroot  -p123456  -e  &lsquo;show  @@datasource;&rsquo;</p>
-<p>容器云操作
-一、	配置三台虚拟机的yum源
-1、	先将所有的默认yum源拷贝到/etc/yum.repos.d目录中
-2、	将CentOS-Base.repo文件替换原来的CentOS-Base.repo文件
-3、	[root@db00_1 ~]# scp  /etc/yum.repos.d/CentOS-*  @192.168.100.20:/etc/yum.repos.d/
-4、	[root@db00_1 ~]# scp  /etc/yum.repos.d/CentOS-*  @192.168.100.30:/etc/yum.repos.d/
-5、	# yum  repolist</p>
-<p>6、	分别升级yum源：# yum  update  -y
-二、	分别设置3台虚拟机的时钟
-1、# yum  install  ntpdate  -y
-2、# ntpdate  cn.pool.ntp.org
-3、# crontab  -e</p>
-<ul>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.16.jpg"
+	width="532"
+	height="113"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.16_hu_f1f2b1aa74269dd9.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.16_hu_84f19a0476eec86e.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="470"
+		data-flex-basis="1129px"
+	
+></p>
+<ol start="12">
 <li>
-<ul>
+<p>[root@db00_3 ~]# <code>/bin/bash  /usr/local/mycat/bin/mycat  start</code></p>
+</li>
 <li>
-<ul>
-<li>
-<ul>
-<li>
-<ul>
-<li>/usr/sbin/ntpdate  cn.pool.ntp.org
-4、# hwclock  -s
-5、# date
-三、分别开启3台虚拟机的路由转发功能
-1、# modprobe  br_netfilter
-2、[root@db00_1 ~]# vim  /etc/sysctl.d/docker.conf
-net.bridge.bridge-nf-call-ip6tables=1
-net.bridge.bridge-nf-call-iptables=1
-net.ipv4.ip_forward=1
-3、[root@db00_1 ~]# scp  /etc/sysctl.d/docker.conf  @192.168.100.20:/etc/sysctl.d/
-4、[root@db00_1 ~]# scp  /etc/sysctl.d/docker.conf  @192.168.100.30:/etc/sysctl.d/
-5、# sysctl  -p  /etc/sysctl.d/docker.conf
-四、分别在3台虚拟机中安装docker容器
-1、# yum  install  docker-ce  docker-ce-cli  containerd.io  -y
-2、# systemctl  restart  docker  &amp;&amp;  systemctl  enable  docker  &amp;&amp;  systemctl  daemon-reload
+<p>[root@db00_3 ~]# <code>netstat  -ntpl</code></p>
+</li>
+</ol>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.17.jpg"
+	width="352"
+	height="71"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.17_hu_3e1983265bf36c17.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.17_hu_a4efe89ce52980bc.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="495"
+		data-flex-basis="1189px"
+	
+></p>
+<ol start="14">
+<li>[root@db00_3 ~]# <code>mysql  -h127.0.0.1  -P8066  -uroot  -p123456</code></li>
+</ol>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.18.jpg"
+	width="532"
+	height="320"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.18_hu_6138dd8636dfcc97.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.18_hu_8d4fbf498a7ba196.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="166"
+		data-flex-basis="399px"
+	
+></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.19.jpg"
+	width="532"
+	height="354"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.19_hu_538eea577bec6624.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.19_hu_bb4fa56d982bd212.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="150"
+		data-flex-basis="360px"
+	
+></p>
+<ol start="15">
+<li>[root@db00_3 ~]# <code>mysql  -h127.0.0.1  -P9066  -uroot  -p123456  -e  'show  @@datasource;'</code></li>
+</ol>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.20.jpg"
+	width="532"
+	height="62"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.20_hu_58056ed50ef31cb1.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/2.20_hu_3d8658abb4252515.jpg 1024w"
+	loading="lazy"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="858"
+		data-flex-basis="2059px"
+	
+></p>
+<h2 id="三容器云操作">三、容器云操作
+</h2><h3 id="配置三台虚拟机的yum源">配置三台虚拟机的yum源
+</h3><p>•先将所有的默认yum源拷贝到<code>/etc/yum.repos.d</code>目录中</p>
+<p>•将<code>CentOS-Base.repo</code>文件替换原来的<code>CentOS-Base.repo</code>文件</p>
+<p>•[root@db00_1 ~]# <code>scp  /etc/yum.repos.d/CentOS-*  @192.168.100.20:/etc/yum.repos.d/</code></p>
+<p>•[root@db00_1 ~]# <code>scp  /etc/yum.repos.d/CentOS-*  @192.168.100.30:/etc/yum.repos.d/</code>
+•# yum  repolist</p>
+<h3 id="分别升级yum源-yum--update---y">分别升级yum源：# yum  update  -y
+</h3><p>•分别设置3台虚拟机的时钟
+1、# <code>yum  install  ntpdate  -y</code></p>
+<p>2、# <code>ntpdate  cn.pool.ntp.org</code></p>
+<p>3、# <code>crontab  -e</code></p>
+<p><code>* * * * *  /usr/sbin/ntpdate  cn.pool.ntp.org</code></p>
+<p>4、# <code>hwclock  -s</code></p>
+<p>5、# <code>date</code></p>
+<h3 id="分别开启3台虚拟机的路由转发功能">分别开启3台虚拟机的路由转发功能
+</h3><p>1、# <code>modprobe  br_netfilter</code></p>
+<p>2、[root@db00_1 ~]# <code>vim  /etc/sysctl.d/docker.conf</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">net.bridge.bridge-nf-call-ip6tables<span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">net.bridge.bridge-nf-call-iptables<span class="o">=</span><span class="m">1</span>
+</span></span><span class="line"><span class="cl">net.ipv4.ip_forward<span class="o">=</span><span class="m">1</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>3、[root@db00_1 ~]# <code>scp  /etc/sysctl.d/docker.conf  @192.168.100.20:/etc/sysctl.d/</code></p>
+<p>4、[root@db00_1 ~]# <code>scp  /etc/sysctl.d/docker.conf  @192.168.100.30:/etc/sysctl.d/</code></p>
+<p>5、# <code>sysctl  -p  /etc/sysctl.d/docker.conf</code></p>
+<h3 id="分别在3台虚拟机中安装docker容器">分别在3台虚拟机中安装docker容器
+</h3><p>1、# <code>yum  install  docker-ce  docker-ce-cli  containerd.io  -y</code></p>
+<p>2、# <code>systemctl  restart  docker  &amp;&amp;  systemctl  enable  docker  &amp;&amp;  systemctl  daemon-reload</code>
 3、查询容器的运行状况
-（1）# docker  info
-（2）# systemctl  status  docker</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>五、docker的使用方法
-（一）镜像的常用命令
-1、从网上下载镜像：# docker  pull  m.daocloud.io/docker.io/library/nginx
-2、查询本地镜像：# docker  images
-3、将镜像制作成离线文件：[root@db00_1 ~]# docker  save  -o  nginx.tar.gz  m.daocloud.io/docker.io/library/nginx:latest
-（1）[root@db00_1 ~]# scp  nginx.tar.gz  @192.168.100.20:/opt/
-（2）[root@db00_1 ~]# scp  nginx.tar.gz  @192.168.100.30:/opt/
+（1）# <code>docker  info</code></p>
+<p>（2）# <code>systemctl  status  docker</code></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/3.1.jpg"
+	width="267"
+	height="89"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/3.1_hu_731a1735005046af.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/3.1_hu_55fec4d59165c7f0.jpg 1024w"
+	loading="lazy"
+	
+		alt="查询容器的运行状况"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="300"
+		data-flex-basis="720px"
+	
+></p>
+<h3 id="docker的使用方法">docker的使用方法
+</h3><h4 id="一镜像的常用命令">（一）镜像的常用命令
+</h4><p>1、从网上下载镜像：# <code>docker  pull  m.daocloud.io/docker.io/library/nginx</code>
+2、查询本地镜像：# <code>docker  images</code>
+3、将镜像制作成离线文件：[root@db00_1 ~]# <code>docker  save  -o  nginx.tar.gz  m.daocloud.io/docker.io/library/nginx:latest</code>
+（1）[root@db00_1 ~]# <code>scp  nginx.tar.gz  @192.168.100.20:/opt/</code>
+（2）[root@db00_1 ~]# <code>scp  nginx.tar.gz  @192.168.100.30:/opt/</code>
 4、利用离线镜像文件生成本地镜像
-（1）[root@db00_2 ~]# docker  load  -i  /opt/nginx.tar.gz
-（2）[root@db00_3 ~]# docker  load  -i  /opt/nginx.tar.gz
-5、删除镜像：[root@db00_3 ~]# docker  rmi  -f  b52e0b094bc0
-（二）容器常用命令
-1、查询容器：[root@db00_1 ~]# docker  ps  -a
-2、生成容器：[root@db00_1 ~]# docker  run  &ndash;name=nginx00  -itd  m.daocloud.io/docker.io/library/nginx:latest
-3、进入容器：[root@db00_1 ~]# docker  exec  -it  nginx00  /bin/bash
-4、停止运行容器：[root@db00_1 ~]# docker  stop  nginx00
-5、删除容器：[root@db00_1 ~]# docker  rm  -f  nginx00
-六、利用docker容器部署nginx服务
-1、[root@db00_1 ~]# docker  pull  m.daocloud.io/docker.io/library/centos
-2、[root@db00_1 ~]# docker  run  &ndash;name=centos26  -itd  -p  81:81  m.daocloud.io/docker.io/library/centos:latest
-3、[root@db00_1 ~]# docker  exec  -it  centos26  /bin/bash
-4、[root@a70328fb312a /]# ping  baidu.com  -c4
+（1）[root@db00_2 ~]# <code>docker  load  -i  /opt/nginx.tar.gz</code>
+（2）[root@db00_3 ~]# <code>docker  load  -i  /opt/nginx.tar.gz</code>
+5、删除镜像：[root@db00_3 ~]# <code>docker  rmi  -f  b52e0b094bc0</code></p>
+<h4 id="二容器常用命令">（二）容器常用命令
+</h4><p>1、查询容器：[root@db00_1 ~]# <code>docker  ps  -a</code>
+2、生成容器：[root@db00_1 ~]# <code>docker  run  --name=nginx00  -itd  m.daocloud.io/docker.io/library/nginx:latest</code>
+3、进入容器：[root@db00_1 ~]# <code>docker  exec  -it  nginx00  /bin/bash</code>
+4、停止运行容器：[root@db00_1 ~]# <code>docker  stop  nginx00</code>
+5、删除容器：[root@db00_1 ~]# <code>docker  rm  -f  nginx00</code></p>
+<h3 id="利用docker容器部署nginx服务">利用docker容器部署nginx服务
+</h3><p>1、[root@db00_1 ~]# <code>docker  pull  m.daocloud.io/docker.io/library/centos</code>
+2、[root@db00_1 ~]# <code>docker  run  --name=centos00  -itd  -p  81:81  m.daocloud.io/docker.io/library/centos:latest</code>
+3、[root@db00_1 ~]# <code>docker  exec  -it  centos00  /bin/bash</code>
+4、[root@a70328fb312a /]# <code>ping  baidu.com  -c4</code>
 5、更新yum源
-（1）[root@a70328fb312a /]# cd  /etc/yum.repos.d/
-（2）[root@a70328fb312a yum.repos.d]# sed  -i  &rsquo;s/mirrorlist/#mirrorlist/g&rsquo;  /etc/yum.repos.d/CentOS-*
-（3）[root@a70328fb312a yum.repos.d]# sed  -i  &rsquo;s|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g&rsquo;  /etc/yum.repos.d/CentOS-*
-（4）[root@a70328fb312a yum.repos.d]# yum  update  -y
-6、[root@a70328fb312a yum.repos.d]# yum  install  nginx  vim  -y
-7、[root@fb17db586d04 yum.repos.d]# mkdir  -p  /var/www/html  &amp;&amp;  cd  /var/www/html/
-8、[root@fb17db586d04 html]# vim  index.html</p>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>学号和姓名</title>
-  </head>
-  <body>
-    <h1>学号：00<br />姓名：张三</h1>
-  </body>
-</html>
-9、[root@fb17db586d04 html]# vim  /etc/nginx/nginx.conf
-（1）修改第39、40行的80端口
-listen       81 default_server;
-        listen       [::]:81 default_server;
-（2）修改第42行：root         /var/www/html/;
-10、[root@fb17db586d04 html]# /usr/sbin/nginx
-11、打开浏览器：http://192.168.100.10:81/
-
+（1）[root@a70328fb312a /]# <code>cd  /etc/yum.repos.d/</code>
+（2）[root@a70328fb312a yum.repos.d]# <code>sed  -i  's/mirrorlist/#mirrorlist/g'  /etc/yum.repos.d/CentOS-*</code>
+（3）[root@a70328fb312a yum.repos.d]# <code>sed  -i  's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g'  /etc/yum.repos.d/CentOS-*</code>
+（4）[root@a70328fb312a yum.repos.d]# <code>yum  update  -y</code>
+6、[root@a70328fb312a yum.repos.d]# <code>yum  install  nginx  vim  -y</code>
+7、[root@fb17db586d04 yum.repos.d]# <code>mkdir  -p  /var/www/html  &amp;&amp;  cd  /var/www/html/</code>
+8、[root@fb17db586d04 html]# <code>vim  index.html</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">&lt;html&gt;
+</span></span><span class="line"><span class="cl">  &lt;head&gt;
+</span></span><span class="line"><span class="cl">    &lt;meta <span class="nv">charset</span><span class="o">=</span><span class="s2">&#34;utf-8&#34;</span>&gt;
+</span></span><span class="line"><span class="cl">    &lt;title&gt;学号和姓名&lt;/title&gt;
+</span></span><span class="line"><span class="cl">  &lt;/head&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  &lt;body&gt;
+</span></span><span class="line"><span class="cl">    &lt;h1&gt;学号：00&lt;br /&gt;姓名：张三&lt;/h1&gt;
+</span></span><span class="line"><span class="cl">  &lt;/body&gt;
+</span></span><span class="line"><span class="cl">&lt;/html&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>9、[root@fb17db586d04 html]# <code>vim  /etc/nginx/nginx.conf</code>
+（1）修改第39、40行的80端口</p>
+<p>listen       81 default_server;
+listen       [::]:81 default_server;</p>
+<p>（2）修改第42行：<code>root         /var/www/html/;</code>
+10、[root@fb17db586d04 html]# <code>/usr/sbin/nginx  &amp;&amp;  systemctl  enable  nginx</code></p>
+<p>11、打开浏览器：<code>http://192.168.100.10:81/</code></p>
+<p><img src="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/3.2.jpg"
+	width="320"
+	height="152"
+	srcset="/hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/3.2_hu_846bd8a1867eae3f.jpg 480w, /hugo-dev/p/%E4%BA%91%E8%AE%A1%E7%AE%97/3.2_hu_48d76f05be61584e.jpg 1024w"
+	loading="lazy"
+	
+		alt="查询网页内容"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="210"
+		data-flex-basis="505px"
+	
+></p>
+<h3 id="利用dockerfile文件构建企业级镜像">利用Dockerfile文件构建企业级镜像
+</h3><h4 id="一项目一利用上述容器生成一个镜像再生成一个dockerfile文件重新制作一个镜像v1最后利用该镜像生成一个容器显示另外一个网站">（一）项目一：利用上述容器生成一个镜像，再生成一个Dockerfile文件，重新制作一个镜像v1，最后利用该镜像生成一个容器，显示另外一个网站。
+</h4><p>1、[root@db00_1 ~]# <code>docker  ps  -a</code>
+（用来查询容器id，每个人的id号都不一样）</p>
+<p>2、[root@db00_1 ~]# <code>docker  commit  e157baa65802  new_centos00:v1</code></p>
+<p>3、[root@db00_1 ~]# <code>mkdir  test1  &amp;&amp;  cd  test1/</code></p>
+<p>4、将<code>index.html</code>拷贝到<code>/root/test1</code>目录中</p>
+<p>5、[root@db00_1 test1]# <code>vim  Dockerfile</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">FROM  new_centos00:v1
+</span></span><span class="line"><span class="cl">RUN  yum  install  httpd  -y
+</span></span><span class="line"><span class="cl">COPY  index.html  /var/www/html/
+</span></span><span class="line"><span class="cl">EXPOSE  <span class="m">80</span>
+</span></span><span class="line"><span class="cl">CMD <span class="o">[</span><span class="s2">&#34;httpd&#34;</span>,<span class="s2">&#34;-DFOREGROUND&#34;</span><span class="o">]</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>6、[root@db00_1 test1]# <code>docker  build  -t  new_centos00:v2  .</code></p>
+<p>7、[root@db00_1 test1]# <code>docker  run  --name=centos00_2  -itd  -p 80:80  new_centos00:v2</code></p>
+<p>8、打开浏览器：<code>http://192.168.100.10/</code></p>
+<p>9、利用上述镜像生成离线文件，并分发给另外两台虚拟机
+（1）[root@db00_1 test1]# <code>docker  save  -o  new_centos00.tar.gz  new_centos00:v2</code></p>
+<p>（2）[root@db00_1 test1]# <code>scp  new_centos00.tar.gz  @192.168.100.20:/opt/</code></p>
+<p>（3）[root@db00_1 test1]# <code>scp  new_centos00.tar.gz  @192.168.100.30:/opt/</code></p>
+<p>（4）[root@db00_2 ~]# <code>docker  load  -i  /opt/new_centos00.tar.gz</code></p>
+<p>（5）[root@db00_2 ~]# <code>docker  run  --name  centos00_2  -itd  -p 80:80  new_centos00:v2</code></p>
+<p>（6）[root@db00_3 ~]# <code>docker  load  -i  /opt/new_centos00.tar.gz</code></p>
+<p>（7）[root@db00_3 ~]# <code>docker  run  --name=centos00_2  -itd  -p  82:80  new_centos00:v2</code></p>
+<h4 id="二课堂作业利用centos00v1镜像制作自定义镜像名称为centos00v3用来部署一个后台网站">（二）课堂作业：利用centos00:v1镜像制作自定义镜像，名称为centos00:v3，用来部署一个后台网站。
+</h4>
 </section>
 
 
