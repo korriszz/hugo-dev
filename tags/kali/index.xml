@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Kali on 蔡蔡-korriszz</title>
+        <link>https://korriszz.github.io/hugo-dev/tags/kali/</link>
+        <description>Recent content in Kali on 蔡蔡-korriszz</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>示例版权所有者</copyright>
+        <lastBuildDate>Sat, 22 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/tags/kali/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Kali linux系统和pycharm远程连接</title>
+        <link>https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</link>
+        <pubDate>Sat, 22 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/a.jpg" alt="Featured image of post Kali linux系统和pycharm远程连接" /&gt;&lt;h2 id=&#34;一开启kali&#34;&gt;一、开启kali
+&lt;/h2&gt;&lt;p&gt;在使用 PyCharm 连接 Kali 之前，需要保证 Kali 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：&lt;br&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;开启 SSH 服务：&lt;code&gt;sudo systemctl start ssh&lt;/code&gt;或 &lt;code&gt;sudo service ssh status&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;查看服务状态：输入 &lt;code&gt;sudo systemctl status ssh&lt;/code&gt; 来查看 SSH 服务是否已成功开启。若显示 &lt;code&gt;active (running)&lt;/code&gt;，就表明服务已正常运行。&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;查看 IP 地址：输入 ip addr 或者 ifconfig 命令查看 Kali 虚拟机的 IP 地址&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二实现kali-linux系统和pycharm远程连接---202131专业版pycharm&#34;&gt;二、实现Kali linux系统和pycharm远程连接   2021.3.1专业版pycharm
+&lt;/h2&gt;&lt;p&gt;（1）在pycharm软件中创建连接记录
+&lt;code&gt;菜单栏Tools&lt;/code&gt; &amp;gt; &lt;code&gt;Deployment&lt;/code&gt; &amp;gt; &lt;code&gt;Configuration&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;SFTP&lt;/code&gt; &amp;gt; &lt;code&gt;kali的ip地址&lt;/code&gt; &amp;gt; &lt;code&gt;OK&lt;/code&gt;
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1.png&#34;
+	width=&#34;1264&#34;
+	height=&#34;403&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_eca633d33d849c5b.png 480w, https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_7428968de259a250.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;创建连接记录&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;313&#34;
+		data-flex-basis=&#34;752px&#34;
+	
+&gt;
+（2）配置连接记录，如图1-16所示，表示连接成功。
+&lt;code&gt;···&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;配置ip、用户名、密码&lt;/code&gt;  &amp;gt; &lt;code&gt;测试连接&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2.png&#34;
+	width=&#34;818&#34;
+	height=&#34;484&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_aac035ea4e2f19d1.png 480w, https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_c0f1fb1a3d146acd.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;配置连接记录&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;169&#34;
+		data-flex-basis=&#34;405px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;（3）配置部署关联目录
+/home/kali/pythonProject     若没有该目录，则在kali中新建
+&lt;code&gt;local path ： 本地目录&lt;/code&gt; &amp;gt; &lt;code&gt;Deployment path：  /home/kali/文件夹&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3.png&#34;
+	width=&#34;1053&#34;
+	height=&#34;391&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_ba4629b7e1106b02.png 480w, https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_28fec62a1a23baeb.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;配置部署关联目录&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;269&#34;
+		data-flex-basis=&#34;646px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;（4）配置项目解释器
+&lt;code&gt;导航栏File&lt;/code&gt; &amp;gt; &lt;code&gt;setting&lt;/code&gt; &amp;gt; &lt;code&gt;Project code&lt;/code&gt; &amp;gt; &lt;code&gt;+ Add Content&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;SSH Interpreter&lt;/code&gt; &amp;gt; &lt;code&gt;选择Existing serber configureation&lt;/code&gt; &amp;gt; &lt;code&gt;···&lt;/code&gt; &amp;gt; &lt;code&gt;选择创建的root@地址&lt;/code&gt; &amp;gt; &lt;code&gt;Move&lt;/code&gt;&lt;br&gt;
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4.png&#34;
+	width=&#34;1097&#34;
+	height=&#34;543&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_2c73d89a12cb185b.png 480w, https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_68e741516bb1cdc5.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;选择项目解释器&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;202&#34;
+		data-flex-basis=&#34;484px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;设置 Sync folder为 &amp;lt;Project root&amp;gt;-/home/kali/文件夹&lt;/code&gt;&amp;gt;&lt;code&gt;OK&lt;/code&gt;&amp;gt;&lt;code&gt;OK&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5.png&#34;
+	width=&#34;857&#34;
+	height=&#34;303&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_4ed52c903530c410.png 480w, https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_2c005726bae44756.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;配置项目解释器映射路径&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;282&#34;
+		data-flex-basis=&#34;678px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;提示：一定要确认映射文件目录是否有错，否则解释器失效。
+（5）同步pycharm代码到KAli系统，即完成准备工作。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6.png&#34;
+	width=&#34;683&#34;
+	height=&#34;511&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_b72a8e4bfbdd2508.png 480w, https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_ebd24c2ef6b74d36.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;同步pycharm代码到KAli系统&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;133&#34;
+		data-flex-basis=&#34;320px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;若报错没有nmap包，则在kali下载
+&lt;code&gt;pip install python-nmap&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&#34;三两种方法二选一即可拿到root权限&#34;&gt;三、两种方法二选一即可。拿到root权限
+&lt;/h2&gt;&lt;p&gt;Operation not permitted 表示没有权限，解决方法：&lt;/p&gt;
+&lt;h3 id=&#34;方法一在pycharm的terminal-选择远程的环境&#34;&gt;方法一、在Pycharm的terminal 选择远程的环境
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;切换&lt;code&gt;root：sudo su&lt;/code&gt;
+密码：&lt;code&gt;kali&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;在代码路径下运行：  进入路径&lt;code&gt;：cd  kali&lt;/code&gt;中代码的路径
+运行代码：&lt;code&gt;python scapy01.py&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;方法二允许root用户远程登录&#34;&gt;方法二、允许root用户远程登录
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;修改配置文件&lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt;，允许root用户远程登录。
+&lt;code&gt;sudo vim /etc/ssh/sshd_config&lt;/code&gt;
+#允许&lt;code&gt;root&lt;/code&gt;用户远程登录
+&lt;code&gt;#rmitRootLogin prohibit-password&lt;/code&gt;需修改为：（注意：#要删掉）
+&lt;code&gt;PermitRootLogin yes&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;保存并退出后，重新启动ssh服务。
+&lt;code&gt;sudo systemctl restart ssh&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;给root用户创建密码
+root用户是linux中的超级管理员，可以操作所有的资源。默认情况下，root用户是无法登陆的，需要我们自己来创建密码。故此在测试远程连接之前，需要给root用户创建密码。
+代码为：&lt;code&gt;sudo passwd root&lt;/code&gt;
+密码统一设为&lt;code&gt;root&lt;/code&gt;
+账户之间进行用户切换采用su - 用户名。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;后面远程连接时则可以使用&lt;code&gt;root，root&lt;/code&gt;连接。&lt;/p&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>
