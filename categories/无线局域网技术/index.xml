@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>无线局域网技术 on 蔡蔡-korriszz</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E6%97%A0%E7%BA%BF%E5%B1%80%E5%9F%9F%E7%BD%91%E6%8A%80%E6%9C%AF/</link>
+        <description>Recent content in 无线局域网技术 on 蔡蔡-korriszz</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <copyright>示例版权所有者</copyright>
+        <lastBuildDate>Sat, 22 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/%E6%97%A0%E7%BA%BF%E5%B1%80%E5%9F%9F%E7%BD%91%E6%8A%80%E6%9C%AF/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>单个AP多个SSID技术原理</title>
+        <link>https://korriszz.github.io/hugo-dev/p/%E5%8D%95%E4%B8%AAap%E5%A4%9A%E4%B8%AAssid%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</link>
+        <pubDate>Sat, 22 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/%E5%8D%95%E4%B8%AAap%E5%A4%9A%E4%B8%AAssid%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/%E5%8D%95%E4%B8%AAap%E5%A4%9A%E4%B8%AAssid%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/a.png" alt="Featured image of post 单个AP多个SSID技术原理" /&gt;&lt;p&gt;选择多 SSID 功能除了可以获得多个无线局域网外，更重要的是可以保证无线局域网的安全。尤其是对小型企业用户来说，每个部门都有自己的数据隐私需求。如果共用同一个无线局域网，很容易出现数据被盗的情况。而选择多 SSID功能，可以使每个部门都独享专属的无线局域网，让各自的数据信息安全更有保障。&lt;/p&gt;
+&lt;h1 id=&#34;项目规划设计&#34;&gt;项目规划设计
+&lt;/h1&gt;&lt;h2 id=&#34;项目拓扑&#34;&gt;项目拓扑
+&lt;/h2&gt;&lt;p&gt;公司原有网络是通过 DHCP 管理客户端IP 地址的，网关和 DHCP 地址池都放置于核心交换机中。因IP 地址需统一管理，公司网络管理员需要将无线用户的网关和 DHCP地址池配置在交换机上：微企业多部门无线局域网络拓扑如图。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/%E5%8D%95%E4%B8%AAap%E5%A4%9A%E4%B8%AAssid%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/A.jpg&#34;
+	width=&#34;1024&#34;
+	height=&#34;1024&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/%E5%8D%95%E4%B8%AAap%E5%A4%9A%E4%B8%AAssid%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/A_hu_9c2dfcf6422004d5.jpg 480w, https://korriszz.github.io/hugo-dev/p/%E5%8D%95%E4%B8%AAap%E5%A4%9A%E4%B8%AAssid%E6%8A%80%E6%9C%AF%E5%8E%9F%E7%90%86/A_hu_b4658db09aa7e973.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;1&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;100&#34;
+		data-flex-basis=&#34;240px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;h2 id=&#34;项目规划&#34;&gt;项目规划
+&lt;/h2&gt;&lt;p&gt;根据拓扑图进行项目的业务规划，VLAN规划、设备管理规划、端口互联网规划、IP地址规划、WLAN规划、Radio 规划见下。&lt;/p&gt;
+&lt;h3 id=&#34;vlan规划&#34;&gt;VLAN规划
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;VLAN&lt;/th&gt;
+          &lt;th&gt;VLAN 命名&lt;/th&gt;
+          &lt;th&gt;网段&lt;/th&gt;
+          &lt;th&gt;用途&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;VLAN 10&lt;/td&gt;
+          &lt;td&gt;CaiWu&lt;/td&gt;
+          &lt;td&gt;192.168.10.0/24&lt;/td&gt;
+          &lt;td&gt;财务部网段&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;VLAN 20&lt;/td&gt;
+          &lt;td&gt;XiaoShou&lt;/td&gt;
+          &lt;td&gt;192.168.20.0/24&lt;/td&gt;
+          &lt;td&gt;销售部网段&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;VLAN 99&lt;/td&gt;
+          &lt;td&gt;Mgmt&lt;/td&gt;
+          &lt;td&gt;192.168.99.0/24&lt;/td&gt;
+          &lt;td&gt;设备管理网段&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;设备管理规划&#34;&gt;设备管理规划
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;设备类型&lt;/th&gt;
+          &lt;th&gt;型号&lt;/th&gt;
+          &lt;th&gt;设备命名&lt;/th&gt;
+          &lt;th&gt;用户名&lt;/th&gt;
+          &lt;th&gt;密码&lt;/th&gt;
+          &lt;th&gt;特权密码&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;无线接入点&lt;/td&gt;
+          &lt;td&gt;AP720&lt;/td&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;&amp;ndash;&lt;/td&gt;
+          &lt;td&gt;admin&lt;/td&gt;
+          &lt;td&gt;apdebug&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;交换机&lt;/td&gt;
+          &lt;td&gt;S5750&lt;/td&gt;
+          &lt;td&gt;SW&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;&amp;ndash;&lt;/td&gt;
+          &lt;td&gt;start&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;&amp;mdash;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;端口互联规划&#34;&gt;端口互联规划
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;本端设备&lt;/th&gt;
+          &lt;th&gt;本端端口&lt;/th&gt;
+          &lt;th&gt;端口配置&lt;/th&gt;
+          &lt;th&gt;对端设备&lt;/th&gt;
+          &lt;th&gt;对端端口&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;G0/2&lt;/td&gt;
+          &lt;td&gt;encapsulation dot1Q 99&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;-&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;&amp;mdash;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;G0/2.10&lt;/td&gt;
+          &lt;td&gt;encapsulation dot1Q 10&lt;/td&gt;
+          &lt;td&gt;SW&lt;/td&gt;
+          &lt;td&gt;自连端口&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;G0/2.20&lt;/td&gt;
+          &lt;td&gt;encapsulation dot1Q 20&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;&amp;ndash;&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;&amp;ndash;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;SW&lt;/td&gt;
+          &lt;td&gt;自连端口&lt;/td&gt;
+          &lt;td&gt;trunk native vlan 99&lt;/td&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;G0/2&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;ip-地址规划&#34;&gt;IP 地址规划
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;设备&lt;/th&gt;
+          &lt;th&gt;VLAN&lt;/th&gt;
+          &lt;th&gt;IP 地址&lt;/th&gt;
+          &lt;th&gt;网关&lt;/th&gt;
+          &lt;th&gt;用途&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;SW&lt;/td&gt;
+          &lt;td&gt;VLAN 10&lt;/td&gt;
+          &lt;td&gt;192.168.10.0/24&lt;/td&gt;
+          &lt;td&gt;财务网关192.168.10.254&lt;/td&gt;
+          &lt;td&gt;通过 DHCP 分配给财务部终端&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;SW&lt;/td&gt;
+          &lt;td&gt;VLAN 20&lt;/td&gt;
+          &lt;td&gt;192.168.20.0/24&lt;/td&gt;
+          &lt;td&gt;销售网关192.168.20.254&lt;/td&gt;
+          &lt;td&gt;通过 DHCP 分配给销售部终端&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;&amp;mdash;&amp;ndash;&lt;/td&gt;
+          &lt;td&gt;VLAN 99&lt;/td&gt;
+          &lt;td&gt;192.168.99.254/24&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;&lt;/td&gt;
+          &lt;td&gt;设备管理网段网关&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;VLAN 99&lt;/td&gt;
+          &lt;td&gt;192.168.99.1/24&lt;/td&gt;
+          &lt;td&gt;&amp;mdash;-&lt;/td&gt;
+          &lt;td&gt;AP 管理&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;wlan-规划&#34;&gt;WLAN 规划
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;WLAN ID&lt;/th&gt;
+          &lt;th&gt;SSID&lt;/th&gt;
+          &lt;th&gt;加密方式&lt;/th&gt;
+          &lt;th&gt;是否广播&lt;/th&gt;
+          &lt;th&gt;用途&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;1&lt;/td&gt;
+          &lt;td&gt;CaiWu&lt;/td&gt;
+          &lt;td&gt;无（默认）&lt;/td&gt;
+          &lt;td&gt;是（默认）&lt;/td&gt;
+          &lt;td&gt;财务部连接 SSID 以加入网络&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;2&lt;/td&gt;
+          &lt;td&gt;XiaoShou&lt;/td&gt;
+          &lt;td&gt;无（默认）&lt;/td&gt;
+          &lt;td&gt;是（默认）&lt;/td&gt;
+          &lt;td&gt;销售部连接 SSID 以加入网络&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;radio-规划旧&#34;&gt;&lt;del&gt;Radio 规划·旧&lt;/del&gt;
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;AP 名称&lt;/th&gt;
+          &lt;th&gt;接口&lt;/th&gt;
+          &lt;th&gt;WLAN ID&lt;/th&gt;
+          &lt;th&gt;VLAN ID&lt;/th&gt;
+          &lt;th&gt;频率与信道&lt;/th&gt;
+          &lt;th&gt;功率&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;Dot11radio 1/0&lt;/td&gt;
+          &lt;td&gt;1&lt;/td&gt;
+          &lt;td&gt;10&lt;/td&gt;
+          &lt;td&gt;2.4GHz，自动调优（默认）&lt;/td&gt;
+          &lt;td&gt;100%（默认）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;Dot11radio 1/0.2&lt;/td&gt;
+          &lt;td&gt;2&lt;/td&gt;
+          &lt;td&gt;20&lt;/td&gt;
+          &lt;td&gt;2.4GHz，自动调优（默认）&lt;/td&gt;
+          &lt;td&gt;100%（默认）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;Dot11radio 2/0&lt;/td&gt;
+          &lt;td&gt;1&lt;/td&gt;
+          &lt;td&gt;10&lt;/td&gt;
+          &lt;td&gt;5GHz，自动调优（默认）&lt;/td&gt;
+          &lt;td&gt;100%（默认）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;Dot11radio 2/0.2&lt;/td&gt;
+          &lt;td&gt;2&lt;/td&gt;
+          &lt;td&gt;20&lt;/td&gt;
+          &lt;td&gt;5GHz，自动调优（默认）&lt;/td&gt;
+          &lt;td&gt;100%（默认）&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;radio-规划新&#34;&gt;Radio 规划·新
+&lt;/h3&gt;&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;AP 名称&lt;/th&gt;
+          &lt;th&gt;接口&lt;/th&gt;
+          &lt;th&gt;WLAN ID&lt;/th&gt;
+          &lt;th&gt;VLAN ID&lt;/th&gt;
+          &lt;th&gt;频率与信道&lt;/th&gt;
+          &lt;th&gt;功率&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;Dot11radio 1/0.1&lt;/td&gt;
+          &lt;td&gt;2&lt;/td&gt;
+          &lt;td&gt;20&lt;/td&gt;
+          &lt;td&gt;2.4GHz，自动调优（默认）&lt;/td&gt;
+          &lt;td&gt;100%（默认）&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;AP&lt;/td&gt;
+          &lt;td&gt;Dot11radio 1/0.2&lt;/td&gt;
+          &lt;td&gt;2&lt;/td&gt;
+          &lt;td&gt;20&lt;/td&gt;
+          &lt;td&gt;5GHz，自动调优（默认）&lt;/td&gt;
+          &lt;td&gt;100%（默认）&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;交换机配置&#34;&gt;交换机配置
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;进入全局配置模式&lt;br&gt;
+SW# &lt;code&gt;en 14&lt;/code&gt; &lt;br&gt;
+passwd：&lt;code&gt;start&lt;/code&gt;&lt;br&gt;
+SW# &lt;code&gt;configure terminal&lt;/code&gt;  &lt;br&gt;&lt;/li&gt;
+&lt;li&gt;vlan配置&lt;br&gt;
+SW(config)# &lt;code&gt;vlan 10&lt;/code&gt; &lt;br&gt;
+SW(config-vlan)#&lt;code&gt;vlan 20&lt;/code&gt;&lt;br&gt;
+SW(config-vlan)#&lt;code&gt;vlan 30&lt;/code&gt;&lt;br&gt;
+SW(config)#&lt;code&gt;interface vlan 10&lt;/code&gt;&lt;br&gt;
+SW(config-if-vlan 10)#&lt;code&gt;ip address 192.168.10.254 255.255.255.0  &lt;/code&gt;&lt;br&gt;
+SW(config)#&lt;code&gt;interface vlan 20&lt;/code&gt; &lt;br&gt;
+SW(config-if-vlan 10)#&lt;code&gt;ip address 192.168.20.254 255.255.255.0  &lt;/code&gt;&lt;br&gt;
+SW(config)#&lt;code&gt;interface vlan 99&lt;/code&gt; &lt;br&gt;
+SW(config-if-vlan 10)#&lt;code&gt;ip address 192.168.90.254 255.255.255.0  &lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;端口配置&lt;br&gt;
+SW(config)#&lt;code&gt;interface 自选端口&lt;/code&gt;&lt;br&gt;
+SW(config-if)&lt;code&gt;switchport mode trunk&lt;/code&gt;&lt;br&gt;
+SW(config-if)&lt;code&gt;switchport trunk native vlan 99&lt;/code&gt; #配置默认端口为vlan99&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;DHCP配置&lt;br&gt;
+SW(config)#&lt;code&gt;dhcp enable&lt;/code&gt;&lt;br&gt;
+SW(config)#&lt;code&gt;ip dhcp pool vlan10&lt;/code&gt;&lt;br&gt;
+SW(dhcp-config)#&lt;code&gt;network 192.168.10.0 255.255.255.0&lt;/code&gt;&lt;br&gt;
+SW(dhcp-config)#&lt;code&gt;default-route 192.168.10.254&lt;/code&gt;&lt;br&gt;
+SW(dhcp-config)#&lt;code&gt;dns-server 8.8.8.8&lt;/code&gt;&lt;br&gt;
+SW(config)#&lt;code&gt;ip dhcp pool vlan20&lt;/code&gt;&lt;br&gt;
+SW(dhcp-config)#&lt;code&gt;network 192.168.20.0 255.255.255.0&lt;/code&gt;&lt;br&gt;
+SW(dhcp-config)#&lt;code&gt;default-route 192.168.20.254&lt;/code&gt;&lt;br&gt;
+SW(dhcp-config)#&lt;code&gt;dns-server 8.8.8.8&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;ap配置&#34;&gt;AP配置
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;远程管理配置&lt;br&gt;
+password：&lt;code&gt;admin&lt;/code&gt;&lt;br&gt;
+Ruijie#&lt;code&gt;ap-mode fat&lt;/code&gt;&lt;br&gt;
+Ruijie(config)#&lt;code&gt;configure terminal&lt;/code&gt;&lt;br&gt;
+Ruijie(config)#&lt;code&gt;hostname AP&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;vlan和ip地址配置&lt;br&gt;
+AP(config)#&lt;code&gt;vlan 10&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;vlan 20&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;vlan 99&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;interface bvi 99&lt;/code&gt;&lt;br&gt;
+AP(config-if-bvi 99)#&lt;code&gt;ip address 192.168.99.1 255.255.255.0&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;ip route 0.0.0.0 0.0.0.0 192.168.99.254&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;端口配置&lt;br&gt;
+AP(config)#&lt;code&gt;interface gigabitethernet 2/0&lt;/code&gt;&lt;br&gt;
+AP(config-if)#&lt;code&gt;encapsulation dot1q 99&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;interface gigabitethernet 0/2.10&lt;/code&gt;&lt;br&gt;
+AP(config-subif)#&lt;code&gt;encapsulation dot1q 10&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;interface gigabitethernet 0/2.20&lt;/code&gt;&lt;br&gt;
+AP(config-subif)#&lt;code&gt;encapsulation dot1q 20&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;wlan配置&lt;br&gt;
+AP(config)#&lt;code&gt;dot11 vlan 1&lt;/code&gt;&lt;br&gt;
+AP(dot11-vlan-config)#&lt;code&gt;ssid CaiWu&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;dot11 vlan 2&lt;/code&gt;&lt;br&gt;
+AP(dot11-vlan-config)#&lt;code&gt;ssid XiaoShou&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;天线配置&lt;br&gt;
+AP(config)#&lt;code&gt;interface dot11radio 1/0.1&lt;/code&gt;&lt;br&gt;
+AP(config-if-Dot11radio 1/0)#&lt;code&gt;encapsulation dot1q 10&lt;/code&gt;&lt;br&gt;
+AP(config-if-Dot11radio 1/0)#&lt;code&gt;vlan-id 1&lt;/code&gt;&lt;br&gt;
+AP(config)#&lt;code&gt;interface dot11radio 1/0.2&lt;/code&gt;&lt;br&gt;
+AP(config-if-Dot11radio 1/0.2)#&lt;code&gt;encapsulation dot1q 20&lt;/code&gt;&lt;br&gt;
+AP(config-if-Dot11radio 1/0.2)#&lt;code&gt;vlan-id 2&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;测试&lt;br&gt;
+⚠️：部分电脑没有无线网卡的自行去设备管理器中开启&lt;br&gt;
+此电脑-管理-设备管理器-网络适配器-&lt;code&gt;802.11ax&lt;/code&gt;-启动此设备&lt;br&gt;
+测试连接&lt;code&gt;xiaoshou&lt;/code&gt;和&lt;code&gt;caiwu&lt;/code&gt;地址分别为&lt;code&gt;192.168.10.0&lt;/code&gt;网段和&lt;code&gt;192.168.20.0&lt;/code&gt;网段&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

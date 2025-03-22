@@ -7,52 +7,68 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Tue, 18 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>CentOS7</title>
-        <link>https://korriszz.github.io/hugo-dev/categories/centos7/</link>
-        <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
+        <lastBuildDate>Sat, 22 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>无线局域网技术</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E6%97%A0%E7%BA%BF%E5%B1%80%E5%9F%9F%E7%BD%91%E6%8A%80%E6%9C%AF/</link>
+        <pubDate>Sat, 22 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/categories/centos7/</guid>
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E6%97%A0%E7%BA%BF%E5%B1%80%E5%9F%9F%E7%BD%91%E6%8A%80%E6%9C%AF/</guid>
         <description></description>
         </item>
         <item>
-        <title>LIUNX</title>
-        <link>https://korriszz.github.io/hugo-dev/categories/liunx/</link>
+        <title>云计算管理</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E4%BA%91%E8%AE%A1%E7%AE%97%E7%AE%A1%E7%90%86/</link>
         <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/categories/liunx/</guid>
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E4%BA%91%E8%AE%A1%E7%AE%97%E7%AE%A1%E7%90%86/</guid>
         <description></description>
         </item>
         <item>
-        <title>兴趣</title>
-        <link>https://korriszz.github.io/hugo-dev/categories/%E5%85%B4%E8%B6%A3/</link>
-        <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
+        <title>操作系统安全与管理</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E4%B8%8E%E7%AE%A1%E7%90%86/</link>
+        <pubDate>Sun, 16 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/categories/%E5%85%B4%E8%B6%A3/</guid>
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8%E4%B8%8E%E7%AE%A1%E7%90%86/</guid>
         <description></description>
         </item>
         <item>
-        <title>学习</title>
-        <link>https://korriszz.github.io/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/</link>
-        <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
+        <title>文件安全</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/</link>
+        <pubDate>Sun, 16 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/</guid>
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E6%96%87%E4%BB%B6%E5%AE%89%E5%85%A8/</guid>
         <description></description>
         </item>
         <item>
-        <title>SXVTC</title>
-        <link>https://korriszz.github.io/hugo-dev/categories/sxvtc/</link>
+        <title>系统安全</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</link>
+        <pubDate>Sun, 16 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E7%B3%BB%E7%BB%9F%E5%AE%89%E5%85%A8/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>网络故障检测</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/</link>
+        <pubDate>Sat, 15 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E7%BD%91%E7%BB%9C%E6%95%85%E9%9A%9C%E6%A3%80%E6%B5%8B/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>WEB渗透</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/web%E6%B8%97%E9%80%8F/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/categories/sxvtc/</guid>
+        <guid>https://korriszz.github.io/hugo-dev/categories/web%E6%B8%97%E9%80%8F/</guid>
         <description></description>
         </item>
         <item>
-        <title>课程</title>
-        <link>https://korriszz.github.io/hugo-dev/categories/%E8%AF%BE%E7%A8%8B/</link>
+        <title>WEB渗透低安全</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8/</link>
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
-        <guid>https://korriszz.github.io/hugo-dev/categories/%E8%AF%BE%E7%A8%8B/</guid>
+        <guid>https://korriszz.github.io/hugo-dev/categories/web%E6%B8%97%E9%80%8F%E4%BD%8E%E5%AE%89%E5%85%A8/</guid>
         <description></description>
         </item>
         <item>
@@ -61,6 +77,22 @@
         <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
         
         <guid>https://korriszz.github.io/hugo-dev/categories/%E7%BD%91%E9%A1%B5/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>兴趣</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E5%85%B4%E8%B6%A3/</link>
+        <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E5%85%B4%E8%B6%A3/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>学习</title>
+        <link>https://korriszz.github.io/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/</link>
+        <pubDate>Tue, 11 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/categories/%E5%AD%A6%E4%B9%A0/</guid>
         <description></description>
         </item>
         <item>
