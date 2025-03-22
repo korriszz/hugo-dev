@@ -13,7 +13,7 @@
         <pubDate>Sat, 22 Mar 2025 00:00:00 +0000</pubDate>
         
         <guid>https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</guid>
-        <description>&lt;img src="https://korriszz.github.io/hugo-dev/a.jpg" alt="Featured image of post Kali linux系统和pycharm远程连接" /&gt;&lt;h2 id=&#34;一开启kali&#34;&gt;一、开启kali
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/a.JPG" alt="Featured image of post Kali linux系统和pycharm远程连接" /&gt;&lt;h2 id=&#34;一开启kali&#34;&gt;一、开启kali
 &lt;/h2&gt;&lt;p&gt;在使用 PyCharm 连接 Kali 之前，需要保证 Kali 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：&lt;br&gt;&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;开启 SSH 服务：&lt;code&gt;sudo systemctl start ssh&lt;/code&gt;或 &lt;code&gt;sudo service ssh status&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
