@@ -7,7 +7,121 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>示例版权所有者</copyright>
-        <lastBuildDate>Sat, 22 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 24 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://korriszz.github.io/hugo-dev/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Ubuntu和Pycharm远程连接</title>
+        <link>https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</link>
+        <pubDate>Mon, 24 Mar 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</guid>
+        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/A.JPG" alt="Featured image of post Ubuntu和Pycharm远程连接" /&gt;&lt;h2 id=&#34;一ubuntu配置&#34;&gt;一、Ubuntu配置
+&lt;/h2&gt;&lt;p&gt;在使用 PyCharm 连接 Ubuntu之前，需要保证 Ubuntu 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：&lt;br&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;开启 SSH 服务：&lt;code&gt;sudo apt-get install openssh-server&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;查看服务状态：输入 &lt;code&gt;sudo systemctl status ssh&lt;/code&gt; 来查看 SSH 服务是否已成功开启。若显示 &lt;code&gt;active (running)&lt;/code&gt;，就表明服务已正常运行。如果显示&lt;code&gt;dead&lt;/code&gt;则没有开启ssh可以尝试&lt;code&gt;sudo systemctl start ssh&lt;/code&gt;
+&lt;br&gt;&lt;/li&gt;
+&lt;li&gt;查看 IP 地址：输入 ip addr 或者 ifconfig 命令查看 Ubuntu 虚拟机的 IP 地址&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;二实现ubuntu系统和pycharm远程连接---202131专业版pycharm&#34;&gt;二、实现Ubuntu系统和pycharm远程连接   2021.3.1专业版pycharm
+&lt;/h2&gt;&lt;p&gt;（1）在pycharm软件中创建连接记录
+&lt;code&gt;菜单栏Tools&lt;/code&gt; &amp;gt; &lt;code&gt;Deployment&lt;/code&gt; &amp;gt; &lt;code&gt;Configuration&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;SFTP&lt;/code&gt; &amp;gt; &lt;code&gt;Ubuntu的ip地址&lt;/code&gt; &amp;gt; &lt;code&gt;OK&lt;/code&gt;
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1.png&#34;
+	width=&#34;1264&#34;
+	height=&#34;403&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_eca633d33d849c5b.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_7428968de259a250.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;创建连接记录&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;313&#34;
+		data-flex-basis=&#34;752px&#34;
+	
+&gt;
+（2）配置连接记录，如图1-16所示，表示连接成功。
+&lt;code&gt;···&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;配置ip、用户名、密码&lt;/code&gt;  &amp;gt; &lt;code&gt;测试连接&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2.png&#34;
+	width=&#34;818&#34;
+	height=&#34;484&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_aac035ea4e2f19d1.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_c0f1fb1a3d146acd.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;配置连接记录&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;169&#34;
+		data-flex-basis=&#34;405px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;（3）配置部署关联目录
+/home/Ubuntu/code
+&lt;code&gt;local path ： 本地目录&lt;/code&gt; &amp;gt; &lt;code&gt;Deployment path：  /home/Ubuntu/code &lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3.JPG&#34;
+	width=&#34;661&#34;
+	height=&#34;556&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_6c9f9d070bae01e3.JPG 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_61725ee8e4ee0d77.JPG 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;配置部署关联目录&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;118&#34;
+		data-flex-basis=&#34;285px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;（4）配置项目解释器
+&lt;code&gt;导航栏File&lt;/code&gt; &amp;gt; &lt;code&gt;setting&lt;/code&gt; &amp;gt; &lt;code&gt;Project code&lt;/code&gt; &amp;gt; &lt;code&gt;+ Add Content&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;SSH Interpreter&lt;/code&gt; &amp;gt; &lt;code&gt;选择Existing serber configureation&lt;/code&gt; &amp;gt; &lt;code&gt;···&lt;/code&gt; &amp;gt; &lt;code&gt;选择创建的root@地址&lt;/code&gt; &amp;gt; &lt;code&gt;Move&lt;/code&gt;&lt;br&gt;
+&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4.png&#34;
+	width=&#34;1097&#34;
+	height=&#34;543&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_2c73d89a12cb185b.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_68e741516bb1cdc5.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;选择项目解释器&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;202&#34;
+		data-flex-basis=&#34;484px&#34;
+	
+&gt;
+&lt;code&gt;Interpreter：/home/Ubuntu/.virtualenvs/python_auto/bin/python3&lt;/code&gt;
+&lt;code&gt;设置 Sync folder为 &amp;lt;Project root&amp;gt;-/home/Ubuntu/code&lt;/code&gt;&amp;gt;&lt;code&gt;OK&lt;/code&gt;&amp;gt;&lt;code&gt;OK&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5.JPG&#34;
+	width=&#34;1183&#34;
+	height=&#34;794&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_6df0182f56d0cf12.JPG 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_b397d2a34419b7d0.JPG 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;配置项目解释器映射路径&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;148&#34;
+		data-flex-basis=&#34;357px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;提示：一定要确认映射文件目录是否有错，否则解释器失效。
+（5）同步pycharm代码到Ubuntu系统，即完成准备工作。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6.png&#34;
+	width=&#34;683&#34;
+	height=&#34;511&#34;
+	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_b72a8e4bfbdd2508.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_ebd24c2ef6b74d36.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;同步pycharm代码到Ubuntu系统&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;133&#34;
+		data-flex-basis=&#34;320px&#34;
+	
+&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
         <title>Kali linux系统和pycharm远程连接</title>
         <link>https://korriszz.github.io/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</link>
         <pubDate>Sat, 22 Mar 2025 00:00:00 +0000</pubDate>
@@ -150,120 +264,6 @@ root用户是linux中的超级管理员，可以操作所有的资源。默认�
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;后面远程连接时则可以使用&lt;code&gt;root，root&lt;/code&gt;连接。&lt;/p&gt;
-</description>
-        </item>
-        <item>
-        <title>Ubuntu和Pycharm远程连接</title>
-        <link>https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</link>
-        <pubDate>Sat, 22 Mar 2025 00:00:00 +0000</pubDate>
-        
-        <guid>https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/</guid>
-        <description>&lt;img src="https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/A.JPG" alt="Featured image of post Ubuntu和Pycharm远程连接" /&gt;&lt;h2 id=&#34;一ubuntu配置&#34;&gt;一、Ubuntu配置
-&lt;/h2&gt;&lt;p&gt;在使用 PyCharm 连接 Ubuntu之前，需要保证 Ubuntu 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：&lt;br&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;开启 SSH 服务：&lt;code&gt;sudo apt-get install openssh-server&lt;/code&gt;&lt;br&gt;&lt;/li&gt;
-&lt;li&gt;查看服务状态：输入 &lt;code&gt;sudo systemctl status ssh&lt;/code&gt; 来查看 SSH 服务是否已成功开启。若显示 &lt;code&gt;active (running)&lt;/code&gt;，就表明服务已正常运行。如果显示&lt;code&gt;dead&lt;/code&gt;则没有开启ssh可以尝试&lt;code&gt;sudo systemctl start ssh&lt;/code&gt;
-&lt;br&gt;&lt;/li&gt;
-&lt;li&gt;查看 IP 地址：输入 ip addr 或者 ifconfig 命令查看 Ubuntu 虚拟机的 IP 地址&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;二实现ubuntu系统和pycharm远程连接---202131专业版pycharm&#34;&gt;二、实现Ubuntu系统和pycharm远程连接   2021.3.1专业版pycharm
-&lt;/h2&gt;&lt;p&gt;（1）在pycharm软件中创建连接记录
-&lt;code&gt;菜单栏Tools&lt;/code&gt; &amp;gt; &lt;code&gt;Deployment&lt;/code&gt; &amp;gt; &lt;code&gt;Configuration&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;SFTP&lt;/code&gt; &amp;gt; &lt;code&gt;Ubuntu的ip地址&lt;/code&gt; &amp;gt; &lt;code&gt;OK&lt;/code&gt;
-&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1.png&#34;
-	width=&#34;1264&#34;
-	height=&#34;403&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_eca633d33d849c5b.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_7428968de259a250.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;创建连接记录&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;313&#34;
-		data-flex-basis=&#34;752px&#34;
-	
-&gt;
-（2）配置连接记录，如图1-16所示，表示连接成功。
-&lt;code&gt;···&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;配置ip、用户名、密码&lt;/code&gt;  &amp;gt; &lt;code&gt;测试连接&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2.png&#34;
-	width=&#34;818&#34;
-	height=&#34;484&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_aac035ea4e2f19d1.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_c0f1fb1a3d146acd.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;配置连接记录&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;169&#34;
-		data-flex-basis=&#34;405px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;（3）配置部署关联目录
-/home/Ubuntu/code
-&lt;code&gt;local path ： 本地目录&lt;/code&gt; &amp;gt; &lt;code&gt;Deployment path：  /home/Ubuntu/code &lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3.JPG&#34;
-	width=&#34;661&#34;
-	height=&#34;556&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_6c9f9d070bae01e3.JPG 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_61725ee8e4ee0d77.JPG 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;配置部署关联目录&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;118&#34;
-		data-flex-basis=&#34;285px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;（4）配置项目解释器
-&lt;code&gt;导航栏File&lt;/code&gt; &amp;gt; &lt;code&gt;setting&lt;/code&gt; &amp;gt; &lt;code&gt;Project code&lt;/code&gt; &amp;gt; &lt;code&gt;+ Add Content&lt;/code&gt; &amp;gt; &lt;code&gt;+&lt;/code&gt; &amp;gt; &lt;code&gt;SSH Interpreter&lt;/code&gt; &amp;gt; &lt;code&gt;选择Existing serber configureation&lt;/code&gt; &amp;gt; &lt;code&gt;···&lt;/code&gt; &amp;gt; &lt;code&gt;选择创建的root@地址&lt;/code&gt; &amp;gt; &lt;code&gt;Move&lt;/code&gt;&lt;br&gt;
-&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4.png&#34;
-	width=&#34;1097&#34;
-	height=&#34;543&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_2c73d89a12cb185b.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_68e741516bb1cdc5.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;选择项目解释器&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;202&#34;
-		data-flex-basis=&#34;484px&#34;
-	
-&gt;
-&lt;code&gt;Interpreter：/home/Ubuntu/.virtualenvs/python_auto/bin/python3&lt;/code&gt;
-&lt;code&gt;设置 Sync folder为 &amp;lt;Project root&amp;gt;-/home/Ubuntu/code&lt;/code&gt;&amp;gt;&lt;code&gt;OK&lt;/code&gt;&amp;gt;&lt;code&gt;OK&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5.JPG&#34;
-	width=&#34;1183&#34;
-	height=&#34;794&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_6df0182f56d0cf12.JPG 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_b397d2a34419b7d0.JPG 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;配置项目解释器映射路径&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;148&#34;
-		data-flex-basis=&#34;357px&#34;
-	
-&gt;&lt;/p&gt;
-&lt;p&gt;提示：一定要确认映射文件目录是否有错，否则解释器失效。
-（5）同步pycharm代码到Ubuntu系统，即完成准备工作。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6.png&#34;
-	width=&#34;683&#34;
-	height=&#34;511&#34;
-	srcset=&#34;https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_b72a8e4bfbdd2508.png 480w, https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_ebd24c2ef6b74d36.png 1024w&#34;
-	loading=&#34;lazy&#34;
-	
-		alt=&#34;同步pycharm代码到Ubuntu系统&#34;
-	
-	
-		class=&#34;gallery-image&#34; 
-		data-flex-grow=&#34;133&#34;
-		data-flex-basis=&#34;320px&#34;
-	
-&gt;&lt;/p&gt;
 </description>
         </item>
         
