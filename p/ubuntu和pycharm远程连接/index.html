@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="一、Ubuntu配置 在使用 PyCharm 连接 Ubuntu之前，需要保证 Ubuntu 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：\n开启 SSH 服务：sudo apt-get install openssh-server\n查看服务状态：输入 sudo systemctl status ssh 来查看 SSH 服务是否已成功开启。若显示 active (running)，就表明服务已正常运行。如果显示dead则没有开启ssh可以尝试sudo systemctl start ssh 查看 IP 地址：输入 ip addr 或者 ifconfig 命令查看 Ubuntu 虚拟机的 IP 地址 二、实现Ubuntu系统和pycharm远程连接 2021.3.1专业版pycharm （1）在pycharm软件中创建连接记录 菜单栏Tools &gt; Deployment &gt; Configuration &gt; + &gt; SFTP &gt; Ubuntu的ip地址 &gt; OK （2）配置连接记录，如图1-16所示，表示连接成功。 ··· &gt; + &gt; 配置ip、用户名、密码 &gt; 测试连接\n">
+<title>Ubuntu和Pycharm远程连接</title>
+
+<link rel='canonical' href='https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/'>
+
+<link rel="stylesheet" href="/hugo-dev/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><meta property='og:title' content="Ubuntu和Pycharm远程连接">
+<meta property='og:description' content="一、Ubuntu配置 在使用 PyCharm 连接 Ubuntu之前，需要保证 Ubuntu 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：\n开启 SSH 服务：sudo apt-get install openssh-server\n查看服务状态：输入 sudo systemctl status ssh 来查看 SSH 服务是否已成功开启。若显示 active (running)，就表明服务已正常运行。如果显示dead则没有开启ssh可以尝试sudo systemctl start ssh 查看 IP 地址：输入 ip addr 或者 ifconfig 命令查看 Ubuntu 虚拟机的 IP 地址 二、实现Ubuntu系统和pycharm远程连接 2021.3.1专业版pycharm （1）在pycharm软件中创建连接记录 菜单栏Tools &gt; Deployment &gt; Configuration &gt; + &gt; SFTP &gt; Ubuntu的ip地址 &gt; OK （2）配置连接记录，如图1-16所示，表示连接成功。 ··· &gt; + &gt; 配置ip、用户名、密码 &gt; 测试连接\n">
+<meta property='og:url' content='https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/'>
+<meta property='og:site_name' content='蔡蔡-korriszz'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='学习笔记' /><meta property='article:tag' content='Ubuntu' /><meta property='article:tag' content='pycharm' /><meta property='article:tag' content='Linux' /><meta property='article:published_time' content='2025-03-22T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2025-03-22T00:00:00&#43;00:00'/><meta property='og:image' content='https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/A.JPG' />
+<meta name="twitter:title" content="Ubuntu和Pycharm远程连接">
+<meta name="twitter:description" content="一、Ubuntu配置 在使用 PyCharm 连接 Ubuntu之前，需要保证 Ubuntu 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：\n开启 SSH 服务：sudo apt-get install openssh-server\n查看服务状态：输入 sudo systemctl status ssh 来查看 SSH 服务是否已成功开启。若显示 active (running)，就表明服务已正常运行。如果显示dead则没有开启ssh可以尝试sudo systemctl start ssh 查看 IP 地址：输入 ip addr 或者 ifconfig 命令查看 Ubuntu 虚拟机的 IP 地址 二、实现Ubuntu系统和pycharm远程连接 2021.3.1专业版pycharm （1）在pycharm软件中创建连接记录 菜单栏Tools &gt; Deployment &gt; Configuration &gt; + &gt; SFTP &gt; Ubuntu的ip地址 &gt; OK （2）配置连接记录，如图1-16所示，表示连接成功。 ··· &gt; + &gt; 配置ip、用户名、密码 &gt; 测试连接\n"><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://korriszz.github.io/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/A.JPG' />
+    <link rel="shortcut icon" href="/hugo-dev/favicon.ico" />
+<link rel="stylesheet" href="/hugo-dev/css/prism/prism.css">
+<script src="/hugo-dev/js/prism/prism.js"></script>
+<script src="/hugo-dev/js/prism/prism-copy-to-clipboard.js"></script>
+<link rel="stylesheet" href="/hugo-dev/css/custom-prism.css">
+        
+        <link rel="stylesheet" href="/hugo-dev/css/styles.css">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/hugo-dev/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/hugo-dev/img/muzimi%20%281%29_hu_b430791ee60b1807.gif" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/hugo-dev">蔡蔡-korriszz</a></h1>
+            <h2 class="site-description">欢迎来到我的网站，此博客由【Hugo &#43; Stack】来进行搭建，主要分享个人生活和学习笔记</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://bilibili.com'
+                        target="_blank"
+                        title="BiliBili"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-brand-bilibili"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 10a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4v-6z" /><path d="M8 3l2 3" /><path d="M16 3l-2 3" /><path d="M9 13v-2" /><path d="M15 11v2" /></svg>
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://github.com'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://twitter.com'
+                        target="_blank"
+                        title="Twitter"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-twitter" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/hugo-dev/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/hugo-dev/%E5%8F%8B%E6%83%85%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>友情链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#一ubuntu配置">一、Ubuntu配置</a></li>
+    <li><a href="#二实现ubuntu系统和pycharm远程连接---202131专业版pycharm">二、实现Ubuntu系统和pycharm远程连接   2021.3.1专业版pycharm</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/">
+                <img src="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/A_hu_82a10a6bb1395f50.JPG"
+                        srcset="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/A_hu_82a10a6bb1395f50.JPG 800w, /hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/A_hu_d2115ee60e0d7cac.JPG 1600w"
+                        width="800" 
+                        height="453" 
+                        loading="lazy"
+                        alt="Featured image of post Ubuntu和Pycharm远程连接" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+    <header class="article-category">
+        
+            <a href="/hugo-dev/categories/%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4/" >
+                自动化运维
+            </a>
+        
+    </header>
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/">Ubuntu和Pycharm远程连接</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published">2025-03-03</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 2 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <h2 id="一ubuntu配置">一、Ubuntu配置
+</h2><p>在使用 PyCharm 连接 Ubuntu之前，需要保证 Ubuntu 虚拟机的 SSH 服务处于开启状态。你可以按照以下步骤操作：<br></p>
+<ol>
+<li>开启 SSH 服务：<code>sudo apt-get install openssh-server</code><br></li>
+<li>查看服务状态：输入 <code>sudo systemctl status ssh</code> 来查看 SSH 服务是否已成功开启。若显示 <code>active (running)</code>，就表明服务已正常运行。如果显示<code>dead</code>则没有开启ssh可以尝试<code>sudo systemctl start ssh</code>
+<br></li>
+<li>查看 IP 地址：输入 ip addr 或者 ifconfig 命令查看 Ubuntu 虚拟机的 IP 地址</li>
+</ol>
+<h2 id="二实现ubuntu系统和pycharm远程连接---202131专业版pycharm">二、实现Ubuntu系统和pycharm远程连接   2021.3.1专业版pycharm
+</h2><p>（1）在pycharm软件中创建连接记录
+<code>菜单栏Tools</code> &gt; <code>Deployment</code> &gt; <code>Configuration</code> &gt; <code>+</code> &gt; <code>SFTP</code> &gt; <code>Ubuntu的ip地址</code> &gt; <code>OK</code>
+<img src="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1.png"
+	width="1264"
+	height="403"
+	srcset="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_eca633d33d849c5b.png 480w, /hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/1_hu_7428968de259a250.png 1024w"
+	loading="lazy"
+	
+		alt="创建连接记录"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="313"
+		data-flex-basis="752px"
+	
+>
+（2）配置连接记录，如图1-16所示，表示连接成功。
+<code>···</code> &gt; <code>+</code> &gt; <code>配置ip、用户名、密码</code>  &gt; <code>测试连接</code></p>
+<p><img src="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2.png"
+	width="818"
+	height="484"
+	srcset="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_aac035ea4e2f19d1.png 480w, /hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/2_hu_c0f1fb1a3d146acd.png 1024w"
+	loading="lazy"
+	
+		alt="配置连接记录"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="169"
+		data-flex-basis="405px"
+	
+></p>
+<p>（3）配置部署关联目录
+/home/Ubuntu/code
+<code>local path ： 本地目录</code> &gt; <code>Deployment path：  /home/Ubuntu/code </code></p>
+<p><img src="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3.JPG"
+	width="661"
+	height="556"
+	srcset="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_6c9f9d070bae01e3.JPG 480w, /hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/3_hu_61725ee8e4ee0d77.JPG 1024w"
+	loading="lazy"
+	
+		alt="配置部署关联目录"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="118"
+		data-flex-basis="285px"
+	
+></p>
+<p>（4）配置项目解释器
+<code>导航栏File</code> &gt; <code>setting</code> &gt; <code>Project code</code> &gt; <code>+ Add Content</code> &gt; <code>+</code> &gt; <code>SSH Interpreter</code> &gt; <code>选择Existing serber configureation</code> &gt; <code>···</code> &gt; <code>选择创建的root@地址</code> &gt; <code>Move</code><br>
+<img src="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4.png"
+	width="1097"
+	height="543"
+	srcset="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_2c73d89a12cb185b.png 480w, /hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/4_hu_68e741516bb1cdc5.png 1024w"
+	loading="lazy"
+	
+		alt="选择项目解释器"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="202"
+		data-flex-basis="484px"
+	
+>
+<code>Interpreter：/home/Ubuntu/.virtualenvs/python_auto/bin/python3</code>
+<code>设置 Sync folder为 &lt;Project root&gt;-/home/Ubuntu/code</code>&gt;<code>OK</code>&gt;<code>OK</code></p>
+<p><img src="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5.JPG"
+	width="1183"
+	height="794"
+	srcset="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_6df0182f56d0cf12.JPG 480w, /hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/5_hu_b397d2a34419b7d0.JPG 1024w"
+	loading="lazy"
+	
+		alt="配置项目解释器映射路径"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="148"
+		data-flex-basis="357px"
+	
+></p>
+<p>提示：一定要确认映射文件目录是否有错，否则解释器失效。
+（5）同步pycharm代码到Ubuntu系统，即完成准备工作。</p>
+<p><img src="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6.png"
+	width="683"
+	height="511"
+	srcset="/hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_b72a8e4bfbdd2508.png 480w, /hugo-dev/p/ubuntu%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/6_hu_ebd24c2ef6b74d36.png 1024w"
+	loading="lazy"
+	
+		alt="同步pycharm代码到Ubuntu系统"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="133"
+		data-flex-basis="320px"
+	
+></p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+    <section class="article-tags">
+        
+            <a href="/hugo-dev/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+        
+            <a href="/hugo-dev/tags/ubuntu/">Ubuntu</a>
+        
+            <a href="/hugo-dev/tags/pycharm/">Pycharm</a>
+        
+            <a href="/hugo-dev/tags/linux/">Linux</a>
+        
+    </section>
+
+
+    </footer>
+
+
+    
+</article>
+
+    
+
+    
+
+<aside class="related-content--wrapper">
+    <h2 class="section-title">相关文章</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            
+                
+<article class="has-image">
+    <a href="/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/">
+        
+        
+            <div class="article-image">
+                <img src="/hugo-dev/p/kali-linux%E7%B3%BB%E7%BB%9F%E5%92%8Cpycharm%E8%BF%9C%E7%A8%8B%E8%BF%9E%E6%8E%A5/a.95f7192e691a3b75b9f55ec59dbb3e81_hu_27cbb5f819714705.JPG" 
+                        width="250" 
+                        height="150" 
+                        loading="lazy"
+                        alt="Featured image of post Kali linux系统和pycharm远程连接"
+                        
+                        data-hash="md5-lfcZLmkaO3W59V7Fnbs&#43;gQ==">
+                
+            </div>
+        
+
+        <div class="article-details">
+            <h2 class="article-title">Kali linux系统和pycharm远程连接</h2>
+        </div>
+    </a>
+</article>
+
+            
+        </div>
+    </div>
+</aside>
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+        2025 示例版权所有者
+    </section>
+    
+    <section class="powerby">
+        使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建 <br />
+        主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.30.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+    </section>
+</footer>
+
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/hugo-dev/ts/main.87d72694fb97c84cb5cbf9b1a64d476a38e04a5706618a6ffe5b89c7db00488f.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+<script>
+    
+    const live2d_path = "https://fastly.jsdelivr.net/gh/stevenjoezhang/live2d-widget@latest/";
+    
+    const cssPath = "https://korriszz.github.io/hugo-dev/waifu/waifu.css"
+    const waifuTipsJsonPath = "https://korriszz.github.io/hugo-dev/waifu/waifu-tips.json"
+
+    
+    function loadExternalResource(url, type) {
+        return new Promise((resolve, reject) => {
+            let tag;
+            if (type === "css") {
+                tag = document.createElement("link");
+                tag.rel = "stylesheet";
+                tag.href = url;
+            }
+            else if (type === "js") {
+                tag = document.createElement("script");
+                tag.src = url;
+            }
+            if (tag) {
+                tag.onload = () => resolve(url);
+                tag.onerror = () => reject(url);
+                document.head.appendChild(tag);
+            }
+        });
+    }
+
+    
+    if (screen.width >= 768) {
+        Promise.all([
+            loadExternalResource(cssPath, "css"),
+            loadExternalResource(live2d_path + "live2d.min.js", "js"),
+            loadExternalResource(live2d_path + "waifu-tips.js", "js")
+        ]).then(() => {
+            
+            initWidget({
+                waifuPath: waifuTipsJsonPath,
+                cdnPath: "https://fastly.jsdelivr.net/gh/fghrsh/live2d_api/",
+                tools: ["hitokoto", "asteroids", "switch-model", "switch-texture", "photo", "info", "quit"]
+            });
+        });
+    }
+</script>
+ 
+        
+        <script src="/hugo-dev/js/script.js"></script>
+    </body>
+</html> 
